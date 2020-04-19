@@ -1,15 +1,15 @@
 /*************************************************************************
 						   Horodatage  -  description
 							 -------------------
-	début                : 18/04/2020
+	dÃ©but                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
-//---------- Réalisation de la classe <Horodatage> (fichier Horodatage.cpp) --
+//---------- RÃ©alisation de la classe <Horodatage> (fichier Horodatage.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
+//-------------------------------------------------------- Include systÃ¨me
 using namespace std;
 #include <iostream>
 
@@ -20,23 +20,23 @@ using namespace std;
 
 //---------------------------------------------------- Variables de classe
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privÃ©s
 
 
 //----------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------- Fonctions amies
 
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- MÃ©thodes publiques
 
-// type Horodatage::Méthode ( liste de paramètres )
+// type Horodatage::MÃ©thode ( liste de paramÃ¨tres )
 // Algorithme :
 //
 //{
-//} //----- Fin de Méthode
+//} //----- Fin de MÃ©thode
 
 
-//------------------------------------------------- Surcharge d'opérateurs
+//------------------------------------------------- Surcharge d'opÃ©rateurs
 
 Horodatage & Horodatage::operator = (const Horodatage & unHorodatage)
 // Algorithme :
@@ -79,6 +79,6 @@ Horodatage::~Horodatage ()
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- MÃ©thodes protÃ©gÃ©es
 
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- MÃ©thodes privÃ©es

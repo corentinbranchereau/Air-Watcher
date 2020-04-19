@@ -1,15 +1,15 @@
 /*************************************************************************
 						   Admin  -  description
 							 -------------------
-	début                : 18/04/2020
+	dÃ©but                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
-//---------- Réalisation de la classe <Admin> (fichier Admin.cpp) --
+//---------- RÃ©alisation de la classe <Admin> (fichier Admin.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
+//-------------------------------------------------------- Include systÃ¨me
 using namespace std;
 #include <iostream>
 #include <string>
@@ -21,20 +21,20 @@ using namespace std;
 
 //---------------------------------------------------- Variables de classe
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privÃ©s
 
 
 //----------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------- Fonctions amies
 
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- MÃ©thodes publiques
 
-// type Admin::Méthode ( liste de paramètres )
+// type Admin::MÃ©thode ( liste de paramÃ¨tres )
 // Algorithme :
 //
 //{
-//} //----- Fin de Méthode
+//} //----- Fin de MÃ©thode
 
 
 bool Admin::VerifierUnCompte(string mail, bool validation)
@@ -72,7 +72,7 @@ bool Admin::ModifierCapteur(string id, string longitude, string latitude, string
 	return false;
 } //----- Fin de ModifierCapteur
 
-//------------------------------------------------- Surcharge d'opérateurs
+//------------------------------------------------- Surcharge d'opÃ©rateurs
 
 Admin & Admin::operator = (const Admin & unAdmin)
 // Algorithme :
@@ -115,6 +115,6 @@ Admin::~Admin ()
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- MÃ©thodes protÃ©gÃ©es
 
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- MÃ©thodes privÃ©es

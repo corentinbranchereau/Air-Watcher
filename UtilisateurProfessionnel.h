@@ -1,7 +1,7 @@
 /*************************************************************************
 						   UtilisateurProfessionnel  -  description
 							 -------------------
-	début                : 18/04/2020
+	dÃ©but                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
@@ -9,28 +9,28 @@
 #if ! defined ( UTILISATEURPROFESSIONNEL_H )
 #define UTILISATEURPROFESSIONNEL_H
 
-//--------------------------------------------------- Interfaces utilisées
+//--------------------------------------------------- Interfaces utilisÃ©es
 #include "Utilisateur.h"
 #include "Mesure.h"
 #include "Zone.h"
 #include "Horodatage.h"
-//------------------------------------------------------------- Constantes 
+//------------------------------------------------------------- Constantes
 
-//------------------------------------------------------------------ Types 
+//------------------------------------------------------------------ Types
 
-//------------------------------------------------------------------------ 
-// Rôle de la classe <UtilisateurProfessionnel>
+//------------------------------------------------------------------------
+// RÃ´le de la classe <UtilisateurProfessionnel>
 //
 //
-//------------------------------------------------------------------------ 
+//------------------------------------------------------------------------
 
 class UtilisateurProfessionnel : public Utilisateur
 {
 //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
-	// type Méthode ( liste de paramètres );
+//----------------------------------------------------- MÃ©thodes publiques
+	// type MÃ©thode ( liste de paramÃ¨tres );
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -47,7 +47,7 @@ public:
 	Mesure** ObtenirDonneesBrutes();
 
 
-//------------------------------------------------- Surcharge d'opérateurs
+//------------------------------------------------- Surcharge d'opÃ©rateurs
 	UtilisateurProfessionnel & operator = (const UtilisateurProfessionnel & unUtilisateurProfessionnel);
 	// Mode d'emploi :
 	//
@@ -74,28 +74,28 @@ public:
 	// Contrat :
 	//
 
-//------------------------------------------------------------------ PRIVE 
+//------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- MÃ©thodes protÃ©gÃ©es
 
 private:
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- MÃ©thodes privÃ©es
 
 protected:
-//----------------------------------------------------- Attributs protégés
+//----------------------------------------------------- Attributs protÃ©gÃ©s
 	bool compteValide;
 private:
-//------------------------------------------------------- Attributs privés
+//------------------------------------------------------- Attributs privÃ©s
 
 //---------------------------------------------------------- Classes amies
 
-//-------------------------------------------------------- Classes privées
+//-------------------------------------------------------- Classes privÃ©es
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privÃ©s
 
 };
 
-//----------------------------------------- Types dépendants de <UtilisateurProfessionnel>
+//----------------------------------------- Types dÃ©pendants de <UtilisateurProfessionnel>
 
 #endif // UTILISATEURPROFESSIONNEL_H

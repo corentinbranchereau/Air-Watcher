@@ -1,7 +1,7 @@
 /*************************************************************************
 						   UtilisateurPrive  -  description
 							 -------------------
-	début                : 18/04/2020
+	dÃ©but                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
@@ -9,29 +9,29 @@
 #if ! defined ( UTILISATEURPRIVE_H )
 #define UTILISATEURPRIVE_H
 
-//--------------------------------------------------- Interfaces utilisées
+//--------------------------------------------------- Interfaces utilisÃ©es
 #include "Utilisateur.h"
 #include "Mesure.h"
 #include "MesureUtilisateur.h"
 #include <string>
 using namespace std;
-//------------------------------------------------------------- Constantes 
+//------------------------------------------------------------- Constantes
 
-//------------------------------------------------------------------ Types 
+//------------------------------------------------------------------ Types
 
-//------------------------------------------------------------------------ 
-// Rôle de la classe <UtilisateurPrive>
+//------------------------------------------------------------------------
+// RÃ´le de la classe <UtilisateurPrive>
 //
 //
-//------------------------------------------------------------------------ 
+//------------------------------------------------------------------------
 
 class UtilisateurPrive : public Utilisateur
 {
 //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
-	// type Méthode ( liste de paramètres );
+//----------------------------------------------------- MÃ©thodes publiques
+	// type MÃ©thode ( liste de paramÃ¨tres );
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -43,7 +43,7 @@ public:
 
 	Mesure** ConsulterDonneesEntrees();
 
-//------------------------------------------------- Surcharge d'opérateurs
+//------------------------------------------------- Surcharge d'opÃ©rateurs
 	UtilisateurPrive & operator = (const UtilisateurPrive & unUtilisateurPrive);
 	// Mode d'emploi :
 	//
@@ -70,30 +70,30 @@ public:
 	// Contrat :
 	//
 
-//------------------------------------------------------------------ PRIVE 
+//------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- MÃ©thodes protÃ©gÃ©es
 
 private:
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- MÃ©thodes privÃ©es
 
 protected:
-//----------------------------------------------------- Attributs protégés
+//----------------------------------------------------- Attributs protÃ©gÃ©s
 	int nbPoints;
 	string idUtilisateur;
 	MesureUtilisateur* donneesEntrees;
 private:
-//------------------------------------------------------- Attributs privés
+//------------------------------------------------------- Attributs privÃ©s
 
 //---------------------------------------------------------- Classes amies
 
-//-------------------------------------------------------- Classes privées
+//-------------------------------------------------------- Classes privÃ©es
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privÃ©s
 
 };
 
-//----------------------------------------- Types dépendants de <UtilisateurPrive>
+//----------------------------------------- Types dÃ©pendants de <UtilisateurPrive>
 
 #endif // UTILISATEURPRIVE_H

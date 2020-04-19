@@ -1,15 +1,15 @@
 /*************************************************************************
 						   UtilisateurPrive  -  description
 							 -------------------
-	début                : 18/04/2020
+	dÃ©but                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
-//---------- Réalisation de la classe <UtilisateurPrive> (fichier UtilisateurPrive.cpp) --
+//---------- RÃ©alisation de la classe <UtilisateurPrive> (fichier UtilisateurPrive.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
+//-------------------------------------------------------- Include systÃ¨me
 using namespace std;
 #include <iostream>
 
@@ -20,20 +20,20 @@ using namespace std;
 
 //---------------------------------------------------- Variables de classe
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privÃ©s
 
 
 //----------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------- Fonctions amies
 
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- MÃ©thodes publiques
 
-// type UtilisateurPrive::Méthode ( liste de paramètres )
+// type UtilisateurPrive::MÃ©thode ( liste de paramÃ¨tres )
 // Algorithme :
 //
 //{
-//} //----- Fin de Méthode
+//} //----- Fin de MÃ©thode
 
 bool UtilisateurPrive::EntrerDonnees(string idAttribut, double valeur)
 // Algorithme :
@@ -56,7 +56,7 @@ Mesure** UtilisateurPrive::ConsulterDonneesEntrees()
 	return nullptr;
 } //----- Fin de ConsulterDonneesEntrees
 
-//------------------------------------------------- Surcharge d'opérateurs
+//------------------------------------------------- Surcharge d'opÃ©rateurs
 
 UtilisateurPrive & UtilisateurPrive::operator = (const UtilisateurPrive & unUtilisateurPrive)
 // Algorithme :
@@ -99,6 +99,6 @@ UtilisateurPrive::~UtilisateurPrive ()
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- MÃ©thodes protÃ©gÃ©es
 
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- MÃ©thodes privÃ©es

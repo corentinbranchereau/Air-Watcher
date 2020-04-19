@@ -1,15 +1,15 @@
 /*************************************************************************
 						   Utilisateur  -  description
 							 -------------------
-	début                : 18/04/2020
+	dÃ©but                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
-//---------- Réalisation de la classe <Utilisateur> (fichier Utilisateur.cpp) --
+//---------- RÃ©alisation de la classe <Utilisateur> (fichier Utilisateur.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
+//-------------------------------------------------------- Include systÃ¨me
 using namespace std;
 #include <iostream>
 
@@ -20,20 +20,20 @@ using namespace std;
 
 //---------------------------------------------------- Variables de classe
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privÃ©s
 
 
 //----------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------- Fonctions amies
 
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- MÃ©thodes publiques
 
-// type Utilisateur::Méthode ( liste de paramètres )
+// type Utilisateur::MÃ©thode ( liste de paramÃ¨tres )
 // Algorithme :
 //
 //{
-//} //----- Fin de Méthode
+//} //----- Fin de MÃ©thode
 
 Utilisateur* Utilisateur::SeConnecter(string mail, string mdp)
 // Algorithme :
@@ -63,7 +63,7 @@ bool Utilisateur::ModifierSonCompte(string nom, string prenom, string mdp)
 	return false;
 } //----- Fin de ModifierSonCompte
 
-//------------------------------------------------- Surcharge d'opérateurs
+//------------------------------------------------- Surcharge d'opÃ©rateurs
 
 Utilisateur & Utilisateur::operator = (const Utilisateur & unUtilisateur)
 // Algorithme :
@@ -106,6 +106,6 @@ Utilisateur::~Utilisateur ()
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- MÃ©thodes protÃ©gÃ©es
 
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- MÃ©thodes privÃ©es

@@ -1,7 +1,7 @@
 /*************************************************************************
 						   EmployeAgenceGouvernementale  -  description
 							 -------------------
-	début                : 18/04/2020
+	dÃ©but                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
@@ -9,27 +9,27 @@
 #if ! defined ( EMPLOYEAGENCEGOUVERNEMENTALE_H )
 #define EMPLOYEAGENCEGOUVERNEMENTALE_H
 
-//--------------------------------------------------- Interfaces utilisées
+//--------------------------------------------------- Interfaces utilisÃ©es
 #include "UtilisateurProfessionnel.h"
 #include "Capteur.h"
 #include "AgenceGouvernementale.h"
-//------------------------------------------------------------- Constantes 
+//------------------------------------------------------------- Constantes
 
-//------------------------------------------------------------------ Types 
+//------------------------------------------------------------------ Types
 
-//------------------------------------------------------------------------ 
-// Rôle de la classe <EmployeAgenceGouvernementale>
+//------------------------------------------------------------------------
+// RÃ´le de la classe <EmployeAgenceGouvernementale>
 //
 //
-//------------------------------------------------------------------------ 
+//------------------------------------------------------------------------
 
 class EmployeAgenceGouvernementale : public UtilisateurProfessionnel
 {
 //----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- Méthodes publiques
-	// type Méthode ( liste de paramètres );
+//----------------------------------------------------- MÃ©thodes publiques
+	// type MÃ©thode ( liste de paramÃ¨tres );
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -42,7 +42,7 @@ public:
 	void LabeliserDonneesUtilisateurs();
 
 
-//------------------------------------------------- Surcharge d'opérateurs
+//------------------------------------------------- Surcharge d'opÃ©rateurs
 	EmployeAgenceGouvernementale & operator = (const EmployeAgenceGouvernementale & unEmployeAgenceGouvernementale);
 	// Mode d'emploi :
 	//
@@ -69,28 +69,28 @@ public:
 	// Contrat :
 	//
 
-//------------------------------------------------------------------ PRIVE 
+//------------------------------------------------------------------ PRIVE
 
 protected:
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- MÃ©thodes protÃ©gÃ©es
 
 private:
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- MÃ©thodes privÃ©es
 
 protected:
-//----------------------------------------------------- Attributs protégés
+//----------------------------------------------------- Attributs protÃ©gÃ©s
 	AgenceGouvernementale agence;
 private:
-//------------------------------------------------------- Attributs privés
+//------------------------------------------------------- Attributs privÃ©s
 
 //---------------------------------------------------------- Classes amies
 
-//-------------------------------------------------------- Classes privées
+//-------------------------------------------------------- Classes privÃ©es
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privÃ©s
 
 };
 
-//----------------------------------------- Types dépendants de <EmployeAgenceGouvernementale>
+//----------------------------------------- Types dÃ©pendants de <EmployeAgenceGouvernementale>
 
 #endif // EMPLOYEAGENCEGOUVERNEMENTALE_H
