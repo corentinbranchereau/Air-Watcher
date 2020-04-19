@@ -1,0 +1,84 @@
+/*************************************************************************
+						   Equipement  -  description
+							 -------------------
+	début                : 18/04/2020
+	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
+*************************************************************************/
+
+//---------- Réalisation de la classe <Equipement> (fichier Equipement.cpp) --
+
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
+using namespace std;
+#include <iostream>
+
+//------------------------------------------------------ Include personnel
+#include "Equipement.h"
+
+//------------------------------------------------------------- Constantes
+
+//---------------------------------------------------- Variables de classe
+
+//----------------------------------------------------------- Types privés
+
+
+//----------------------------------------------------------------- PUBLIC
+
+//-------------------------------------------------------- Fonctions amies
+
+//----------------------------------------------------- Méthodes publiques
+
+// type Equipement::Méthode ( liste de paramètres )
+// Algorithme :
+//
+//{
+//} //----- Fin de Méthode
+
+
+//------------------------------------------------- Surcharge d'opérateurs
+
+Equipement & Equipement::operator = (const Equipement & unEquipement)
+// Algorithme :
+//
+{
+} //----- Fin de operator =
+
+
+//-------------------------------------------- Constructeurs - destructeur
+
+Equipement::Equipement (const Equipement & unEquipement)
+// Algorithme :
+//
+{
+#ifdef MAP
+	cout << "Appel au constructeur de copie de <Equipement>" << endl;
+#endif
+} //----- Fin de Equipement (constructeur de copie)
+
+
+Equipement::Equipement ()
+// Algorithme :
+//
+{
+#ifdef MAP
+	cout << "Appel au constructeur de <Equipement>" << endl;
+#endif
+} //----- Fin de Equipement
+
+
+Equipement::~Equipement ()
+// Algorithme :
+//
+{
+#ifdef MAP
+	cout << "Appel au destructeur de <Equipement>" << endl;
+#endif
+} //----- Fin de ~Equipement
+
+
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
+
+//------------------------------------------------------- Méthodes privées
