@@ -6,7 +6,7 @@ in a given area, using software specifications,
 architectural design, security by design and UML language. 
 ```
 
-##Some basic Git commands are:
+### Some basic Git commands are:
 ```
 git pull
 git status
