@@ -1,11 +1,11 @@
 /*************************************************************************
-						   EmployeFournisseur  -  description
+						   DataNettoyeurs  -  description
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
-//---------- Réalisation de la classe <EmployeFournisseur> (fichier EmployeFournisseur.cpp) --
+//---------- Réalisation de la classe <DataNettoyeurs> (fichier DataNettoyeurs.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -14,8 +14,7 @@ using namespace std;
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
-#include "EmployeFournisseur.h"
-
+#include "DataNettoyeurs.h"
 //------------------------------------------------------------- Constantes
 
 //---------------------------------------------------- Variables de classe
@@ -29,15 +28,65 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
-// type EmployeFournisseur::Méthode ( liste de paramètres )
+// type DataNettoyeurs::Méthode ( liste de paramètres )
 // Algorithme :
 //
 //{
 //} //----- Fin de Méthode
 
+bool DataNettoyeurs::ChargerNettoyeurs(string fichierNettoyeurs)
+// Algorithme :
+//
+{
+
+} //----- Fin de ChargerNettoyeurs
+
+bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur)
+// Algorithme :
+//
+{
+
+} //----- Fin de AjouterNettoyeur
+
+bool DataNettoyeurs::SupprimerNettoyeur(string idNettoyeur)
+// Algorithme :
+//
+{
+
+} //----- Fin de SupprimerNettoyeur
+
+bool DataNettoyeurs::ActiverNettoyeur(string idNettoyeur)
+// Algorithme :
+//
+{
+
+} //----- Fin de ActiverNettoyeur
+
+bool DataNettoyeurs::DesactiverNettoyeur(string idNettoyeur)
+// Algorithme :
+//
+{
+
+} //----- Fin de DesactiverNettoyeur
+
+double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur)
+// Algorithme :
+//
+{
+
+} //----- Fin de ObtenirRayonActionNettoyeur
+
+NettoyeurAir* DataNettoyeurs::GetNettoyeurs()
+// Algorithme :
+//
+{
+
+} //----- Fin de GetNettoyeurs
+
+
 //------------------------------------------------- Surcharge d'opérateurs
 
-EmployeFournisseur & EmployeFournisseur::operator = (const EmployeFournisseur & unEmployeFournisseur)
+DataNettoyeurs & DataNettoyeurs::operator = (const DataNettoyeurs & unDataNettoyeurs)
 // Algorithme :
 //
 {
@@ -46,34 +95,34 @@ EmployeFournisseur & EmployeFournisseur::operator = (const EmployeFournisseur & 
 
 //-------------------------------------------- Constructeurs - destructeur
 
-EmployeFournisseur::EmployeFournisseur (const EmployeFournisseur & unEmployeFournisseur)
+DataNettoyeurs::DataNettoyeurs (const DataNettoyeurs & unDataNettoyeurs)
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de copie de <EmployeFournisseur>" << endl;
+	cout << "Appel au constructeur de copie de <DataNettoyeurs>" << endl;
 #endif
-} //----- Fin de EmployeFournisseur (constructeur de copie)
+} //----- Fin de DataNettoyeurs (constructeur de copie)
 
 
-EmployeFournisseur::EmployeFournisseur ()
+DataNettoyeurs::DataNettoyeurs ()
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de <EmployeFournisseur>" << endl;
+	cout << "Appel au constructeur de <DataNettoyeurs>" << endl;
 #endif
-} //----- Fin de EmployeFournisseur
+} //----- Fin de DataNettoyeurs
 
 
-EmployeFournisseur::~EmployeFournisseur ()
+DataNettoyeurs::~DataNettoyeurs ()
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au destructeur de <EmployeFournisseur>" << endl;
+	cout << "Appel au destructeur de <DataNettoyeurs>" << endl;
 #endif
-} //----- Fin de ~EmployeFournisseur
+} //----- Fin de ~DataNettoyeurs
 
 
 //------------------------------------------------------------------ PRIVE

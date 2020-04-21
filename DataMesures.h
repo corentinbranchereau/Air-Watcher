@@ -1,17 +1,21 @@
 /*************************************************************************
-						   UtilisateurPrive  -  description
+						   DataMesures  -  description
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
-//---------- Interface de la classe <UtilisateurPrive> (fichier UtilisateurPrive.h) ------
-#if ! defined ( UTILISATEURPRIVE_H )
-#define UTILISATEURPRIVE_H
+//---------- Interface de la classe <DataMesures> (fichier DataMesures.h) ------
+#if ! defined ( DATAMESURES_H )
+#define DATAMESURES_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include "Utilisateur.h"
-#include "MesureUtilisateur.h"
+#include "Zone.h"
+#include "Horodatage.h"
+#include "Mesure.h"
+#include "Capteur.h"
+#include "UtilisateurPrive.h"
+#include "TypeAttribut.h"
 #include <string>
 using namespace std;
 //------------------------------------------------------------- Constantes
@@ -19,12 +23,12 @@ using namespace std;
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <UtilisateurPrive>
+// Rôle de la classe <DataMesures>
 //
 //
 //------------------------------------------------------------------------
 
-class UtilisateurPrive : public Utilisateur
+class DataMesures
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -36,12 +40,28 @@ public:
 	// Contrat :
 	//
 
-	int ObtenirPoints();
+    static bool ChargerMesures(string fichierMesures);
 
-	MesureUtilisateur* ConsulterDonneesEntrees();
+    static Mesure* ConsulterMoyenneDonneesDatePrecise(Horodatage & date, Zone & zone);
+
+    static Mesure** ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone);
+
+    static int ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone);
+
+    static int* ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone);
+
+    static Mesure* ObtenirDonneesBrutes();
+
+    static bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive utilisateur);
+
+    static Capteur** IdentifierCapteursSimilaires();
+
+    static void LabeliserDonneesUtilisateur();
+
+	static TypeAttribut* GetTypeAttributs();
 
 //------------------------------------------------- Surcharge d'opérateurs
-	UtilisateurPrive & operator = (const UtilisateurPrive & unUtilisateurPrive);
+	DataMesures & operator = (const DataMesures & unDataMesures);
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -49,19 +69,19 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	UtilisateurPrive (const UtilisateurPrive & unUtilisateurPrive);
+	DataMesures (const DataMesures & unDataMesures);
 	// Mode d'emploi (constructeur de copie) :
 	//
 	// Contrat :
 	//
 
-	UtilisateurPrive ();
+	DataMesures ();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-	virtual ~UtilisateurPrive ();
+	virtual ~DataMesures ();
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -77,9 +97,8 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-	int nbPoints;
-	string idUtilisateur;
-	MesureUtilisateur* donneesEntrees;
+	Mesure* mesures;
+	TypeAttribut* typeAttributs;
 private:
 //------------------------------------------------------- Attributs privés
 
@@ -91,6 +110,6 @@ private:
 
 };
 
-//----------------------------------------- Types dépendants de <UtilisateurPrive>
+//----------------------------------------- Types dépendants de <DataMesures>
 
-#endif // UTILISATEURPRIVE_H
+#endif // DATAMESURES_H

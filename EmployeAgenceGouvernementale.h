@@ -11,7 +11,6 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "UtilisateurProfessionnel.h"
-#include "Capteur.h"
 #include "AgenceGouvernementale.h"
 //------------------------------------------------------------- Constantes
 
@@ -34,13 +33,6 @@ public:
 	//
 	// Contrat :
 	//
-
-	Capteur* ConsulterListeCapteurs();
-
-	Capteur** IdentifierCapteursSimilaires();
-
-	void LabeliserDonneesUtilisateurs();
-
 
 //------------------------------------------------- Surcharge d'opérateurs
 	EmployeAgenceGouvernementale & operator = (const EmployeAgenceGouvernementale & unEmployeAgenceGouvernementale);

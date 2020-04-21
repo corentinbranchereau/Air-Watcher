@@ -11,10 +11,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "UtilisateurProfessionnel.h"
-#include "NettoyeurAir.h"
 #include "CompagnieFournisseur.h"
-#include <string>
-using namespace std;
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -36,19 +33,6 @@ public:
 	//
 	// Contrat :
 	//
-
-	bool AjouterNettoyeur(NettoyeurAir & nettoyeur);
-
-	bool SupprimerNettoyeur(string idNettoyeur);
-
-	bool ActiverNettoyeur(string idNettoyeur);
-
-	bool DesactiverNettoyeur(string idNettoyeur);
-
-	double ObtenirRayonActionNettoyeur(string idNettoyeur);
-
-	NettoyeurAir* AfficherListeNettoyeur();
-
 
 //------------------------------------------------- Surcharge d'opérateurs
 	EmployeFournisseur & operator = (const EmployeFournisseur & unEmployeFournisseur);

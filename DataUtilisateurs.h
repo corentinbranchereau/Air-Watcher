@@ -1,17 +1,17 @@
 /*************************************************************************
-						   UtilisateurPrive  -  description
+						   DataUtilisateurs  -  description
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
-//---------- Interface de la classe <UtilisateurPrive> (fichier UtilisateurPrive.h) ------
-#if ! defined ( UTILISATEURPRIVE_H )
-#define UTILISATEURPRIVE_H
+//---------- Interface de la classe <DataUtilisateurs> (fichier DataUtilisateurs.h) ------
+#if ! defined ( DATAUTILISATEURS_H )
+#define DATAUTILISATEURS_H
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Utilisateur.h"
-#include "MesureUtilisateur.h"
+#include "UtilisateurProfessionnel.h"
 #include <string>
 using namespace std;
 //------------------------------------------------------------- Constantes
@@ -19,12 +19,12 @@ using namespace std;
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <UtilisateurPrive>
+// Rôle de la classe <DataUtilisateurs>
 //
 //
 //------------------------------------------------------------------------
 
-class UtilisateurPrive : public Utilisateur
+class DataUtilisateurs
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -36,12 +36,19 @@ public:
 	// Contrat :
 	//
 
-	int ObtenirPoints();
+    static bool ChargerUtilisateurs(string fichierUtilisateurs);
 
-	MesureUtilisateur* ConsulterDonneesEntrees();
+    static bool VerifierUnCompte(string mail,bool validation);
+
+    static UtilisateurProfessionnel* ObtenirComptesEnAttente();
+
+    static bool GererCompte(string mail, string nom, string prenom, string mdp);
+
+	static Utilisateur* GetUtilisateurs();
+
 
 //------------------------------------------------- Surcharge d'opérateurs
-	UtilisateurPrive & operator = (const UtilisateurPrive & unUtilisateurPrive);
+	DataUtilisateurs & operator = (const DataUtilisateurs & unAffichage);
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -49,19 +56,19 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	UtilisateurPrive (const UtilisateurPrive & unUtilisateurPrive);
+	DataUtilisateurs (const DataUtilisateurs & unAffichage);
 	// Mode d'emploi (constructeur de copie) :
 	//
 	// Contrat :
 	//
 
-	UtilisateurPrive ();
+	DataUtilisateurs ();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-	virtual ~UtilisateurPrive ();
+	virtual ~DataUtilisateurs ();
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -77,9 +84,7 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-	int nbPoints;
-	string idUtilisateur;
-	MesureUtilisateur* donneesEntrees;
+	Utilisateur* utilisateurs;
 private:
 //------------------------------------------------------- Attributs privés
 
@@ -91,6 +96,6 @@ private:
 
 };
 
-//----------------------------------------- Types dépendants de <UtilisateurPrive>
+//----------------------------------------- Types dépendants de <DataUtilisateurs>
 
-#endif // UTILISATEURPRIVE_H
+#endif // DATAUTILISATEURS_H

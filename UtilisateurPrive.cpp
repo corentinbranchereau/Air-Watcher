@@ -35,13 +35,6 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-bool UtilisateurPrive::EntrerDonnees(string idAttribut, double valeur)
-// Algorithme :
-//
-{
-	return false;
-} //----- Fin de EntrerDonnees
-
 int UtilisateurPrive::ObtenirPoints()
 // Algorithme :
 //
@@ -49,7 +42,7 @@ int UtilisateurPrive::ObtenirPoints()
 	return 0;
 } //----- Fin de ObtenirPoints
 
-Mesure** UtilisateurPrive::ConsulterDonneesEntrees()
+MesureUtilisateur* UtilisateurPrive::ConsulterDonneesEntrees()
 // Algorithme :
 //
 {

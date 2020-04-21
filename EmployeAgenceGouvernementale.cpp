@@ -35,27 +35,6 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-Capteur* EmployeAgenceGouvernementale::ConsulterListeCapteurs()
-// Algorithme :
-//
-{
-	return nullptr;
-} //----- Fin de ConsulterListeCapteurs
-
-Capteur** EmployeAgenceGouvernementale::IdentifierCapteursSimilaires()
-// Algorithme :
-//
-{
-	return nullptr;
-} //----- Fin de IdentifierCapteursSimilaires
-
-void EmployeAgenceGouvernementale::LabeliserDonneesUtilisateurs()
-// Algorithme :
-//
-{
-	return;
-} //----- Fin de LabeliserDonneesUtilisateurs
-
 //------------------------------------------------- Surcharge d'opérateurs
 
 EmployeAgenceGouvernementale & EmployeAgenceGouvernementale::operator = (const EmployeAgenceGouvernementale & unEmployeAgenceGouvernementale)

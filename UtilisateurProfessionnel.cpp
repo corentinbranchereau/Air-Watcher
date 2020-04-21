@@ -35,41 +35,6 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-Mesure* UtilisateurProfessionnel::ConsulterMoyenneDonneesDatePrecise(Horodatage & date, Zone & zone)
-// Algorithme :
-//
-{
-	return nullptr;
-} //----- Fin de ConsulterMoyenneDonneesDatePrecise
-
-Mesure** UtilisateurProfessionnel::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone)
-// Algorithme :
-//
-{
-	return nullptr;
-} //----- Fin de ConsulterMoyenneDonneesPeriodePrecise
-
-int UtilisateurProfessionnel::ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone)
-// Algorithme :
-//
-{
-	return 0;
-} //----- Fin de ConsulterQualiteDatePrecise
-
-int* UtilisateurProfessionnel::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone)
-// Algorithme :
-//
-{
-	return nullptr;
-} //----- Fin de ConsulterQualitePeriodePrecise
-
-Mesure** UtilisateurProfessionnel::ObtenirDonneesBrutes()
-// Algorithme :
-//
-{
-	return nullptr;
-} //----- Fin de ObtenirDonneesBrutes
-
 //------------------------------------------------- Surcharge d'opérateurs
 
 UtilisateurProfessionnel & UtilisateurProfessionnel::operator = (const UtilisateurProfessionnel & unUtilisateurProfessionnel)

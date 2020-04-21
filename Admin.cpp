@@ -12,7 +12,6 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
-#include <string>
 
 //------------------------------------------------------ Include personnel
 #include "Admin.h"
@@ -35,42 +34,6 @@ using namespace std;
 //
 //{
 //} //----- Fin de Méthode
-
-
-bool Admin::VerifierUnCompte(string mail, bool validation)
-// Algorithme :
-//
-{
-	return false;
-} //----- Fin de VerifierUnCompte
-
-UtilisateurProfessionnel* Admin::ObtenirComptesEnAttente()
-// Algorithme :
-//
-{
-	return nullptr;
-} //----- Fin de ObtenirComptesEnAttente
-
-bool Admin::GererCompte(string mail, string nom, string prenom, string mdp)
-// Algorithme :
-//
-{
-	return false;
-} //----- Fin de GererCompte
-
-bool Admin::AjouterCapteur(Capteur& capteur)
-// Algorithme :
-//
-{
-	return false;
-} //----- Fin de AjouterCapteur
-
-bool Admin::ModifierCapteur(string id, string longitude, string latitude, string etat, string description)
-// Algorithme :
-//
-{
-	return false;
-} //----- Fin de ModifierCapteur
 
 //------------------------------------------------- Surcharge d'opérateurs
 

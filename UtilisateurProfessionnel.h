@@ -11,9 +11,6 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Utilisateur.h"
-#include "Mesure.h"
-#include "Zone.h"
-#include "Horodatage.h"
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -35,17 +32,6 @@ public:
 	//
 	// Contrat :
 	//
-
-	Mesure* ConsulterMoyenneDonneesDatePrecise(Horodatage& date, Zone& zone);
-
-	Mesure** ConsulterMoyenneDonneesPeriodePrecise(Horodatage& dateDebut, Horodatage& dateFin, Zone& zone);
-
-	int ConsulterQualiteDatePrecise(Horodatage& date, Zone& zone);
-
-	int* ConsulterQualitePeriodePrecise(Horodatage& dateDebut, Horodatage& dateFin, Zone& zone);
-
-	Mesure** ObtenirDonneesBrutes();
-
 
 //------------------------------------------------- Surcharge d'opérateurs
 	UtilisateurProfessionnel & operator = (const UtilisateurProfessionnel & unUtilisateurProfessionnel);

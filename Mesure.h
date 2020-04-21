@@ -11,6 +11,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Horodatage.h"
+#include "TypeAttribut.h"
 #include <string>
 using namespace std;
 //------------------------------------------------------------- Constantes
@@ -73,7 +74,7 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-	string idAttribut;
+	TypeAttribut typeMesure;
 	double valeurAttribut;
 	string idCapteur;
 	Horodatage dateMesure;

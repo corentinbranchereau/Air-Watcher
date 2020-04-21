@@ -1,28 +1,27 @@
 /*************************************************************************
-						   Admin  -  description
+						   DataCapteurs  -  description
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
-//---------- Interface de la classe <Admin> (fichier Admin.h) ------
-#if ! defined ( ADMIN_H )
-#define ADMIN_H
+//---------- Interface de la classe <DataCapteurs> (fichier DataCapteurs.h) ------
+#if ! defined ( DATACAPTEURS_H )
+#define DATACAPTEURS_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include "Utilisateur.h"
-using namespace std;
+#include "Capteur.h"
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Admin>
+// Rôle de la classe <DataCapteurs>
 //
 //
 //------------------------------------------------------------------------
 
-class Admin : public Utilisateur
+class DataCapteurs
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -34,8 +33,17 @@ public:
 	// Contrat :
 	//
 
+    static bool ChargerCapteurs(string fichierCapteurs);
+
+    static bool AjouterCapteur(Capteur & capteur);
+
+    static bool ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description);
+
+    static Capteur* GetCapteurs();
+
+
 //------------------------------------------------- Surcharge d'opérateurs
-	Admin & operator =(const Admin & unAdmin);
+	DataCapteurs & operator = (const DataCapteurs & unDataCapteurs);
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -43,19 +51,19 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	Admin(const Admin & unAdmin);
+	DataCapteurs (const DataCapteurs & unDataCapteurs);
 	// Mode d'emploi (constructeur de copie) :
 	//
 	// Contrat :
 	//
 
-	Admin();
+	DataCapteurs ();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-	virtual ~Admin();
+	virtual ~DataCapteurs ();
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -64,25 +72,25 @@ public:
 //------------------------------------------------------------------ PRIVE
 
 protected:
-	//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- Méthodes protégées
 
 private:
-	//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- Méthodes privées
 
 protected:
-	//----------------------------------------------------- Attributs protégés
-
+//----------------------------------------------------- Attributs protégés
+    Capteur* capteurs;
 private:
-	//------------------------------------------------------- Attributs privés
+//------------------------------------------------------- Attributs privés
 
-	//---------------------------------------------------------- Classes amies
+//---------------------------------------------------------- Classes amies
 
-	//-------------------------------------------------------- Classes privées
+//-------------------------------------------------------- Classes privées
 
-	//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privés
 
 };
 
-//----------------------------------------- Types dépendants de <Admin>
+//----------------------------------------- Types dépendants de <DataCapteurs>
 
-#endif //_ADMIN_H
+#endif // DATACAPTEURS_H

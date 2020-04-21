@@ -1,17 +1,16 @@
 /*************************************************************************
-						   UtilisateurPrive  -  description
+						   DataNettoyeurs  -  description
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
-//---------- Interface de la classe <UtilisateurPrive> (fichier UtilisateurPrive.h) ------
-#if ! defined ( UTILISATEURPRIVE_H )
-#define UTILISATEURPRIVE_H
+//---------- Interface de la classe <DataNettoyeurs> (fichier DataNettoyeurs.h) ------
+#if ! defined ( DATANETTOYEURS_H )
+#define DATANETTOYEURS_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include "Utilisateur.h"
-#include "MesureUtilisateur.h"
+#include "NettoyeurAir.h"
 #include <string>
 using namespace std;
 //------------------------------------------------------------- Constantes
@@ -19,12 +18,12 @@ using namespace std;
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <UtilisateurPrive>
+// Rôle de la classe <DataNettoyeurs>
 //
 //
 //------------------------------------------------------------------------
 
-class UtilisateurPrive : public Utilisateur
+class DataNettoyeurs
 {
 //----------------------------------------------------------------- PUBLIC
 
@@ -36,12 +35,23 @@ public:
 	// Contrat :
 	//
 
-	int ObtenirPoints();
+    static bool ChargerNettoyeurs(string fichierNettoyeurs);
 
-	MesureUtilisateur* ConsulterDonneesEntrees();
+    static bool AjouterNettoyeur(NettoyeurAir & nettoyeur);
+
+    static bool SupprimerNettoyeur(string idNettoyeur);
+
+    static bool ActiverNettoyeur(string idNettoyeur);
+
+    static bool DesactiverNettoyeur(string idNettoyeur);
+
+    static double ObtenirRayonActionNettoyeur(string idNettoyeur);
+
+    static NettoyeurAir* GetNettoyeurs();
+
 
 //------------------------------------------------- Surcharge d'opérateurs
-	UtilisateurPrive & operator = (const UtilisateurPrive & unUtilisateurPrive);
+	DataNettoyeurs & operator = (const DataNettoyeurs & unDataNettoyeurs);
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -49,19 +59,19 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	UtilisateurPrive (const UtilisateurPrive & unUtilisateurPrive);
+	DataNettoyeurs (const DataNettoyeurs & unDataNettoyeurs);
 	// Mode d'emploi (constructeur de copie) :
 	//
 	// Contrat :
 	//
 
-	UtilisateurPrive ();
+	DataNettoyeurs ();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-	virtual ~UtilisateurPrive ();
+	virtual ~DataNettoyeurs ();
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -77,9 +87,7 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-	int nbPoints;
-	string idUtilisateur;
-	MesureUtilisateur* donneesEntrees;
+    NettoyeurAir* nettoyeurs;
 private:
 //------------------------------------------------------- Attributs privés
 
@@ -91,6 +99,6 @@ private:
 
 };
 
-//----------------------------------------- Types dépendants de <UtilisateurPrive>
+//----------------------------------------- Types dépendants de <DataNettoyeurs>
 
-#endif // UTILISATEURPRIVE_H
+#endif // DATANETTOYEURS_H

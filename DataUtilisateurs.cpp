@@ -1,20 +1,23 @@
 /*************************************************************************
-						   EmployeFournisseur  -  description
+						   DataUtilisateurs  -  description
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
 *************************************************************************/
 
-//---------- Réalisation de la classe <EmployeFournisseur> (fichier EmployeFournisseur.cpp) --
+//---------- Réalisation de la classe <DataUtilisateurs> (fichier DataUtilisateurs.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <string>
 
 //------------------------------------------------------ Include personnel
-#include "EmployeFournisseur.h"
+#include "DataUtilisateurs.h"
+#include "UtilisateurProfessionnel.h"
+#include "Utilisateur.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -29,15 +32,51 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 
-// type EmployeFournisseur::Méthode ( liste de paramètres )
+// type DataUtilisateurs::Méthode ( liste de paramètres )
 // Algorithme :
 //
 //{
 //} //----- Fin de Méthode
 
+bool DataUtilisateurs::ChargerUtilisateurs(string fichierUtilisateurs)
+// Algorithme :
+//
+{
+
+} //----- Fin de ChargerUtilisateurs
+
+bool DataUtilisateurs::VerifierUnCompte(string mail,bool validation)
+// Algorithme :
+//
+{
+
+} //----- Fin de VerifierUnCompte
+
+UtilisateurProfessionnel* DataUtilisateurs::ObtenirComptesEnAttente()
+// Algorithme :
+//
+{
+
+} //----- Fin de ObtenirComptesEnAttente
+
+bool DataUtilisateurs::GererCompte(string mail, string nom, string prenom, string mdp)
+// Algorithme :
+//
+{
+
+} //----- Fin de GererCompte
+
+Utilisateur* DataUtilisateurs::GetUtilisateurs()
+// Algorithme :
+//
+{
+
+} //----- Fin de GetUtilisateurs
+
+
 //------------------------------------------------- Surcharge d'opérateurs
 
-EmployeFournisseur & EmployeFournisseur::operator = (const EmployeFournisseur & unEmployeFournisseur)
+DataUtilisateurs & DataUtilisateurs::operator = (const DataUtilisateurs & unDataUtilisateurs)
 // Algorithme :
 //
 {
@@ -46,34 +85,34 @@ EmployeFournisseur & EmployeFournisseur::operator = (const EmployeFournisseur & 
 
 //-------------------------------------------- Constructeurs - destructeur
 
-EmployeFournisseur::EmployeFournisseur (const EmployeFournisseur & unEmployeFournisseur)
+DataUtilisateurs::DataUtilisateurs (const DataUtilisateurs & unDataUtilisateurs)
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de copie de <EmployeFournisseur>" << endl;
+	cout << "Appel au constructeur de copie de <DataUtilisateurs>" << endl;
 #endif
-} //----- Fin de EmployeFournisseur (constructeur de copie)
+} //----- Fin de DataUtilisateurs (constructeur de copie)
 
 
-EmployeFournisseur::EmployeFournisseur ()
+DataUtilisateurs::DataUtilisateurs ()
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de <EmployeFournisseur>" << endl;
+	cout << "Appel au constructeur de <DataUtilisateurs>" << endl;
 #endif
-} //----- Fin de EmployeFournisseur
+} //----- Fin de DataUtilisateurs
 
 
-EmployeFournisseur::~EmployeFournisseur ()
+DataUtilisateurs::~DataUtilisateurs ()
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au destructeur de <EmployeFournisseur>" << endl;
+	cout << "Appel au destructeur de <DataUtilisateurs>" << endl;
 #endif
-} //----- Fin de ~EmployeFournisseur
+} //----- Fin de ~DataUtilisateurs
 
 
 //------------------------------------------------------------------ PRIVE
