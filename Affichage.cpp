@@ -1,5 +1,5 @@
 /*************************************************************************
-						   Affichage  -  description
+						   Affichage  -  Classe permettant l'affichage de l'application sur la console
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
@@ -35,20 +35,36 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+void Affichage::NettoyerConsole()
+// Algorithme : Détecte si l'utilisateur est sur Windows ou Linux et appelle la
+// méthode adéquate pour nettoyer la console
+//
+{
+	#ifdef _WIN32
+	// Windows
+	system("cls");
+	#else
+	// Linux
+	system("clear");
+	#endif // _WIN32
+	
+} //----- Fin de NettoyerConsole
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 
 Affichage & Affichage::operator = (const Affichage & unAffichage)
-// Algorithme :
+// Algorithme : Aucun
 //
 {
+	return *this;
 } //----- Fin de operator =
 
 
 //-------------------------------------------- Constructeurs - destructeur
 
 Affichage::Affichage (const Affichage & unAffichage)
-// Algorithme :
+// Algorithme : Aucun
 //
 {
 #ifdef MAP
@@ -58,7 +74,7 @@ Affichage::Affichage (const Affichage & unAffichage)
 
 
 Affichage::Affichage ()
-// Algorithme :
+// Algorithme : Aucun
 //
 {
 #ifdef MAP
@@ -68,7 +84,7 @@ Affichage::Affichage ()
 
 
 Affichage::~Affichage ()
-// Algorithme :
+// Algorithme : Aucun
 //
 {
 #ifdef MAP
