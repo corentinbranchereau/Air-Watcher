@@ -52,13 +52,13 @@ public:
 
     static Mesure* ObtenirDonneesBrutes();
 
-    static bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive utilisateur);
+    static bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur);
 
     static Capteur** IdentifierCapteursSimilaires();
 
     static void LabeliserDonneesUtilisateur();
 
-	static TypeAttribut* GetTypeAttributs();
+    static TypeAttribut* GetTypeAttributs();
 
 //------------------------------------------------- Surcharge d'opérateurs
 	DataMesures & operator = (const DataMesures & unDataMesures);
