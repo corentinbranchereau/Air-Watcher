@@ -42,6 +42,13 @@ bool DataMesures::ChargerMesures(string fichierMesures)
 
 } //----- Fin de ChargerMesures
 
+bool DataMesures::ChargerAttributs(string fichierAttributs)
+// Algorithme :
+//
+{
+
+} //----- Fin de ChargerAttributs
+
 Mesure* DataMesures::ConsulterMoyenneDonneesDatePrecise(Horodatage & date, Zone & zone)
 // Algorithme :
 //
@@ -77,7 +84,7 @@ Mesure* DataMesures::ObtenirDonneesBrutes()
 
 } //----- Fin de ObtenirDonneesBrutes
 
-bool DataMesures::EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive utilisateur)
+bool DataMesures::EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur)
 // Algorithme :
 //
 {
