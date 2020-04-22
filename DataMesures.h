@@ -42,6 +42,8 @@ public:
 
     static bool ChargerMesures(string fichierMesures);
 
+    static bool ChargerAttributs(string fichierAttributs);
+
     static Mesure* ConsulterMoyenneDonneesDatePrecise(Horodatage & date, Zone & zone);
 
     static Mesure** ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone);
