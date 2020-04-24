@@ -1,5 +1,5 @@
 /*************************************************************************
-						   UtilisateurProfessionnel  -  description
+						   UtilisateurProfessionnel  -  Classe représentant un utilisateur professionnel de l'application
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
@@ -17,7 +17,9 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <UtilisateurProfessionnel>
-//
+// Cette classe va représenter de manière abstraite un utilisateur privé afin
+// de stocker et gérer tous type d'utilisateur qui dérive de cette classe
+// (fournisseurs et employés de l'agence)
 //
 //------------------------------------------------------------------------
 

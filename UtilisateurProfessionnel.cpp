@@ -1,5 +1,5 @@
 /*************************************************************************
-						   UtilisateurProfessionnel  -  description
+						   UtilisateurProfessionnel  -  Classe représentant un utilisateur professionnel de l'application
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU

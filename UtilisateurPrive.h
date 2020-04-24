@@ -1,5 +1,5 @@
 /*************************************************************************
-						   UtilisateurPrive  -  description
+						   UtilisateurPrive  -  Classe représentant un utilisateur privé de l'application
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
@@ -13,6 +13,7 @@
 #include "Utilisateur.h"
 #include "MesureUtilisateur.h"
 #include <string>
+#include <vector>
 using namespace std;
 //------------------------------------------------------------- Constantes
 
@@ -20,7 +21,9 @@ using namespace std;
 
 //------------------------------------------------------------------------
 // Rôle de la classe <UtilisateurPrive>
-//
+// Cette classe permet de représenter un utilisateur individuel privé qui
+// utilise l'application. Elle stocke notamment son nombre de points et ses
+// données rentrées, et lui permet de rentrer de nouvelles données.
 //
 //------------------------------------------------------------------------
 
@@ -37,34 +40,50 @@ public:
 	//
 
 	int ObtenirPoints();
-
-	MesureUtilisateur* ConsulterDonneesEntrees();
-
-//------------------------------------------------- Surcharge d'opérateurs
-	UtilisateurPrive & operator = (const UtilisateurPrive & unUtilisateurPrive);
 	// Mode d'emploi :
 	//
 	// Contrat :
+	//
+
+	MesureUtilisateur* ConsulterDonneesEntrees();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+//------------------------------------------------- Surcharge d'opérateurs
+	UtilisateurPrive & operator = (const UtilisateurPrive & unUtilisateurPrive);
+	// Mode d'emploi : Opérateur qui effectue une copie de tous les attributs,
+	// notamment de la liste des données entrées (copie en profondeur)
+	//
+	// Contrat : Aucun
 	//
 
 
 //-------------------------------------------- Constructeurs - destructeur
 	UtilisateurPrive (const UtilisateurPrive & unUtilisateurPrive);
-	// Mode d'emploi (constructeur de copie) :
+	// Mode d'emploi (constructeur de copie) : Constructeur qui effectue une copie 
+	// de tous les attributs, notamment de la liste des données entrées (copie en profondeur)
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 	UtilisateurPrive ();
-	// Mode d'emploi :
+	// Mode d'emploi : Constructeur qui initialise les attributs à des valeurs nulles
 	//
-	// Contrat :
+	// Contrat : Aucun
+	//
+
+	UtilisateurPrive (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c, string id);
+	// Mode d'emploi : Constructeur qui initialise les attributs avec les valeurs fournies
+	//
+	// Contrat : Aucun
 	//
 
 	virtual ~UtilisateurPrive ();
-	// Mode d'emploi :
+	// Mode d'emploi : Destructeur qui ne fait rien de particulier
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 //------------------------------------------------------------------ PRIVE
@@ -79,7 +98,7 @@ protected:
 //----------------------------------------------------- Attributs protégés
 	int nbPoints;
 	string idUtilisateur;
-	MesureUtilisateur* donneesEntrees;
+	vector<MesureUtilisateur> donneesEntrees;
 private:
 //------------------------------------------------------- Attributs privés
 
