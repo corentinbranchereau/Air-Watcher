@@ -42,7 +42,7 @@ int UtilisateurPrive::ObtenirPoints()
 	return 0;
 } //----- Fin de ObtenirPoints
 
-MesureUtilisateur* UtilisateurPrive::ConsulterDonneesEntrees()
+vector<MesureUtilisateur> UtilisateurPrive::ConsulterDonneesEntrees()
 // Algorithme :
 //
 {
