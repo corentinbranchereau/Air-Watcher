@@ -56,7 +56,7 @@ public:
 	// Contrat :
 	//
 
-    static UtilisateurProfessionnel* ObtenirComptesEnAttente();
+    static vector<UtilisateurProfessionnel*> ObtenirComptesEnAttente();
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -68,19 +68,19 @@ public:
 	// Contrat :
 	//
 
-	static Utilisateur* GetUtilisateurs();
+    static vector<Utilisateur*> GetUtilisateurs();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-	static Utilisateur* SeConnecter(string identifiant, string mdp);
+    static Utilisateur* SeConnecter(string identifiant, string mdp);
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-	static bool SeCreerUnComptes(string* informationsUtilisateur);
+    static bool SeCreerUnComptes(string* informationsUtilisateur);
 	// Mode d'emploi : Méthode qui permet la création d'un compte dans
 	// l'application, c'est à dire l'ajout de l'utilisateur à l'attribut
 	// 'utilisateurs' de la classe mais également son ajout dans le fichier
