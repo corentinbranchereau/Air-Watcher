@@ -45,7 +45,7 @@ public:
 	// Contrat :
 	//
 
-	MesureUtilisateur* ConsulterDonneesEntrees();
+	vector<MesureUtilisateur> ConsulterDonneesEntrees();
 	// Mode d'emploi :
 	//
 	// Contrat :
