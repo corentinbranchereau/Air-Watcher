@@ -104,7 +104,7 @@ bool DataUtilisateurs::VerifierUnCompte(string mail,bool validation)
 
 } //----- Fin de VerifierUnCompte
 
-UtilisateurProfessionnel* DataUtilisateurs::ObtenirComptesEnAttente()
+vector<UtilisateurProfessionnel*> DataUtilisateurs::ObtenirComptesEnAttente()
 // Algorithme :
 //
 {
@@ -118,7 +118,7 @@ bool DataUtilisateurs::GererCompte(string mail, string nom, string prenom, strin
 
 } //----- Fin de GererCompte
 
-Utilisateur* DataUtilisateurs::GetUtilisateurs()
+vector<Utilisateur*> DataUtilisateurs::GetUtilisateurs()
 // Algorithme :
 //
 {
