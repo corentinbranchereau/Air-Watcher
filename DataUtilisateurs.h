@@ -67,8 +67,8 @@ public:
 	// Contrat :
 	//
 
-    vector<Utilisateur*> GetUtilisateurs();
-	// Mode d'emploi :
+	vector<Utilisateur*> GetUtilisateurs();
+	// Mode d'emploi : Permet de renvoyer la liste des utilisateurs de l'application
 	//
 	// Contrat : Aucun
 	//

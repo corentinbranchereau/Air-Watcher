@@ -135,7 +135,7 @@ bool DataUtilisateurs::GererCompte(string mail, string nom, string prenom, strin
 } //----- Fin de GererCompte
 
 vector<Utilisateur*> DataUtilisateurs::GetUtilisateurs()
-// Algorithme :
+// Algorithme : Aucun
 //
 {
 	return this->utilisateurs;
