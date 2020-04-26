@@ -10,6 +10,7 @@
 #define AFFICHAGE_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include "UtilisateurPrive.h"
 #include <string>
 using namespace std;
 //------------------------------------------------------------- Constantes
@@ -76,6 +77,45 @@ public:
 	string* AfficherCreationCompte();
 	// Mode d'emploi : Méthode affichant le menu de création de compte et retournant
 	// les informations rentrées par l'utilisateur, sous forme d'un tableau de string
+	//
+	// Contrat : Aucun
+	//
+
+	void AfficherFinCreationCompte(bool reussite);
+	// Mode d'emploi : Méthode affichant à l'utilisateur si la création s'est bien passée
+	// ou non.
+	//
+	// Contrat : Aucun
+	//
+
+	string* AffichageConnexion();
+	// Mode d'emploi : Méthode affichant le menu de connexion et retournant
+	// les informations entrées par l'utilisateur
+	//
+	// Contrat : Aucun
+	//
+
+	void AffichageFinConnexion(string etatConnexion);
+	// Mode d'emploi : Méthode affichant à l'utilisateur si la connexion s'est bien passée
+	// ou non. En particulier, pour les comptes 'agence' et 'fournisseur' affiche si le compte
+	// est en attente
+	//
+	// Contrat : Aucun
+	//
+
+	void AfficherInformationsCompte(string type, Utilisateur* utilisateur);
+	// Mode d'emploi : Cette méthode permet d'afficher en dessous du titre de l'application
+	// les informations essentielles du compte : nom, prénom, type du compte, nb points si utilisateur
+	// privé, nom compagnie si fournisseur
+	//
+	// Contrat : Aucun
+	//
+
+	int AfficherMenuActionPrive(UtilisateurPrive* utilisateur);
+	// Mode d'emploi : Cette méthode permet d'afficher le menu d'action d'un utilisateur
+	// privé et de récupérer le choix d'action que l'utilisateur a tapé.
+	// On passe en paramètre le pointeur vers l'utilisateur afin d'avoir ses informations
+	// (nom, prénom etc...)
 	//
 	// Contrat : Aucun
 	//

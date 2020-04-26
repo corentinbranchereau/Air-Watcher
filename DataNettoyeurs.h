@@ -1,5 +1,5 @@
 /*************************************************************************
-						   DataNettoyeurs  -  description
+						   DataNettoyeurs  -  Classe stockant et gérant les nettoyeurs d'air
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
@@ -12,6 +12,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "NettoyeurAir.h"
 #include <string>
+#include <vector>
 using namespace std;
 //------------------------------------------------------------- Constantes
 
@@ -19,7 +20,9 @@ using namespace std;
 
 //------------------------------------------------------------------------
 // Rôle de la classe <DataNettoyeurs>
-//
+// Cette classe va servir de stockage pour tous les nettoyeurs d'air de
+// l'application, et va permettre les différentes opérations possibles sur
+// ces derniers
 //
 //------------------------------------------------------------------------
 
@@ -35,46 +38,75 @@ public:
 	// Contrat :
 	//
 
-    static bool ChargerNettoyeurs(string fichierNettoyeurs);
+    bool ChargerNettoyeurs(string fichierNettoyeurs);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
-    static bool AjouterNettoyeur(NettoyeurAir & nettoyeur);
+    bool AjouterNettoyeur(NettoyeurAir & nettoyeur);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
-    static bool SupprimerNettoyeur(string idNettoyeur);
+    bool SupprimerNettoyeur(string idNettoyeur);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
-    static bool ActiverNettoyeur(string idNettoyeur);
+    bool ActiverNettoyeur(string idNettoyeur);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
-    static bool DesactiverNettoyeur(string idNettoyeur);
+    bool DesactiverNettoyeur(string idNettoyeur);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
-    static double ObtenirRayonActionNettoyeur(string idNettoyeur);
+    double ObtenirRayonActionNettoyeur(string idNettoyeur);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
-    static NettoyeurAir* GetNettoyeurs();
+    vector<NettoyeurAir> GetNettoyeurs();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
 
 //------------------------------------------------- Surcharge d'opérateurs
 	DataNettoyeurs & operator = (const DataNettoyeurs & unDataNettoyeurs);
-	// Mode d'emploi :
+	// Mode d'emploi : Opérateur qui copie simplement les attributs de la classe
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 
 //-------------------------------------------- Constructeurs - destructeur
 	DataNettoyeurs (const DataNettoyeurs & unDataNettoyeurs);
-	// Mode d'emploi (constructeur de copie) :
+	// Mode d'emploi (constructeur de copie) : Constructeur qui copie simplement 
+	// les attributs de la classe
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 	DataNettoyeurs ();
-	// Mode d'emploi :
+	// Mode d'emploi : Ne fait rien de particulier
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 	virtual ~DataNettoyeurs ();
-	// Mode d'emploi :
+	// Mode d'emploi : Ne fait rien de particulier
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 //------------------------------------------------------------------ PRIVE
@@ -87,7 +119,8 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    NettoyeurAir* nettoyeurs;
+    vector<NettoyeurAir> nettoyeurs;
+	string cheminFichierNettoyeurs;
 private:
 //------------------------------------------------------- Attributs privés
 

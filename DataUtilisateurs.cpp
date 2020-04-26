@@ -24,7 +24,7 @@ using namespace std;
 //------------------------------------------------------------- Constantes
 
 //---------------------------------------------------- Variables de classe
-vector<Utilisateur*> DataUtilisateurs::utilisateurs; // initialisation de la variable static
+
 //----------------------------------------------------------- Types privés
 
 
@@ -50,50 +50,66 @@ bool DataUtilisateurs::ChargerUtilisateurs(string fichierUtilisateurs)
 
 	if(!fUtilisateurs.is_open())
 	{
+		cerr<<"Erreur lors du chargement des utilisateurs"<<endl;
 		return false;
 	}
-
-	string informationsLues[7];
-	char charLecture[100]; // buffer de lecture
-	while(fUtilisateurs)
+	else
 	{
-		fUtilisateurs.getline(charLecture,100,'|');
-		if(!fUtilisateurs) // on vérifie si on a atteint la fin du fichier
-		{
-			break;
-		}
-		informationsLues[0]=charLecture;
-
-		for(int i=1;i<6;i++) // on lit les informations une à une
+		this->cheminFichierUtilisateurs = fichierUtilisateurs;
+		string informationsLues[7];
+		char charLecture[100]; // buffer de lecture
+		while(fUtilisateurs)
 		{
 			fUtilisateurs.getline(charLecture,100,'|');
-			informationsLues[i]=charLecture;
-		}
-		if(informationsLues[0]=="fournisseur" || informationsLues[0]=="prive") // si c'est un compte fournisseur, on lit le nom de la compagnie ; si c'est un compte privé, on lit l'id
-		{
-			fUtilisateurs.getline(charLecture,100);
-			informationsLues[6]=charLecture;
-		}
+			if(!fUtilisateurs) // on vérifie si on a atteint la fin du fichier
+			{
+				break;
+			}
+			informationsLues[0]=charLecture;
 
-		
-		// insertion dans la liste des utilisateurs
-		Utilisateur* utilisateurLu;
-		// on détecte d'abord le type
-		if(informationsLues[0]=="prive")
-		{
-			utilisateurLu = new UtilisateurPrive(informationsLues[1],informationsLues[2],informationsLues[3],informationsLues[4],informationsLues[5],informationsLues[6]); 
-			DataUtilisateurs::utilisateurs.push_back(utilisateurLu);
-		}
-		else if(informationsLues[0]=="agence")
-		{
+			for(int i=1;i<6;i++) // on lit les informations une à une
+			{
+				if(i<5 || informationsLues[0]=="fournisseur")
+				// seul les comptes fournisseurs ont un séparateur '|' à l'information n°5
+				// donc pour les autres comptes (else) on lit jusqu'à la fin de la ligne
+				{
+					fUtilisateurs.getline(charLecture,100,'|');
+				}
+				else
+				{
+					fUtilisateurs.getline(charLecture,100,'\n');
+				}
+				informationsLues[i]=charLecture;
+			}
+			if(informationsLues[0]=="fournisseur") 
+			// si c'est un compte fournisseur, on lit le nom de la compagnie
+			{
+				fUtilisateurs.getline(charLecture,100,'\n');
+				informationsLues[6]=charLecture;
+			}
 
-		}
-		else
-		{
+			
+			// insertion dans la liste des utilisateurs
+			Utilisateur* utilisateurLu;
+			// on détecte d'abord le type
+			if(informationsLues[0]=="privé")
+			{
+				utilisateurLu = new UtilisateurPrive(informationsLues[1],informationsLues[2],informationsLues[3],informationsLues[4],informationsLues[5]); 
+				this->utilisateurs.push_back(utilisateurLu);
+			}
+			else if(informationsLues[0]=="agence")
+			{
+
+			}
+			else
+			{
+				
+			}
 			
 		}
-		
 	}
+
+	return true;
 
 } //----- Fin de ChargerUtilisateurs
 
@@ -122,21 +138,90 @@ vector<Utilisateur*> DataUtilisateurs::GetUtilisateurs()
 // Algorithme :
 //
 {
-
+	return this->utilisateurs;
 } //----- Fin de GetUtilisateurs
 
 Utilisateur* DataUtilisateurs::SeConnecter(string identifiant, string mdp)
-// Algorithme :
+// Algorithme : Vérifie dans la liste des utilisateurs si les informations
+// données correspondent à un utilisateur
 //
 {
+	vector<Utilisateur*>::iterator it;
+	for(it=this->utilisateurs.begin();it!=this->utilisateurs.end();++it)
+	{
+		if((*it)->GetIdentifiant()==identifiant && (*it)->GetMdp()==mdp)
+		{
+			return (*it);
+		}
+	}
 
+	// non trouvé
+	return nullptr;
 } //----- Fin de SeConnecter
 
 bool DataUtilisateurs::SeCreerUnComptes(string* informationsUtilisateur)
-// Algorithme :
+// Algorithme : Aucun
 //
 {
+	string typeCompte = informationsUtilisateur[0];
+	Utilisateur* utilisateurCree;
 
+	// vérification de l'unicité de l'identifiant et du mail
+	vector<Utilisateur*>::iterator it;
+	for(it=this->utilisateurs.begin();it!=this->utilisateurs.end();++it)
+	{
+		if((*it)->GetIdentifiant()==informationsUtilisateur[1] || (*it)->GetMail()==informationsUtilisateur[5])
+		{
+			// donnée(s) non unique(s)
+			return false;
+		}
+	}
+
+	if(typeCompte=="privé")
+	{
+		utilisateurCree = new UtilisateurPrive(informationsUtilisateur[1],informationsUtilisateur[2],informationsUtilisateur[3],informationsUtilisateur[4],informationsUtilisateur[5]);
+		this->utilisateurs.push_back(utilisateurCree);
+	}
+	else if(typeCompte=="fournisseur")
+	{
+
+	}
+	else // agence
+	{
+		
+	}
+
+	// écriture dans le fichier du nouvel utilisateur
+	ofstream fUtilisateurs(cheminFichierUtilisateurs,std::ofstream::app);
+	if(!fUtilisateurs.is_open())
+	{
+		cerr<<"Erreur lors de l'écriture d'un nouvel utilisateur"<<endl;
+		return false;
+	}
+	else
+	{
+		//construction de la ligne à écrire
+		string ligneUtilisateur="";
+		for(int i=0;i<6;i++)
+		{
+			ligneUtilisateur+=informationsUtilisateur[i];
+			if(i<5 || informationsUtilisateur[0]=="fournisseur")
+			{
+				ligneUtilisateur+="|";
+			}
+			else
+			{
+				ligneUtilisateur+="\n";
+			}
+		}
+		if(informationsUtilisateur[0]=="fournisseur")
+		{
+			ligneUtilisateur+=informationsUtilisateur[6]+"\n";
+		}
+		fUtilisateurs<<ligneUtilisateur;
+	}
+
+	return true;	
 } //----- Fin de SeCreerUnComptes
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -145,6 +230,8 @@ DataUtilisateurs & DataUtilisateurs::operator = (const DataUtilisateurs & unData
 // Algorithme : Aucun
 //
 {
+	this->utilisateurs = unDataUtilisateurs.utilisateurs;
+	this->cheminFichierUtilisateurs = unDataUtilisateurs.cheminFichierUtilisateurs;
 	return *this;
 } //----- Fin de operator =
 
@@ -154,30 +241,36 @@ DataUtilisateurs & DataUtilisateurs::operator = (const DataUtilisateurs & unData
 DataUtilisateurs::DataUtilisateurs (const DataUtilisateurs & unDataUtilisateurs)
 // Algorithme :Aucun
 //
+:cheminFichierUtilisateurs(unDataUtilisateurs.cheminFichierUtilisateurs),utilisateurs(unDataUtilisateurs.utilisateurs)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <DataUtilisateurs>" << endl;
 #endif
 } //----- Fin de DataUtilisateurs (constructeur de copie)
 
-
 DataUtilisateurs::DataUtilisateurs ()
-// Algorithme :
+// Algorithme : Aucun
 //
+:cheminFichierUtilisateurs("")
 {
 #ifdef MAP
-	cout << "Appel au constructeur de <DataUtilisateurs>" << endl;
+	cout << "Appel au constructeur de <DataUtilisateurs (par défaut)>" << endl;
 #endif
-} //----- Fin de DataUtilisateurs
-
+} //----- Fin de DataUtilisateurs (par défaut)
 
 DataUtilisateurs::~DataUtilisateurs ()
-// Algorithme :
+// Algorithme : Aucun
 //
 {
 #ifdef MAP
 	cout << "Appel au destructeur de <DataUtilisateurs>" << endl;
 #endif
+	// on libère tous les utilisateurs en parcourant 'utilisateurs' avec un itérateur
+	vector<Utilisateur*>::iterator it;
+	for(it=utilisateurs.begin(); it!=utilisateurs.end();++it)
+	{
+		delete (*it);
+	}
 } //----- Fin de ~DataUtilisateurs
 
 

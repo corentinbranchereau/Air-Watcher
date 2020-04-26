@@ -35,29 +35,37 @@ public:
 	// Contrat :
 	//
 
+	bool GetCompteValide();
+	// Mode d'emploi : Renvoie l'attribut 'compteValide' de l'utilisateur
+	//
+	// Contrat : Aucun
+	//
+
 //------------------------------------------------- Surcharge d'opérateurs
 	UtilisateurProfessionnel & operator = (const UtilisateurProfessionnel & unUtilisateurProfessionnel);
-	// Mode d'emploi :
+	// Mode d'emploi : Opérateur qui copie l'attribut 'compteValide' ainsi que les attributs
+	// de la classe 'Utilisateur'
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 
 //-------------------------------------------- Constructeurs - destructeur
 	UtilisateurProfessionnel (const UtilisateurProfessionnel & unUtilisateurProfessionnel);
-	// Mode d'emploi (constructeur de copie) :
+	// Mode d'emploi (constructeur de copie) : Constructeur qui copie l'attribut 'compteValide' 
+	// ainsi que les attributs de la classe 'Utilisateur'
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 	UtilisateurProfessionnel ();
-	// Mode d'emploi :
+	// Mode d'emploi : Constructeur par défaut, ne fait rien de particulier
 	//
 	// Contrat :
 	//
 
 	virtual ~UtilisateurProfessionnel ();
-	// Mode d'emploi :
+	// Mode d'emploi : Destructeur qui ne fait rien de particulier
 	//
 	// Contrat :
 	//

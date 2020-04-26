@@ -35,20 +35,34 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+bool UtilisateurProfessionnel::GetCompteValide()
+// Algorithme : Aucun
+//
+{
+	return this->compteValide;
+} //----- Fin de GetCompteValide
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 UtilisateurProfessionnel & UtilisateurProfessionnel::operator = (const UtilisateurProfessionnel & unUtilisateurProfessionnel)
-// Algorithme :
+// Algorithme : Aucun
 //
 {
+	this->identifiant = unUtilisateurProfessionnel.identifiant;
+	this->mail = unUtilisateurProfessionnel.mail;
+	this->mdp = unUtilisateurProfessionnel.mdp;
+	this->nom = unUtilisateurProfessionnel.nom;
+	this->prenom = unUtilisateurProfessionnel.prenom;
+	this->compteValide = unUtilisateurProfessionnel.compteValide;
 } //----- Fin de operator =
 
 
 //-------------------------------------------- Constructeurs - destructeur
 
 UtilisateurProfessionnel::UtilisateurProfessionnel (const UtilisateurProfessionnel & unUtilisateurProfessionnel)
-// Algorithme :
+// Algorithme : Aucun
 //
+:Utilisateur(unUtilisateurProfessionnel),compteValide(unUtilisateurProfessionnel.compteValide)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <UtilisateurProfessionnel>" << endl;
@@ -57,8 +71,9 @@ UtilisateurProfessionnel::UtilisateurProfessionnel (const UtilisateurProfessionn
 
 
 UtilisateurProfessionnel::UtilisateurProfessionnel ()
-// Algorithme :
+// Algorithme : Aucun
 //
+:compteValide(false)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <UtilisateurProfessionnel>" << endl;
@@ -67,7 +82,7 @@ UtilisateurProfessionnel::UtilisateurProfessionnel ()
 
 
 UtilisateurProfessionnel::~UtilisateurProfessionnel ()
-// Algorithme :
+// Algorithme : Aucun
 //
 {
 #ifdef MAP

@@ -1,5 +1,5 @@
 /*************************************************************************
-						   DataNettoyeurs  -  description
+						   DataNettoyeurs  -  Classe stockant et gérant les nettoyeurs d'air
 							 -------------------
 	début                : 18/04/2020
 	copyright            : (C) 2020 par Killian OECHSLIN, Thomas MIGNOT, Thibaut GRAVEY, Corentin BRANCHEREAU
@@ -12,6 +12,7 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <vector>
 
 //------------------------------------------------------ Include personnel
 #include "DataNettoyeurs.h"
@@ -76,7 +77,7 @@ double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur)
 
 } //----- Fin de ObtenirRayonActionNettoyeur
 
-NettoyeurAir* DataNettoyeurs::GetNettoyeurs()
+vector<NettoyeurAir> DataNettoyeurs::GetNettoyeurs()
 // Algorithme :
 //
 {
@@ -87,17 +88,20 @@ NettoyeurAir* DataNettoyeurs::GetNettoyeurs()
 //------------------------------------------------- Surcharge d'opérateurs
 
 DataNettoyeurs & DataNettoyeurs::operator = (const DataNettoyeurs & unDataNettoyeurs)
-// Algorithme :
+// Algorithme : Aucun
 //
 {
+	this->nettoyeurs = unDataNettoyeurs.nettoyeurs;
+	this->cheminFichierNettoyeurs = unDataNettoyeurs.cheminFichierNettoyeurs;
 } //----- Fin de operator =
 
 
 //-------------------------------------------- Constructeurs - destructeur
 
 DataNettoyeurs::DataNettoyeurs (const DataNettoyeurs & unDataNettoyeurs)
-// Algorithme :
+// Algorithme : Aucun
 //
+:nettoyeurs(unDataNettoyeurs.nettoyeurs),cheminFichierNettoyeurs(unDataNettoyeurs.cheminFichierNettoyeurs)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <DataNettoyeurs>" << endl;
@@ -106,17 +110,18 @@ DataNettoyeurs::DataNettoyeurs (const DataNettoyeurs & unDataNettoyeurs)
 
 
 DataNettoyeurs::DataNettoyeurs ()
-// Algorithme :
+// Algorithme : Aucun
 //
+:cheminFichierNettoyeurs("")
 {
 #ifdef MAP
-	cout << "Appel au constructeur de <DataNettoyeurs>" << endl;
+	cout << "Appel au constructeur (par défaut) de <DataNettoyeurs>" << endl;
 #endif
-} //----- Fin de DataNettoyeurs
+} //----- Fin de DataNettoyeurs (par défaut)
 
 
 DataNettoyeurs::~DataNettoyeurs ()
-// Algorithme :
+// Algorithme : Aucun
 //
 {
 #ifdef MAP

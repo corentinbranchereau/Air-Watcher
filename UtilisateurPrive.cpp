@@ -36,17 +36,17 @@ using namespace std;
 //} //----- Fin de Méthode
 
 int UtilisateurPrive::ObtenirPoints()
-// Algorithme :
+// Algorithme : Aucun
 //
 {
-	return 0;
+	return this->nbPoints;
 } //----- Fin de ObtenirPoints
 
 vector<MesureUtilisateur> UtilisateurPrive::ConsulterDonneesEntrees()
-// Algorithme :
+// Algorithme : Aucun
 //
 {
-	return nullptr;
+	return this->donneesEntrees;
 } //----- Fin de ConsulterDonneesEntrees
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -61,7 +61,6 @@ UtilisateurPrive & UtilisateurPrive::operator = (const UtilisateurPrive & unUtil
 	this->nom=unUtilisateurPrive.nom;
 	this->prenom=unUtilisateurPrive.prenom;
 	this->nbPoints=unUtilisateurPrive.nbPoints;
-	this->idUtilisateur=unUtilisateurPrive.idUtilisateur;
 	this->donneesEntrees=unUtilisateurPrive.donneesEntrees;
 	return *this;
 } //----- Fin de operator =
@@ -72,7 +71,7 @@ UtilisateurPrive & UtilisateurPrive::operator = (const UtilisateurPrive & unUtil
 UtilisateurPrive::UtilisateurPrive (const UtilisateurPrive & unUtilisateurPrive)
 // Algorithme : Aucun
 //
-:Utilisateur(unUtilisateurPrive),nbPoints(unUtilisateurPrive.nbPoints),idUtilisateur(unUtilisateurPrive.idUtilisateur),donneesEntrees(unUtilisateurPrive.donneesEntrees)
+:Utilisateur(unUtilisateurPrive),nbPoints(unUtilisateurPrive.nbPoints),donneesEntrees(unUtilisateurPrive.donneesEntrees)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <UtilisateurPrive>" << endl;
@@ -83,17 +82,17 @@ UtilisateurPrive::UtilisateurPrive (const UtilisateurPrive & unUtilisateurPrive)
 UtilisateurPrive::UtilisateurPrive ()
 // Algorithme : Aucun
 //
-:nbPoints(0),idUtilisateur("")
+:nbPoints(0)
 {
 #ifdef MAP
 	cout << "Appel au constructeur (par défaut) de <UtilisateurPrive>" << endl;
 #endif
 } //----- Fin de UtilisateurPrive (par défaut)
 
-UtilisateurPrive::UtilisateurPrive (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c, string id)
+UtilisateurPrive::UtilisateurPrive (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c)
 // Algorithme : Aucun
 //
-:Utilisateur(identifiant_c,mdp_c,nom_c,prenom_c,mail_c), nbPoints(0), idUtilisateur(id)
+:Utilisateur(identifiant_c,mdp_c,nom_c,prenom_c,mail_c), nbPoints(0)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <UtilisateurPrive>" << endl;

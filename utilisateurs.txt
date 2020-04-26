@@ -1,2 +1,4 @@
-prive|kiki|kiki|oechslin|killian|kiki@|Utilisateur1
-prive|toto|toto|mignot|thomas|toto@|Utilisateur2
+privé|kiki|kiki|oechslin|killian|kiki@
+privé|toto|toto|mignot|thomas|toto@
+privé|thithi|thithi|gravey|thibaut|thithi@
+privé|coco|coco|branchereau|corentin|coco@

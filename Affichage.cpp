@@ -14,6 +14,8 @@
 #include <limits>
 //------------------------------------------------------ Include personnel
 #include "Affichage.h"
+#include "UtilisateurPrive.h"
+#include "EmployeFournisseur.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -113,7 +115,7 @@ string* Affichage::AfficherCreationCompte()
 {
 	NettoyerConsole();
 	AfficherTitre();
-	cout<<"  "<<Souligner("Interface de création de compte")<<"\n\n";
+	cout<<"  "<<Souligner("Interface de création de compte")<<" :\n\n";
 	string * donneesSaisies = new string[7];
 	// dans l'ordre : type de compte, identifiant, mdp, nom, prénom, mail, nom compagnie (si fournisseur)
 
@@ -157,10 +159,115 @@ string* Affichage::AfficherCreationCompte()
 	{
 		donneesSaisies[6]="";
 	}
-	
 	return donneesSaisies;
 
 } //----- Fin de AfficherCreationCompte
+
+void Affichage::AfficherFinCreationCompte(bool reussite)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	if(reussite)
+	{
+		cout<<"Le compte a été créé avec succès ! "<<endl;
+	}
+	else
+	{
+		cout<<"Une erreur s'est produite lors de la création du compte ! "<<endl;
+	}
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu principal");
+	
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
+	
+} //----- Fin de AfficherFinCreationCompte
+
+string* Affichage::AffichageConnexion()
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	cout<<"  "<<Souligner("Interface de connexion")<<" :\n\n";
+	string * donneesSaisies = new string[2];
+	// dans l'ordre : identifiant, mdp
+
+	cout<<"\nIdentifiant : ";
+	cin>>donneesSaisies[0];
+	cout<<"Mot de passe : ";
+	cin>>donneesSaisies[1];
+
+	return donneesSaisies;
+
+} //----- Fin de AffichageConnexion
+
+void Affichage::AffichageFinConnexion(string etatConnexion)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	
+	if(etatConnexion=="réussite")
+	{
+		cout<<"La connexion a réussie ! "<<endl;
+		cout<<"\nAppuyez sur 'Entrée' pour être redirigé vers le "<<Souligner("menu d'action");
+	}
+	else if(etatConnexion=="attente")
+	{
+		cout<<"Votre compte est actuellement en attente. Vous devez attendre qu'un admin le valide."<<endl;
+		cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu principal");
+	}
+	else if(etatConnexion=="échec")
+	{
+		cout<<"La connexion a échouée ! "<<endl;
+		cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu principal");
+	}
+	
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
+} //----- Fin de AffichageConnexion
+
+void Affichage::AfficherInformationsCompte(string type, Utilisateur* utilisateur)
+// Algorithme : Aucun
+//
+{
+	cout<<"	"<<Souligner("Utilisateur")<<" : "<<utilisateur->GetPrenom()<<" "<<utilisateur->GetNom();
+	cout<<"   "<<Souligner("Compte de type")<<" : "<<type<<endl;
+	if(type=="Utilisateur privé")
+	{
+		UtilisateurPrive* uPrive = dynamic_cast<UtilisateurPrive*>(utilisateur);
+		cout<<"\n	"<<Souligner("Nombre de points")<<" : "<<uPrive->ObtenirPoints()<<endl;
+	}
+	else if(type=="Fournisseur")
+	{
+		EmployeFournisseur* uFournisseur = dynamic_cast<EmployeFournisseur*>(utilisateur);
+		cout<<"\n	"<<Souligner("Compagnie")<<" : "<<endl;			// A COMPLETER -------------
+	}
+} //----- Fin de AfficherInformationsCompte
+
+int Affichage::AfficherMenuActionPrive(UtilisateurPrive* utilisateur)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte("Utilisateur privé",utilisateur);
+	cout<<"\n\n  "<<Souligner("Menu d'action")<<"\n\n";
+	cout<<"	1) Consulter mes données rentrées.\n";
+	cout<<"	2) Entrer une nouvelle donnée.\n";
+	cout<<"\n	3) Modifier mon compte.\n";
+	cout<<"	4) Me déconnecter.\n";
+	return SaisirChoix(4);
+} //----- Fin de AfficherMenuActionPrive
 
 
 //------------------------------------------------- Surcharge d'opérateurs

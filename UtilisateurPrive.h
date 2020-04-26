@@ -40,15 +40,15 @@ public:
 	//
 
 	int ObtenirPoints();
-	// Mode d'emploi :
+	// Mode d'emploi : Renvoie l'attribut 'nbPoints' de l'utilisateur privé
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 	vector<MesureUtilisateur> ConsulterDonneesEntrees();
-	// Mode d'emploi :
+	// Mode d'emploi : Renvoie l'attribut 'donneesEntrees' de l'utilisateur privé
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -74,7 +74,7 @@ public:
 	// Contrat : Aucun
 	//
 
-	UtilisateurPrive (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c, string id);
+	UtilisateurPrive (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c);
 	// Mode d'emploi : Constructeur qui initialise les attributs avec les valeurs fournies
 	//
 	// Contrat : Aucun
@@ -97,7 +97,6 @@ private:
 protected:
 //----------------------------------------------------- Attributs protégés
 	int nbPoints;
-	string idUtilisateur;
 	vector<MesureUtilisateur> donneesEntrees;
 private:
 //------------------------------------------------------- Attributs privés

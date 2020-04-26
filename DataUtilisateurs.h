@@ -32,7 +32,6 @@ class DataUtilisateurs
 //----------------------------------------------------------------- PUBLIC
 
 public:
-	static vector<Utilisateur*> utilisateurs; // variable static qui va servir à stocker les utilisateurs
 //----------------------------------------------------- Méthodes publiques
 	// type Méthode ( liste de paramètres );
 	// Mode d'emploi :
@@ -40,47 +39,48 @@ public:
 	// Contrat :
 	//
 
-    static bool ChargerUtilisateurs(string fichierUtilisateurs);
+    bool ChargerUtilisateurs(string fichierUtilisateurs);
 	// Mode d'emploi : Cette méthode va permettre de charger les utilisateurs
 	// déja inscrits depuis le fichier fourni. Pour cela, le fichier
 	// est ouvert en lecture, et construit pour chaque ligne un utilisateur
 	//
 	// Contrat : Le fichier doit contenir les utilisateurs selon le bon format
 	// à savoir : 1 utilisateur par ligne et dans l'ordre : 
-	// type de compte|identifiant|mdp|nom|prénom|mail|nom compagnie (si fournisseur) ou idUtilisateur (si privé)
+	// type de compte|identifiant|mdp|nom|prénom|mail|nom compagnie (si fournisseur)
 	//
 
-    static bool VerifierUnCompte(string mail,bool validation);
+    bool VerifierUnCompte(string mail,bool validation);
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-    static vector<UtilisateurProfessionnel*> ObtenirComptesEnAttente();
+    vector<UtilisateurProfessionnel*> ObtenirComptesEnAttente();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-    static bool GererCompte(string mail, string nom, string prenom, string mdp);
+    bool GererCompte(string mail, string nom, string prenom, string mdp);
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-    static vector<Utilisateur*> GetUtilisateurs();
+    vector<Utilisateur*> GetUtilisateurs();
 	// Mode d'emploi :
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
-    static Utilisateur* SeConnecter(string identifiant, string mdp);
-	// Mode d'emploi :
+	Utilisateur* SeConnecter(string identifiant, string mdp);
+	// Mode d'emploi : Permet de chercher si un compte existe avec
+	// l'identifiant et le mdp fournis, et si c'est le cas, le renvoie
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
-    static bool SeCreerUnComptes(string* informationsUtilisateur);
+	bool SeCreerUnComptes(string* informationsUtilisateur);
 	// Mode d'emploi : Méthode qui permet la création d'un compte dans
 	// l'application, c'est à dire l'ajout de l'utilisateur à l'attribut
 	// 'utilisateurs' de la classe mais également son ajout dans le fichier
@@ -95,7 +95,7 @@ public:
 
 //------------------------------------------------- Surcharge d'opérateurs
 	DataUtilisateurs & operator = (const DataUtilisateurs & unAffichage);
-	// Mode d'emploi : Ne fait rien de particulier
+	// Mode d'emploi : Opérateur qui copie simplement les attributs de la classe
 	//
 	// Contrat : Aucun
 	//
@@ -103,7 +103,8 @@ public:
 
 //-------------------------------------------- Constructeurs - destructeur
 	DataUtilisateurs (const DataUtilisateurs & unAffichage);
-	// Mode d'emploi (constructeur de copie) : Ne fait rien de particulier
+	// Mode d'emploi (constructeur de copie) : Constructeur qui copie simplement 
+	// les attributs de la classe
 	//
 	// Contrat : Aucun
 	//
@@ -115,7 +116,7 @@ public:
 	//
 
 	virtual ~DataUtilisateurs ();
-	// Mode d'emploi : Ne fait rien de particulier
+	// Mode d'emploi : Libère les utilisateurs à la destruction
 	//
 	// Contrat : Aucun
 	//
@@ -130,7 +131,8 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-
+	vector<Utilisateur*> utilisateurs;
+	string cheminFichierUtilisateurs;
 private:
 //------------------------------------------------------- Attributs privés
 

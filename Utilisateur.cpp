@@ -35,6 +35,41 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+string Utilisateur::GetNom()
+// Algorithme : Aucun
+//
+{
+	return this->nom;
+} //----- Fin de GetNom
+
+string Utilisateur::GetPrenom()
+// Algorithme : Aucun
+//
+{
+	return this->prenom;
+} //----- Fin de GetPrenom
+
+string Utilisateur::GetMail()
+// Algorithme : Aucun
+//
+{
+	return this->mail;
+} //----- Fin de GetMail
+
+string Utilisateur::GetMdp()
+// Algorithme : Aucun
+//
+{
+	return this->mdp;
+} //----- Fin de GetMdp
+
+string Utilisateur::GetIdentifiant()
+// Algorithme : Aucun
+//
+{
+	return this->identifiant;
+} //----- Fin de GetIdentifiant
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 Utilisateur & Utilisateur::operator = (const Utilisateur & unUtilisateur)
