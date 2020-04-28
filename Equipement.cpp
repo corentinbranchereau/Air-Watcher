@@ -42,6 +42,11 @@ Equipement & Equipement::operator = (const Equipement & unEquipement)
 // Algorithme :
 //
 {
+	this->id=unEquipement.id;
+	this->description=unEquipement.description;
+	this->position=unEquipement.position;
+
+	return *this;
 } //----- Fin de operator =
 
 
@@ -51,10 +56,25 @@ Equipement::Equipement (const Equipement & unEquipement)
 // Algorithme :
 //
 {
+	this->id=unEquipement.id;
+	this->description=unEquipement.description;
+	this->position=unEquipement.position;
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <Equipement>" << endl;
 #endif
 } //----- Fin de Equipement (constructeur de copie)
+
+Equipement::Equipement (string id, string description,PointGeographique p)
+// Algorithme :
+//
+{
+	this->id=id;
+	this->description=description;
+	this->position=p;
+#ifdef MAP
+	cout << "Appel au constructeur de <Equipement>" << endl;
+#endif
+} //-
 
 
 Equipement::Equipement ()

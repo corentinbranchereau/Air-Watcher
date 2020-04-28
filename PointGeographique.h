@@ -48,6 +48,7 @@ public:
 	//
 	// Contrat :
 	//
+	PointGeographique (double longi, double lat);
 
 	PointGeographique ();
 	// Mode d'emploi :

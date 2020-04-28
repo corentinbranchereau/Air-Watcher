@@ -12,7 +12,7 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
-
+#include <fstream>
 //------------------------------------------------------ Include personnel
 #include "DataCapteurs.h"
 
@@ -39,6 +39,43 @@ bool DataCapteurs::ChargerCapteurs(string fichierCapteurs)
 // Algorithme :
 //
 {
+	ifstream fic(fichierCapteurs);
+
+	if(!fic.is_open())
+	{
+		cerr<<"Erreur lors du chargement des capteurs "<<endl;
+		return false;
+	}
+
+    while(1)
+    {
+
+   
+      if (fic.eof())
+      {
+          //fin de lecture du fichier
+          break;
+      }
+      char id[100];
+      char longitude[100];
+	  char latitude[100];
+      char  description[100];
+      char pb[50];
+
+      fic.getline(id,50,';');
+      fic.getline(latitude,50,';');
+      fic.getline(longitude,50,';');
+      fic.getline(description,10,';');
+	  fic.getline(pb,10,'\n');
+
+	  PointGeographique p(atof(longitude),atof(latitude));
+
+      Capteur capteur((string)id,(string)description,p);
+	  capteurs.push_back(capteur);
+
+      }
+
+      return true;
 
 } //----- Fin de ChargerCapteurs
 
@@ -56,7 +93,7 @@ bool DataCapteurs::ModifierCapteur(string idCapteur, double longitude, double la
 
 } //----- Fin de ModifierCapteur
 
-Capteur* DataCapteurs::GetCapteurs()
+vector<Capteur> DataCapteurs::GetCapteurs()
 // Algorithme :
 //
 {

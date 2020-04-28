@@ -42,6 +42,11 @@ TypeAttribut & TypeAttribut::operator = (const TypeAttribut & unTypeAttribut)
 // Algorithme :
 //
 {
+	this->idAttribut=unTypeAttribut.idAttribut;
+	this->unite=unTypeAttribut.unite;
+	this->description=unTypeAttribut.description;
+
+	return*this;
 } //----- Fin de operator =
 
 
@@ -51,10 +56,26 @@ TypeAttribut::TypeAttribut (const TypeAttribut & unTypeAttribut)
 // Algorithme :
 //
 {
+	this->idAttribut=unTypeAttribut.idAttribut;
+	this->unite=unTypeAttribut.unite;
+	this->description=unTypeAttribut.description;
+
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <TypeAttribut>" << endl;
 #endif
 } //----- Fin de TypeAttribut (constructeur de copie)
+
+TypeAttribut::TypeAttribut (string id, string unite,string description)
+// Algorithme :
+//
+{
+	this->idAttribut=id;
+	this->unite=unite;
+	this->description=description;
+#ifdef MAP
+	cout << "Appel au constructeur de <TypeAttribut>" << endl;
+#endif
+} //----- Fin de TypeAttribut
 
 
 TypeAttribut::TypeAttribut ()
@@ -65,6 +86,7 @@ TypeAttribut::TypeAttribut ()
 	cout << "Appel au constructeur de <TypeAttribut>" << endl;
 #endif
 } //----- Fin de TypeAttribut
+
 
 
 TypeAttribut::~TypeAttribut ()

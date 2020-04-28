@@ -35,6 +35,26 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+TypeAttribut Mesure::getTypeMesure()
+{
+	return typeMesure;
+}
+
+double Mesure::getValeurAttribut()
+{
+	return valeurAttribut;
+}
+
+string Mesure::getIdCapteur()
+{
+	return idCapteur;
+}
+
+Horodatage Mesure::getdateMesure()
+{
+	return dateMesure;
+}
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -42,6 +62,12 @@ Mesure & Mesure::operator = (const Mesure & unMesure)
 // Algorithme :
 //
 {
+	this->typeMesure=unMesure.typeMesure;
+	this->valeurAttribut=unMesure.valeurAttribut;
+	this->idCapteur=unMesure.idCapteur;
+	this->dateMesure=unMesure.dateMesure;
+
+	return *this;
 } //----- Fin de operator =
 
 
@@ -51,10 +77,32 @@ Mesure::Mesure (const Mesure & unMesure)
 // Algorithme :
 //
 {
+	this->typeMesure=unMesure.typeMesure;
+	this->valeurAttribut=unMesure.valeurAttribut;
+	this->idCapteur=unMesure.idCapteur;
+	this->dateMesure=unMesure.dateMesure;
+	
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <Mesure>" << endl;
 #endif
 } //----- Fin de Mesure (constructeur de copie)
+
+
+
+Mesure::Mesure (TypeAttribut typeMesure,double valeurAttribut,string idCapteur,Horodatage dateMesure)
+// Algorithme :
+//
+{
+	this->typeMesure=typeMesure;
+	this->valeurAttribut=valeurAttribut;
+	this->idCapteur=idCapteur;
+	this->dateMesure=dateMesure;
+#ifdef MAP
+	cout << "Appel au constructeur de <Mesure>" << endl;
+#endif
+} //----- Fin de Mesure
+
+
 
 
 Mesure::Mesure ()

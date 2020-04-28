@@ -1,5 +1,7 @@
 #include "Affichage.h"
 #include "DataUtilisateurs.h"
+#include "DataMesures.h"
+#include "DataCapteurs.h"
 #include "UtilisateurPrive.h"
 #include "Admin.h"
 #include "EmployeFournisseur.h"
@@ -10,21 +12,26 @@ Affichage affichage;
 int choix;
 string* donneesSaisies;
 DataUtilisateurs donneesUtilisateurs;
+DataMesures donneesMesures;
+DataCapteurs donneesCapteurs;
+
 Utilisateur* utilisateurConnecte = nullptr;
 string statutConnexion="déconnecté"; // variable qui va permettre de dire si un compte est connecté et son type
 
-bool chargementDonnees(string cheminFichierUtilisateurs)
+bool chargementDonnees(string cheminFichierUtilisateurs, string cheminFichierMesures, string cheminFichierAttributs, string cheminFichierCapteurs)
 // Cette méthode charge les données dans chaque objet Data
 // et renvoie true si tous c'est bien passé. Si il y a eu une
 // erreur à un endroit, renvoie false;
 {
-	return donneesUtilisateurs.ChargerUtilisateurs(cheminFichierUtilisateurs); // && chargement autre données
+	//donneesUtilisateurs.ChargerUtilisateurs(cheminFichierUtilisateurs)&& donneesMesures.ChargerMesures(cheminFichierMesures)&&
+	return (donneesCapteurs.ChargerCapteurs(cheminFichierCapteurs)&& donneesMesures.ChargerAttributs(cheminFichierAttributs) && donneesUtilisateurs.ChargerUtilisateurs(cheminFichierUtilisateurs)&& donneesMesures.ChargerMesures(cheminFichierMesures)); // && chargement autre données
 }
 
 void menuAction()
 // Cette méthode permet de boucler sur le menu d'action tant que l'utilisateur ne s'est pas déconnecté
 {
 	int choix=0;
+
 
 	// on tente de caster l'utilisateur pour trouver son type
 	Admin* admin = dynamic_cast<Admin*>(utilisateurConnecte);
@@ -84,7 +91,7 @@ void menuAction()
 
 int main(void)
 {
-	if(chargementDonnees("utilisateurs.txt"))
+	if(chargementDonnees("utilisateurs.txt","data1.txt","AttributeType.csv","Sensors.csv"))
 	{
 		while(1)
 		{

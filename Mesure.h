@@ -36,6 +36,33 @@ public:
 	// Contrat :
 	//
 
+	TypeAttribut getTypeMesure();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+	double getValeurAttribut();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+	string getIdCapteur();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+	Horodatage getdateMesure();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+	
+	
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 	Mesure & operator = (const Mesure & unMesure);
@@ -47,6 +74,12 @@ public:
 
 //-------------------------------------------- Constructeurs - destructeur
 	Mesure (const Mesure & unMesure);
+	// Mode d'emploi (constructeur de copie) :
+	//
+	// Contrat :
+	//
+
+	Mesure(TypeAttribut typeMesure,double valeurAttribut,string idCapteur,Horodatage dateMesure);
 	// Mode d'emploi (constructeur de copie) :
 	//
 	// Contrat :

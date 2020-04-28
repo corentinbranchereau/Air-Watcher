@@ -51,6 +51,12 @@ public:
 	// Contrat :
 	//
 
+	Equipement (string id, string description,PointGeographique p);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
 	Equipement ();
 	// Mode d'emploi :
 	//

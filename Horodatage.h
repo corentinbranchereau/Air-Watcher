@@ -32,7 +32,11 @@ public:
 	//
 	// Contrat :
 	//
-
+	double getTempsSecondes();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
 //------------------------------------------------- Surcharge d'opérateurs
 	Horodatage & operator = (const Horodatage & unHorodatage);
@@ -54,6 +58,14 @@ public:
 	//
 	// Contrat :
 	//
+
+	Horodatage (int annee, int mois, int jour, int heure, int minute, int seconde);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+
 
 	virtual ~Horodatage ();
 	// Mode d'emploi :

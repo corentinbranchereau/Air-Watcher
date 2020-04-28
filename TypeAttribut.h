@@ -50,6 +50,12 @@ public:
 	// Contrat :
 	//
 
+	TypeAttribut (string id, string unite,string description);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
 	TypeAttribut ();
 	// Mode d'emploi :
 	//

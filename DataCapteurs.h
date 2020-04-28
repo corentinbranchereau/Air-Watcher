@@ -11,6 +11,10 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Capteur.h"
+#include <vector>
+
+using namespace std;
+
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -33,13 +37,13 @@ public:
 	// Contrat :
 	//
 
-    static bool ChargerCapteurs(string fichierCapteurs);
+    bool ChargerCapteurs(string fichierCapteurs);
 
-    static bool AjouterCapteur(Capteur & capteur);
+    bool AjouterCapteur(Capteur & capteur);
 
-    static bool ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description);
+    bool ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description);
 
-    static Capteur* GetCapteurs();
+    vector<Capteur> GetCapteurs();
 
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -79,7 +83,7 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    Capteur* capteurs;
+    vector<Capteur> capteurs;
 private:
 //------------------------------------------------------- Attributs privés
 

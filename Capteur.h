@@ -51,6 +51,13 @@ public:
 	// Contrat :
 	//
 
+	Capteur (string id, string description,PointGeographique p,string etat="fonctionne");
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+
 	Capteur ();
 	// Mode d'emploi :
 	//

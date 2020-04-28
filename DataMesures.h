@@ -16,7 +16,13 @@
 #include "Capteur.h"
 #include "UtilisateurPrive.h"
 #include "TypeAttribut.h"
+
 #include <string>
+#include <vector>
+#include <unordered_map>
+#include <iostream>
+#include <fstream>
+#include <stdlib.h>
 using namespace std;
 //------------------------------------------------------------- Constantes
 
@@ -40,27 +46,27 @@ public:
 	// Contrat :
 	//
 
-    static bool ChargerMesures(string fichierMesures);
+    bool ChargerMesures(string fichierMesures);
 
-    static bool ChargerAttributs(string fichierAttributs);
+    bool ChargerAttributs(string fichierAttributs);
 
-    static Mesure* ConsulterMoyenneDonneesDatePrecise(Horodatage & date, Zone & zone);
+    Mesure* ConsulterMoyenneDonneesDatePrecise(Horodatage & date, Zone & zone);
 
-    static Mesure** ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone);
+    Mesure** ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone);
 
-    static int ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone);
+    int ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone);
 
-    static int* ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone);
+    int* ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone);
 
-    static Mesure* ObtenirDonneesBrutes();
+    Mesure* ObtenirDonneesBrutes();
 
-    static bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur);
+    bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur);
 
-    static Capteur** IdentifierCapteursSimilaires();
+    Capteur** IdentifierCapteursSimilaires();
 
-    static void LabeliserDonneesUtilisateur();
+    void LabeliserDonneesUtilisateur();
 
-    static TypeAttribut* GetTypeAttributs();
+    TypeAttribut* GetTypeAttributs();
 
 //------------------------------------------------- Surcharge d'opérateurs
 	DataMesures & operator = (const DataMesures & unDataMesures);
@@ -99,8 +105,8 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-	Mesure* mesures;
-	TypeAttribut* typeAttributs;
+	vector<Mesure> mesures;
+	unordered_map<string,TypeAttribut> typeAttributs;
 private:
 //------------------------------------------------------- Attributs privés
 

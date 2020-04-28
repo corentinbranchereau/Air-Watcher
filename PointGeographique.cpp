@@ -42,6 +42,9 @@ PointGeographique & PointGeographique::operator = (const PointGeographique & unP
 // Algorithme :
 //
 {
+	this->longitude=unPointGeographique.longitude;
+	this->latitude=unPointGeographique.latitude;
+	return *this;
 } //----- Fin de operator =
 
 
@@ -51,10 +54,24 @@ PointGeographique::PointGeographique (const PointGeographique & unPointGeographi
 // Algorithme :
 //
 {
+	this->longitude=unPointGeographique.longitude;
+	this->latitude=unPointGeographique.latitude;
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <PointGeographique>" << endl;
 #endif
 } //----- Fin de PointGeographique (constructeur de copie)
+
+PointGeographique::PointGeographique (double longi, double lat)
+// Algorithme :
+//
+{
+	longitude=longi;
+	latitude=lat;
+#ifdef MAP
+	cout << "Appel au constructeur de <PointGeographique>" << endl;
+#endif
+} //----- Fin de PointGeographique
+
 
 
 PointGeographique::PointGeographique ()

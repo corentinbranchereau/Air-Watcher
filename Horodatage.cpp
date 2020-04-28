@@ -35,6 +35,11 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+ double Horodatage::getTempsSecondes()
+ {
+	 return annee*365*24*3600+mois*30*24*3600+jour*24*3600+heure*3600+minute*60+seconde;
+ }
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -42,6 +47,13 @@ Horodatage & Horodatage::operator = (const Horodatage & unHorodatage)
 // Algorithme :
 //
 {
+	this->annee=unHorodatage.annee;
+	this->mois=unHorodatage.mois;
+	this->jour=unHorodatage.jour;
+	this->heure=unHorodatage.heure;
+	this->minute=unHorodatage.minute;
+	this->seconde=unHorodatage.seconde;
+	return *this;
 } //----- Fin de operator =
 
 
@@ -51,6 +63,12 @@ Horodatage::Horodatage (const Horodatage & unHorodatage)
 // Algorithme :
 //
 {
+	this->annee=unHorodatage.annee;
+	this->mois=unHorodatage.mois;
+	this->jour=unHorodatage.jour;
+	this->heure=unHorodatage.heure;
+	this->minute=unHorodatage.minute;
+	this->seconde=unHorodatage.seconde;
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <Horodatage>" << endl;
 #endif
@@ -64,6 +82,23 @@ Horodatage::Horodatage ()
 #ifdef MAP
 	cout << "Appel au constructeur de <Horodatage>" << endl;
 #endif
+} //----- Fin de Horodatage
+
+
+Horodatage::Horodatage (int annee, int mois, int jour, int heure, int minute, int seconde)
+// Algorithme :
+//
+{
+#ifdef MAP
+	cout << "Appel au constructeur de <Horodatage>" << endl;
+#endif
+	this->annee=annee;
+	this->mois=mois;
+	this->jour=jour;
+	this->heure=heure;
+	this->minute=minute;
+	this->seconde=seconde;
+
 } //----- Fin de Horodatage
 
 

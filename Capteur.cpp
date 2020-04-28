@@ -41,26 +41,36 @@ using namespace std;
 Capteur & Capteur::operator = (const Capteur & unCapteur)
 // Algorithme :
 //
+
 {
+	this->id=unCapteur.id;
+	this->description=unCapteur.description;
+	this->position=unCapteur.position;
+	this->etat=unCapteur.etat;
+	return *this;
 } //----- Fin de operator =
 
 
-//-------------------------------------------- Constructeurs - destructeur
+//------------t------------------------------- Constructeurs - destructeur
 
 Capteur::Capteur (const Capteur & unCapteur)
 // Algorithme :
 //
+	:Equipement(unCapteur.id,unCapteur.description,unCapteur.position)
 {
+	this->etat=unCapteur.etat;
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <Capteur>" << endl;
 #endif
 } //----- Fin de Capteur (constructeur de copie)
 
 
-Capteur::Capteur ()
+Capteur::Capteur (string id, string description,PointGeographique p,string etat)
 // Algorithme :
 //
-{
+:Equipement(id,description,p)
+{	
+	this->etat=etat;
 #ifdef MAP
 	cout << "Appel au constructeur de <Capteur>" << endl;
 #endif
