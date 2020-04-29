@@ -89,10 +89,32 @@ void menuAction()
 	}
 }
 
+
+void affichageCapteursSimilaires(vector<vector<Capteur>> groupescapteurs)
+//affiche les groupes de capteurs similaires
+{
+  for(int i=0;i<groupescapteurs.size();i++)
+    {
+      cout<<"CLASSE N° ";
+      cout<<i+1;
+      cout<<endl;
+
+      for(int j=0;j<groupescapteurs[i].size();j++)
+      {
+        cout<<"CAPTEUR ID = ";
+        cout<<groupescapteurs[i][j].getID();
+        cout<<endl;
+      }
+    }
+}
+
+
 int main(void)
 {
 	if(chargementDonnees("utilisateurs.txt","data1.txt","AttributeType.csv","Sensors.csv"))
 	{
+		vector<vector<Capteur>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
+		affichageCapteursSimilaires(capteursSim);
 		while(1)
 		{
 			if(statutConnexion=="déconnecté")

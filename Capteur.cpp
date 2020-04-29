@@ -35,6 +35,11 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+string Capteur::getEtat()
+{
+	return etat;
+}
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 

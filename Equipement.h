@@ -34,6 +34,13 @@ public:
 	//
 	// Contrat :
 	//
+	string getID();
+
+	int getIDInt();
+
+	string getDescription();
+
+	PointGeographique getPosition();
 
 
 //------------------------------------------------- Surcharge d'opérateurs

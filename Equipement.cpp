@@ -35,6 +35,27 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+	string Equipement:: getID()
+	{
+		return id;
+	}
+
+	int Equipement:: getIDInt()
+	{
+		return  id[6]-'0';
+	}
+
+
+	string Equipement::getDescription()
+	{
+		return description;
+	}
+
+	PointGeographique Equipement:: getPosition()
+	{
+		return position;
+	}
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 

@@ -93,10 +93,11 @@ bool DataCapteurs::ModifierCapteur(string idCapteur, double longitude, double la
 
 } //----- Fin de ModifierCapteur
 
-vector<Capteur> DataCapteurs::GetCapteurs()
+vector<Capteur>& DataCapteurs::GetCapteurs()
 // Algorithme :
 //
 {
+    return capteurs;
 
 } //----- Fin de GetCapteurs
 

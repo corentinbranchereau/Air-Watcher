@@ -34,9 +34,23 @@ public:
 	// Contrat :
 	//
 
+	string getIdAttribut();
+
+	string getUnite();
+
+	string getDescription();
+
 
 //------------------------------------------------- Surcharge d'opérateurs
+
+
 	TypeAttribut & operator = (const TypeAttribut & unTypeAttribut);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+	bool operator == (const TypeAttribut & unTypeAttribut) const;
 	// Mode d'emploi :
 	//
 	// Contrat :

@@ -34,6 +34,10 @@ public:
 	//
 	// Contrat :
 	//
+	string getEtat();
+	
+	
+	
 
 
 //------------------------------------------------- Surcharge d'opérateurs

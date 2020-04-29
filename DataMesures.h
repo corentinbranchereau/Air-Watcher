@@ -62,7 +62,13 @@ public:
 
     bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur);
 
-    Capteur** IdentifierCapteursSimilaires();
+    vector<vector<Capteur>> IdentifierCapteursSimilaires(vector<Capteur>& listCapteur,int nbClassesMin);
+
+	double dissimMax(vector<Capteur> v1,vector<Capteur> v2 );
+	
+	double evalClasses(vector<vector<Capteur>> classI);
+
+
 
     void LabeliserDonneesUtilisateur();
 

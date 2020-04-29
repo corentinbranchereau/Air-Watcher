@@ -43,7 +43,7 @@ public:
 
     bool ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description);
 
-    vector<Capteur> GetCapteurs();
+    vector<Capteur>& GetCapteurs();
 
 
 //------------------------------------------------- Surcharge d'opérateurs

@@ -35,6 +35,22 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+string TypeAttribut::getIdAttribut()
+{
+	return idAttribut;
+}
+
+string TypeAttribut::getUnite()
+{
+	return unite;
+}
+
+string TypeAttribut::getDescription()
+{
+	return description;
+}
+
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -48,6 +64,20 @@ TypeAttribut & TypeAttribut::operator = (const TypeAttribut & unTypeAttribut)
 
 	return*this;
 } //----- Fin de operator =
+
+bool  TypeAttribut ::operator == (const TypeAttribut & unTypeAttribut)const
+	// Algorithme :
+//
+{
+	if(idAttribut==unTypeAttribut.idAttribut && unite==unTypeAttribut.unite && description==unTypeAttribut.description)
+	{
+		return true;
+	}
+
+	return false;
+	
+} //----- Fin de operator ==
+	
 
 
 //-------------------------------------------- Constructeurs - destructeur
