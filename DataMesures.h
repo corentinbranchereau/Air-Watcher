@@ -114,8 +114,8 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-	vector<Mesure> mesures;//liste des mesures
-	unordered_map<string,TypeAttribut> typeAttributs;//map des types d'Attributs
+	vector<Mesure*> mesures;//liste des mesures
+	unordered_map<string,TypeAttribut*> typeAttributs;//map des types d'Attributs
 	vector <int>nbMesuresAttributs;//nb mesures par capteur
 private:
 //------------------------------------------------------- Attributs privés

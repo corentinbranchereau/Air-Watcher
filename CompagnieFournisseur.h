@@ -89,7 +89,7 @@ private:
 protected:
 //----------------------------------------------------- Attributs protégés
 	string idProvider;
-	vector<NettoyeurAir *> nettoyeurs;
+	vector<NettoyeurAir*> nettoyeurs;
 private:
 //------------------------------------------------------- Attributs privés
 

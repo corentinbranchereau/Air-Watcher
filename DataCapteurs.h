@@ -108,8 +108,8 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    vector<Capteur> capteurs;
-	unordered_map<string, string> mapCapteurUtilisateur; // clé = idCapteur, valeur = idUtilisateurPrivé
+    unordered_map<string,Capteur*> capteurs;
+	unordered_map<string, string> capteurUtilisateur; // clé = idCapteur, valeur = idUtilisateurPrivé
 private:
 //------------------------------------------------------- Attributs privés
 

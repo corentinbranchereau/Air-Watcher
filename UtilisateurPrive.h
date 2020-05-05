@@ -95,7 +95,7 @@ private:
 protected:
 //----------------------------------------------------- Attributs protégés
 	int nbPoints;
-	vector<MesureUtilisateur> donneesEntrees;
+	vector<MesureUtilisateur*> donneesEntrees;
 private:
 //------------------------------------------------------- Attributs privés
 
