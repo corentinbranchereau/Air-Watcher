@@ -59,17 +59,6 @@ UtilisateurProfessionnel & UtilisateurProfessionnel::operator = (const Utilisate
 
 //-------------------------------------------- Constructeurs - destructeur
 
-UtilisateurProfessionnel::UtilisateurProfessionnel (const UtilisateurProfessionnel & unUtilisateurProfessionnel)
-// Algorithme : Aucun
-//
-:Utilisateur(unUtilisateurProfessionnel),compteValide(unUtilisateurProfessionnel.compteValide)
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <UtilisateurProfessionnel>" << endl;
-#endif
-} //----- Fin de UtilisateurProfessionnel (constructeur de copie)
-
-
 UtilisateurProfessionnel::UtilisateurProfessionnel ()
 // Algorithme : Aucun
 //

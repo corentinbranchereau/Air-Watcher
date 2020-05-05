@@ -282,16 +282,6 @@ Affichage & Affichage::operator = (const Affichage & unAffichage)
 
 //-------------------------------------------- Constructeurs - destructeur
 
-Affichage::Affichage (const Affichage & unAffichage)
-// Algorithme : Aucun
-//
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <Affichage>" << endl;
-#endif
-} //----- Fin de Affichage (constructeur de copie)
-
-
 Affichage::Affichage ()
 // Algorithme : Aucun
 //

@@ -45,11 +45,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	Zone (const Zone & unZone);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
 
 	Zone ();
 	// Mode d'emploi :
@@ -70,7 +65,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    Zone (const Zone & unZone);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat :
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	double rayon;

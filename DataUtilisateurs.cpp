@@ -289,16 +289,6 @@ DataUtilisateurs & DataUtilisateurs::operator = (const DataUtilisateurs & unData
 
 //-------------------------------------------- Constructeurs - destructeur
 
-DataUtilisateurs::DataUtilisateurs (const DataUtilisateurs & unDataUtilisateurs)
-// Algorithme :Aucun
-//
-:cheminFichierUtilisateurs(unDataUtilisateurs.cheminFichierUtilisateurs),utilisateurs(unDataUtilisateurs.utilisateurs)
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <DataUtilisateurs>" << endl;
-#endif
-} //----- Fin de DataUtilisateurs (constructeur de copie)
-
 DataUtilisateurs::DataUtilisateurs ()
 // Algorithme : Aucun
 //

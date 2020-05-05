@@ -58,11 +58,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	TypeAttribut (const TypeAttribut & unTypeAttribut);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
 
 	TypeAttribut (string id, string unite,string description);
 	// Mode d'emploi :
@@ -89,7 +84,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    TypeAttribut (const TypeAttribut & unTypeAttribut);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat :
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	string idAttribut;

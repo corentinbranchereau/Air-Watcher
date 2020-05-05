@@ -61,12 +61,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	UtilisateurPrive (const UtilisateurPrive & unUtilisateurPrive);
-	// Mode d'emploi (constructeur de copie) : Constructeur qui effectue une copie 
-	// de tous les attributs, notamment de la liste des données entrées (copie en profondeur)
-	//
-	// Contrat : Aucun
-	//
 
 	UtilisateurPrive ();
 	// Mode d'emploi : Constructeur qui initialise les attributs à des valeurs nulles
@@ -93,7 +87,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    UtilisateurPrive (const UtilisateurPrive & unUtilisateurPrive);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat : Aucun
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	int nbPoints;

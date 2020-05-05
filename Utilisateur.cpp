@@ -87,17 +87,6 @@ Utilisateur & Utilisateur::operator = (const Utilisateur & unUtilisateur)
 
 //-------------------------------------------- Constructeurs - destructeur
 
-Utilisateur::Utilisateur (const Utilisateur & unUtilisateur)
-// Algorithme : Aucun
-//
-:identifiant(unUtilisateur.identifiant),mail(unUtilisateur.mail),mdp(unUtilisateur.mdp),nom(unUtilisateur.nom),prenom(unUtilisateur.prenom)
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <Utilisateur>" << endl;
-#endif
-} //----- Fin de Utilisateur (constructeur de copie)
-
-
 Utilisateur::Utilisateur ()
 // Algorithme : Aucun
 //

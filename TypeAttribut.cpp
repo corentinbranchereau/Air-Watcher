@@ -82,19 +82,6 @@ bool  TypeAttribut ::operator == (const TypeAttribut & unTypeAttribut)const
 
 //-------------------------------------------- Constructeurs - destructeur
 
-TypeAttribut::TypeAttribut (const TypeAttribut & unTypeAttribut)
-// Algorithme :
-//
-{
-	this->idAttribut=unTypeAttribut.idAttribut;
-	this->unite=unTypeAttribut.unite;
-	this->description=unTypeAttribut.description;
-
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <TypeAttribut>" << endl;
-#endif
-} //----- Fin de TypeAttribut (constructeur de copie)
-
 TypeAttribut::TypeAttribut (string id, string unite,string description)
 // Algorithme :
 //

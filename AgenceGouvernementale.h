@@ -43,11 +43,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	AgenceGouvernementale (const AgenceGouvernementale & unAgenceGouvernementale);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
 
 	AgenceGouvernementale ();
 	// Mode d'emploi :
@@ -68,7 +63,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    AgenceGouvernementale (const AgenceGouvernementale & unAgenceGouvernementale);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat :
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 

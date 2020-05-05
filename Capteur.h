@@ -49,11 +49,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	Capteur (const Capteur &unCapteur);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
 
 	Capteur (string id, string description,PointGeographique p,string etat="fonctionne");
 	// Mode d'emploi :
@@ -81,7 +76,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    Capteur (const Capteur &unCapteur);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat :
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	string etat;

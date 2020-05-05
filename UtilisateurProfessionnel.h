@@ -51,12 +51,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	UtilisateurProfessionnel (const UtilisateurProfessionnel & unUtilisateurProfessionnel);
-	// Mode d'emploi (constructeur de copie) : Constructeur qui copie l'attribut 'compteValide' 
-	// ainsi que les attributs de la classe 'Utilisateur'
-	//
-	// Contrat : Aucun
-	//
 
 	UtilisateurProfessionnel ();
 	// Mode d'emploi : Constructeur par défaut, ne fait rien de particulier
@@ -77,7 +71,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    UtilisateurProfessionnel (const UtilisateurProfessionnel & unUtilisateurProfessionnel);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat : Aucun
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	bool compteValide;

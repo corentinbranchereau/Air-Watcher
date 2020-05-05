@@ -46,16 +46,6 @@ Admin & Admin::operator = (const Admin & unAdmin)
 
 //-------------------------------------------- Constructeurs - destructeur
 
-Admin::Admin (const Admin & unAdmin)
-// Algorithme :
-//
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <Admin>" << endl;
-#endif
-} //----- Fin de Admin (constructeur de copie)
-
-
 Admin::Admin ()
 // Algorithme :
 //

@@ -46,23 +46,13 @@ EmployeFournisseur & EmployeFournisseur::operator = (const EmployeFournisseur & 
 
 //-------------------------------------------- Constructeurs - destructeur
 
-EmployeFournisseur::EmployeFournisseur (const EmployeFournisseur & unEmployeFournisseur)
-// Algorithme :
-//
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <EmployeFournisseur>" << endl;
-#endif
-} //----- Fin de EmployeFournisseur (constructeur de copie)
-
-
 EmployeFournisseur::EmployeFournisseur ()
 // Algorithme :
 //
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <EmployeFournisseur>" << endl;
-#endif
+#endif;
 } //----- Fin de EmployeFournisseur
 
 

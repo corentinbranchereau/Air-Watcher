@@ -46,16 +46,6 @@ EmployeAgenceGouvernementale & EmployeAgenceGouvernementale::operator = (const E
 
 //-------------------------------------------- Constructeurs - destructeur
 
-EmployeAgenceGouvernementale::EmployeAgenceGouvernementale (const EmployeAgenceGouvernementale & unEmployeAgenceGouvernementale)
-// Algorithme :
-//
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <EmployeAgenceGouvernementale>" << endl;
-#endif
-} //----- Fin de EmployeAgenceGouvernementale (constructeur de copie)
-
-
 EmployeAgenceGouvernementale::EmployeAgenceGouvernementale ()
 // Algorithme :
 //

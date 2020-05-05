@@ -47,16 +47,6 @@ MesureUtilisateur & MesureUtilisateur::operator = (const MesureUtilisateur & unM
 
 //-------------------------------------------- Constructeurs - destructeur
 
-MesureUtilisateur::MesureUtilisateur (const MesureUtilisateur & unMesureUtilisateur)
-// Algorithme :
-//
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <MesureUtilisateur>" << endl;
-#endif
-} //----- Fin de MesureUtilisateur (constructeur de copie)
-
-
 MesureUtilisateur::MesureUtilisateur ()
 // Algorithme :
 //

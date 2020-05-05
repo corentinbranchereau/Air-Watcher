@@ -47,16 +47,6 @@ NettoyeurAir & NettoyeurAir::operator = (const NettoyeurAir & unNettoyeurAir)
 
 //-------------------------------------------- Constructeurs - destructeur
 
-NettoyeurAir::NettoyeurAir (const NettoyeurAir & unNettoyeurAir)
-// Algorithme :
-//
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <NettoyeurAir>" << endl;
-#endif
-} //----- Fin de NettoyeurAir (constructeur de copie)
-
-
 NettoyeurAir::NettoyeurAir ()
 // Algorithme :
 //

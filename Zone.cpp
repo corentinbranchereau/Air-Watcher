@@ -53,16 +53,6 @@ Zone & Zone::operator = (const Zone & unZone)
 
 //-------------------------------------------- Constructeurs - destructeur
 
-Zone::Zone (const Zone & unZone)
-// Algorithme :
-//
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <Zone>" << endl;
-#endif
-} //----- Fin de Zone (constructeur de copie)
-
-
 Zone::Zone ()
 // Algorithme :
 //

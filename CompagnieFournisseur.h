@@ -59,11 +59,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	CompagnieFournisseur (const CompagnieFournisseur & unCompagnieFournisseur);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
 
 	CompagnieFournisseur (string id);
 	// Mode d'emploi :
@@ -84,6 +79,12 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
+
+    CompagnieFournisseur (const CompagnieFournisseur & unCompagnieFournisseur);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat :
+    //
 
 protected:
 //----------------------------------------------------- Attributs protégés

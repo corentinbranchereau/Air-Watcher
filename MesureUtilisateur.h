@@ -45,11 +45,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	MesureUtilisateur (const MesureUtilisateur & unMesureUtilisateur);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
 
 	MesureUtilisateur ();
 	// Mode d'emploi :
@@ -70,7 +65,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    MesureUtilisateur (const MesureUtilisateur & unMesureUtilisateur);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat :
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	string label;

@@ -130,11 +130,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	Affichage (const Affichage & unAffichage);
-	// Mode d'emploi (constructeur de copie) : Ne fait rien en particulier
-	//
-	// Contrat : Aucun
-	//
 
 	Affichage ();
 	// Mode d'emploi : Ne fait rien en particulier
@@ -155,6 +150,12 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
+
+    Affichage (const Affichage & unAffichage);
+    // Mode d'emploi (constructeur de copie) : Ne fait rien en particulier
+    // INTERDIT
+    // Contrat : Aucun
+    //
 
 protected:
 //----------------------------------------------------- Attributs protégés

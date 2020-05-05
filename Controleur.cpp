@@ -6,6 +6,7 @@
 #include "Admin.h"
 #include "EmployeFournisseur.h"
 #include "EmployeAgenceGouvernementale.h"
+#include "Affichage.h"
 #include <iostream>
 
 Affichage affichage;

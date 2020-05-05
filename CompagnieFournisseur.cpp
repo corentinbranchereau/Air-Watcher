@@ -60,19 +60,6 @@ CompagnieFournisseur & CompagnieFournisseur::operator = (const CompagnieFourniss
 
 //-------------------------------------------- Constructeurs - destructeur
 
-CompagnieFournisseur::CompagnieFournisseur (const CompagnieFournisseur & unCompagnieFournisseur)
-// Algorithme :
-//
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <CompagnieFournisseur>" << endl;
-#endif
-
-	this->idProvider = unCompagnieFournisseur.idProvider;
-    for(NettoyeurAir* na : unCompagnieFournisseur.nettoyeurs)
-        this->nettoyeurs.push_back(na);
-} //----- Fin de CompagnieFournisseur (constructeur de copie)
-
 
 CompagnieFournisseur::CompagnieFournisseur (string id)
 // Algorithme :

@@ -78,12 +78,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	Utilisateur (const Utilisateur & unUtilisateur);
-	// Mode d'emploi (constructeur de copie) : Construit un objet Utilisateur
-	// en copiant les attributs de l'utilisateur passé en paramètre
-	//
-	// Contrat : Aucun
-	//
 
 	Utilisateur ();
 	// Mode d'emploi : Constructeur qui fixe tous les attributs à des chaines vide
@@ -110,7 +104,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    Utilisateur (const Utilisateur & unUtilisateur);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat : Aucun
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	string nom;

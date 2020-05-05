@@ -43,11 +43,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	Admin(const Admin & unAdmin);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
 
 	Admin();
 	// Mode d'emploi :
@@ -68,6 +63,12 @@ protected:
 
 private:
 	//------------------------------------------------------- Méthodes privées
+
+    Admin(const Admin & unAdmin);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat :
+    //
 
 protected:
 	//----------------------------------------------------- Attributs protégés

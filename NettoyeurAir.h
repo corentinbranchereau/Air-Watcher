@@ -44,11 +44,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	NettoyeurAir (const NettoyeurAir & unNettoyeurAir);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
 
 	NettoyeurAir ();
 	// Mode d'emploi :
@@ -69,7 +64,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    NettoyeurAir (const NettoyeurAir & unNettoyeurAir);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat :
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	bool actif;

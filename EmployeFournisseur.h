@@ -43,11 +43,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	EmployeFournisseur (const EmployeFournisseur & unEmployeFournisseur);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
 
 	EmployeFournisseur ();
 	// Mode d'emploi :
@@ -68,10 +63,15 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    EmployeFournisseur (const EmployeFournisseur & unEmployeFournisseur);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat :
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	CompagnieFournisseur compagnie;
+
 private:
 //------------------------------------------------------- Attributs privés
 

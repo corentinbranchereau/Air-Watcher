@@ -114,12 +114,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	DataUtilisateurs (const DataUtilisateurs & unAffichage);
-	// Mode d'emploi (constructeur de copie) : Constructeur qui copie simplement 
-	// les attributs de la classe
-	//
-	// Contrat : Aucun
-	//
 
 	DataUtilisateurs ();
 	// Mode d'emploi : Ne fait rien de particulier
@@ -140,7 +134,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    DataUtilisateurs (const DataUtilisateurs & unAffichage);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat : Aucun
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	vector<Utilisateur*> utilisateurs;

@@ -68,17 +68,6 @@ UtilisateurPrive & UtilisateurPrive::operator = (const UtilisateurPrive & unUtil
 
 //-------------------------------------------- Constructeurs - destructeur
 
-UtilisateurPrive::UtilisateurPrive (const UtilisateurPrive & unUtilisateurPrive)
-// Algorithme : Aucun
-//
-:Utilisateur(unUtilisateurPrive),nbPoints(unUtilisateurPrive.nbPoints),donneesEntrees(unUtilisateurPrive.donneesEntrees)
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <UtilisateurPrive>" << endl;
-#endif
-} //----- Fin de UtilisateurPrive (constructeur de copie)
-
-
 UtilisateurPrive::UtilisateurPrive ()
 // Algorithme : Aucun
 //

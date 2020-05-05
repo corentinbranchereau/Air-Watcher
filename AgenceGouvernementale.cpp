@@ -47,16 +47,6 @@ AgenceGouvernementale & AgenceGouvernementale::operator = (const AgenceGouvernem
 
 //-------------------------------------------- Constructeurs - destructeur
 
-AgenceGouvernementale::AgenceGouvernementale (const AgenceGouvernementale & unAgenceGouvernementale)
-// Algorithme :
-//
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <AgenceGouvernementale>" << endl;
-#endif
-} //----- Fin de AgenceGouvernementale (constructeur de copie)
-
-
 AgenceGouvernementale::AgenceGouvernementale ()
 // Algorithme :
 //

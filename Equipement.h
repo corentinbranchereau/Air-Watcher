@@ -52,11 +52,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	Equipement (const Equipement & unEquipement);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
 
 	Equipement (string id, string description,PointGeographique p);
 	// Mode d'emploi :
@@ -83,7 +78,11 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-
+    Equipement (const Equipement & unEquipement);
+    // Mode d'emploi (constructeur de copie) :
+    // INTERDIT
+    // Contrat :
+    //
 protected:
 //----------------------------------------------------- Attributs protégés
 	string id;

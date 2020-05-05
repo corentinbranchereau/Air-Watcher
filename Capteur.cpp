@@ -58,18 +58,6 @@ Capteur & Capteur::operator = (const Capteur & unCapteur)
 
 //------------t------------------------------- Constructeurs - destructeur
 
-Capteur::Capteur (const Capteur & unCapteur)
-// Algorithme :
-//
-	:Equipement(unCapteur.id,unCapteur.description,unCapteur.position)
-{
-	this->etat=unCapteur.etat;
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <Capteur>" << endl;
-#endif
-} //----- Fin de Capteur (constructeur de copie)
-
-
 Capteur::Capteur (string id, string description,PointGeographique p,string etat)
 // Algorithme :
 //
