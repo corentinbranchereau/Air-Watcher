@@ -63,12 +63,8 @@ public:
     bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur);
 
     vector<vector<Capteur>> IdentifierCapteursSimilaires(vector<Capteur>& listCapteur,int nbClassesMin);
-
-	double dissimMax(vector<Capteur> v1,vector<Capteur> v2 );
-	
-	double evalClasses(vector<vector<Capteur>> classI);
-
-
+	//mode d'emploi : renvoi les capteurs similaires à partir d'une liste de capteurs et du nombre de classes minimum
+	//contrat:
 
     void LabeliserDonneesUtilisateur();
 
@@ -90,13 +86,13 @@ public:
 	//
 
 	DataMesures ();
-	// Mode d'emploi :
+	// Mode d'emploi : constructeur par défaut
 	//
 	// Contrat :
 	//
 
 	virtual ~DataMesures ();
-	// Mode d'emploi :
+	// Mode d'emploi : destructeur  
 	//
 	// Contrat :
 	//
@@ -105,14 +101,22 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
+	double dissimMax(vector<Capteur> v1,vector<Capteur> v2 );
+	//mode d'emploi : renvoi le maximum de dissimilarité inter-classe entre les 2 groupes de capteur passés en paramètre
+	//contrat:
+	
+	double evalClasses(vector<vector<Capteur>> classI);
+	//mode d'emploi : renvoi le maximum de dissimilarité intra-classe sur le groupe de capteur passé en paramètre
+	//contrat:
 
 private:
 //------------------------------------------------------- Méthodes privées
 
 protected:
 //----------------------------------------------------- Attributs protégés
-	vector<Mesure> mesures;
-	unordered_map<string,TypeAttribut> typeAttributs;
+	vector<Mesure> mesures;//liste des mesures
+	unordered_map<string,TypeAttribut> typeAttributs;//map des types d'Attributs
+	vector <int>nbMesuresAttributs;//nb mesures par capteur
 private:
 //------------------------------------------------------- Attributs privés
 

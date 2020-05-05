@@ -18,12 +18,15 @@ using namespace std;
 #include "DataCapteurs.h"
 
 #include <limits>
+#include <algorithm>
 #include <math.h>
+
 
 //------------------------------------------------------------- Constantes
 
 //---------------------------------------------------- Variables de classe
  double** memoire;
+unordered_map<string,double> memoireClusters;
 
 
 //----------------------------------------------------------- Types privés
@@ -42,12 +45,13 @@ using namespace std;
 //} //----- Fin de Méthode
 
 
-
 bool DataMesures::ChargerMesures(string fichierMesures)
 // Algorithme : permet de lire le fichier passé en paramètres  et de charger les mesures une par une dans une liste  
 //
 {
 	ifstream fic(fichierMesures);
+  string idCapteurIni="sensor0";
+  int nbMesuresCapteur=0;
 
 	if(!fic.is_open())
 	{
@@ -64,56 +68,62 @@ bool DataMesures::ChargerMesures(string fichierMesures)
           break;
       }
 
-      char ligne[500];
-      string ligneString;
+      char date[100];
+      char sensorID[100];
+      char attributID[100];
+      char valeur[100];
+      char pb[100];
 
-      fic.getline(ligne,500,'\n');
-      string ligneS=string(ligne);
+      //lecture ligne 
 
-      string anneeS=ligneS.substr(0,4);
+      fic.getline(date,20,';');
+      fic.getline(sensorID,20,';');
+      fic.getline(attributID,20,';');
+      fic.getline(valeur,20,';');
+      fic.getline(pb,5,'\n');
 
-      string moisS=ligneS.substr(5,2);
- 
-      string jourS=ligneS.substr(8,2);
+      //creation valeurs date
+
+      int anneeS=(date[0]-'0')*1000+(date[1]-'0')*100+(date[2]-'0')*10+(date[3]-'0');
+      int moisS=(date[5]-'0')*10+(date[6]-'0');
+      int jourS=(date[8]-'0')*10+(date[9]-'0');
+
+      int heureS=(date[11]-'0')*10+(date[12]-'0');
+      int minuteS=(date[14]-'0')*10+(date[15]-'0');
+      int secondeS=(date[17]-'0')*10+(date[18]-'0');
+
+
+      if((string)sensorID==idCapteurIni)
+      {
+        ++nbMesuresCapteur;//nb mesures par capteur
+      }
+      else
+      {
+        nbMesuresAttributs.push_back(nbMesuresCapteur);
+        nbMesuresCapteur=0;
+        idCapteurIni=(string)sensorID;
+        //nouveau capteur : on réinitialise le nb de Mesures
+      }
+      
+      Horodatage horo(anneeS,moisS,jourS,heureS,minuteS,secondeS);//creation de la date
+      
+      double value=stod((string)valeur);
     
-      string heureS=ligneS.substr(11,2);
-      
-      string minuteS=ligneS.substr(14,2);
-      
-      string secondeS=ligneS.substr(17,2);
-    
-      int posSensor=ligneS.find_first_of(",",28);
-      string numSensorS=ligneS.substr(28,posSensor-28);
-  
-      int posAttr=ligneS.find_first_of(",",posSensor+1);
-      string attributS=ligneS.substr(posSensor+1,posAttr-posSensor-1);
-      
-      string valuesS=ligneS.substr(posAttr+1,-1);
-   
-      Horodatage horo(stoi(anneeS),stoi(moisS),stoi(jourS),stoi(heureS),stoi(minuteS),stoi(secondeS));
-      
-      double value=stod(valuesS);
-    
-
-      TypeAttribut type=typeAttributs[attributS];
+      TypeAttribut type=typeAttributs[(string)attributID];
 
       //on crée la mesure
-      Mesure mesure=Mesure(type,value,numSensorS,horo);
+      Mesure mesure=Mesure(type,value,(string)sensorID,horo);
 
       mesures.push_back(mesure);//ajout de la mesure
       
-
       }
 
       return true;
 
-
-
-
 } //----- Fin de ChargerMesures
 
 bool DataMesures::ChargerAttributs(string fichierAttributs)
-// Algorithme :
+// Algorithme : permet de charger les attributs à partir du fichier passé en paramètre en lisant ligne par ligne
 //
 {
   ifstream fic(fichierAttributs);
@@ -123,6 +133,9 @@ bool DataMesures::ChargerAttributs(string fichierAttributs)
 		cerr<<"Erreur lors du chargement des mesures "<<endl;
 		return false;
 	}
+
+  char ligne1 [200];
+  fic.getline(ligne1,150,'\n');//on enlève la première ligne car c'est l'entête
 
     while(1)
     {
@@ -137,6 +150,8 @@ bool DataMesures::ChargerAttributs(string fichierAttributs)
       char  description[100];
       char pb[50];
 
+      //lecture d'une ligne
+
       fic.getline(typeAttribut,50,';');
       fic.getline(unite,50,';');
       fic.getline(description,50,';');
@@ -144,7 +159,7 @@ bool DataMesures::ChargerAttributs(string fichierAttributs)
 
       TypeAttribut type=TypeAttribut((string)typeAttribut,(string)unite,(string)description);
 
-      typeAttributs.insert({(string)typeAttribut,type});
+      typeAttributs.insert({(string)typeAttribut,type});//insertion dans la map de l'id Attribut associé à son typeAttribut
 
       }
 
@@ -199,13 +214,11 @@ vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(vector<Capteur
 // Algorithme : méthode qui regroupe les capteurs similaires
 //
 {
-
   //nbClassesMin : nombre de classes minimum voulu
 
   vector<vector<Capteur>> classes;//liste des classes en cours
   vector<vector<Capteur>> resultats;//liste de tous les groupes de classes rencontrés
 
- 
   memoire=(double**)malloc(sizeof(double*)*listCapteur.size());//initialise la mémoire
 
   for(int i=0;i<listCapteur.size();i++)
@@ -245,17 +258,26 @@ vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(vector<Capteur
         matDim[i]=vect;//initialisation
       }
 
+      for(int i=0;i<matDim.size();i++)
+      {
+        for(int j=0;j<matDim.size();j++)
+        {
+          matDim[i][j]=0;
+        }
+       
+      }
+
       double mininumDiss=numeric_limits<double>::max(); //minimum de la dissimilarité
 
-      int i1;
-      int j1;
+      int i1=0;
+      int j1=1;
 
       for(int i=0;i<classes.size();i++)
       {
         for(int j=i+1;j<classes.size();j++)
         {
+
           matDim[i][j]=dissimMax(classes[i],classes[j]);
-          //calcul de la dissimilarité entre 2 classes
 
           if(matDim[i][j]<mininumDiss  )
           {
@@ -264,12 +286,12 @@ vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(vector<Capteur
             i1=i;
             j1=j;
           }
-
         }
       }
 
       for(int i=0;i<classes[j1].size();i++)
       {
+
         classes[i1].push_back(classes[j1][i]);
         //on fusionne les 2 classes les plus proches cad avec le minimum de dissimilarité
       }
@@ -288,7 +310,6 @@ vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(vector<Capteur
     {
       //on calcule le maximum de dissimilarité au sein d'une même classe pour chaque solution
       double eval2=evalClasses(listClasses[a]);
-      cout<<eval2<<endl;
 
       if(eval2-evalIni<=maxPente)
       {
@@ -306,20 +327,58 @@ vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(vector<Capteur
 
 } //----- Fin de IdentifierCapteursSimilaires
 
+bool hashFunction(Capteur c1, Capteur c2)
+{
+  //permet de comparer 2 capteurs en fonction de leur ID
+
+  return (c1.getIDInt()<c2.getIDInt());
+}
+
 double DataMesures:: dissimMax(vector<Capteur> v1,vector<Capteur> v2 )
-// Algorithme :
+// Algorithme : renvoie le max de dissimilarité  entre les 2 classes
 //
-{  //renvoie le max de dissimilarité  entre les 2 classes
+{ 
   double sommeDeltagrad=0;
   double nbDeltats=0;
 
-  double maxDiss=numeric_limits<double>::min();
+  double maxDiss=-100;
+
+  sort(v1.begin(),v1.end(),hashFunction);//on trie par ordre croissant d'ID les groupes de capteurs
+  sort(v2.begin(),v2.end(),hashFunction);
+  
+  string clef1="";//clef unique identifiant une comparaison de 2 clusters
+
+  //format clef : ID1ID2ID3ID4|ID5ID6ID7
 
   for(int i=0;i<v1.size();i++)
   {
+    string num=to_string(v1[i].getIDInt());
+    clef1.append(num);
+  }
+
+  clef1.append("|");
+
+    for(int i=0;i<v2.size();i++)
+  {
+    string num=to_string(v2[i].getIDInt());
+    clef1.append(num);
+    
+  }
+
+  //clef finie de créer 
+
+  if(memoireClusters.find(clef1)!=memoireClusters.end())
+  {
+    //si comparaison déjà faite avant
+    return memoireClusters[clef1];
+  }
+
+  for(int z=0;z<v1.size();z++)
+  {
     for(int j=0;j<v2.size();j++)
     {
-      Capteur c1=v1[i];
+
+      Capteur c1=v1[z];
       Capteur c2= v2[j];
 
       int minID=c1.getIDInt();
@@ -349,41 +408,69 @@ double DataMesures:: dissimMax(vector<Capteur> v1,vector<Capteur> v2 )
       double gradient2;
 
       sommeDeltagrad=0;
-      nbDeltats=0;
+      nbDeltats=1;
+      int iCapteur1=0;
+      int iCapteur2=0;
 
-      int aIni=minID*4; // indice de la 1 ère mesure qui nous intéresse
+      int numSensor1=0;
+      int numSensor2=0;
 
-      int deltaID=maxID-minID;
-
-      for(int a=aIni;a+40+3+deltaID<mesures.size()-1;a+=40)
+      for(int i=0;i<nbMesuresAttributs.size();i++)
       {
-    
-        for(int b=0;b<typeAttributs.size();b++)
+        //on compte le nombre de mesures à sauter pour le capteur1
+        if(minID==i)
+        { numSensor1=i;
+          break;
+        }
+        iCapteur1+=nbMesuresAttributs[i];
+      }
+
+      for(int i=0;i<nbMesuresAttributs.size();i++)
+      {
+        //on compte le nombre de mesures à sauter pour le capteur2
+        if(maxID==i)
+        { numSensor2=i;
+          break;
+        }
+        iCapteur2+=nbMesuresAttributs[i];
+      }
+
+      for(auto it=typeAttributs.begin();it!=typeAttributs.end();++it)
+      {
+        int ecart=0;
+
+        while(ecart+iCapteur1<mesures.size() && (((it->second).getIdAttribut())==((mesures[ecart+iCapteur1]).getTypeMesure()).getIdAttribut())==false)
+        {//on recherche la 1 ère valeur du capteur avec le bon attributID
+          ++ecart;
+          
+        }
+
+        int i2=iCapteur2+ecart;
+        for(int i=iCapteur1+ecart;i+7<nbMesuresAttributs[numSensor1]+iCapteur1 && i2+7<nbMesuresAttributs[numSensor2]+iCapteur2;i+=4)
         {
-          int ecart=a;
-          while((mesures[ecart].getTypeMesure()==typeAttributs[((mesures[ecart]).getTypeMesure()).getIdAttribut()])==false)
-          {//on recherche la 1 ère valeur du capteur avec le bon attributID
-            ++ecart;
-          }
+        
+          int q1=i;//indice t pour le capteur1
+          int q2=q1+4;//indice t+1 pour le capteur1
 
-          int q=ecart+40;//indice t+1 pour le capteur1
+          int p1=i2;//indice t pour le capteur 2
+          int p2=p1+4; // indice t+1 pour le capteur 2
 
-          int p=ecart+deltaID*4;//indice t pour le capteur 2
+          double ecartTemps=24*3600;
 
-          int m=p+40; // indice t+1 pour le capteur 2
 
-          //calcul des pentes
-          gradient1=((mesures[q].getValeurAttribut()-mesures[ecart].getValeurAttribut())/(mesures[q].getdateMesure().getTempsSecondes()-mesures[ecart].getdateMesure().getTempsSecondes()));
+          gradient1=(mesures[q2].getValeurAttribut()-mesures[q1].getValeurAttribut())/ecartTemps;
           
-          gradient2=((mesures[m].getValeurAttribut()-mesures[p].getValeurAttribut())/(mesures[m].getdateMesure().getTempsSecondes()-mesures[p].getdateMesure().getTempsSecondes()));
-          
+          gradient2=(mesures[p2].getValeurAttribut()-mesures[p1].getValeurAttribut())/ecartTemps;
+  
           //gradient2=((listMesure[m].valeur-listMesure[p].valeur)/(listMesure[m].temps-listMesure[p].temps));
 
           sommeDeltagrad+=abs(gradient1-gradient2);//valeur absolue de la différence entre les pentes des 2 capteurs
           nbDeltats+=1;//nombre de pentes considérées
 
-        }
+          i2+=4;
+          }
       }
+
 
       memoire[minID][maxID]=sommeDeltagrad/nbDeltats; //on sauvegarde la valeur en mémoire
 
@@ -394,6 +481,9 @@ double DataMesures:: dissimMax(vector<Capteur> v1,vector<Capteur> v2 )
       }
     }
   }
+
+    memoireClusters.insert({clef1,maxDiss});//insertion de la valeur dans la map pour pouvoir la retrouver après
+
     return maxDiss;
 
 
@@ -446,6 +536,7 @@ DataMesures & DataMesures::operator = (const DataMesures & unDataMesures)
 // Algorithme :
 //
 {
+
 } //----- Fin de operator =
 
 
@@ -473,7 +564,7 @@ DataMesures::DataMesures ()
 
 
 DataMesures::~DataMesures ()
-// Algorithme :
+// Algorithme : 
 //
 {
 #ifdef MAP
