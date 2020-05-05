@@ -12,6 +12,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "Capteur.h"
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -84,6 +85,7 @@ private:
 protected:
 //----------------------------------------------------- Attributs protégés
     vector<Capteur> capteurs;
+	unordered_map<string, string> mapCapteurUtilisateur; // clé = idCapteur, valeur = idUtilisateurPrivé
 private:
 //------------------------------------------------------- Attributs privés
 
