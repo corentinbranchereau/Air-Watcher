@@ -74,6 +74,7 @@ private:
 protected:
 //----------------------------------------------------- Attributs protégés
 	string nom;
+	string idProvider;
 	NettoyeurAir* nettoyeursCompagnie;
 private:
 //------------------------------------------------------- Attributs privés
