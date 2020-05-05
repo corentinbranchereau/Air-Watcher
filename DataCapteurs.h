@@ -39,12 +39,36 @@ public:
 	//
 
     bool ChargerCapteurs(string fichierCapteurs);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+	bool ChargerCapteursPrives(string fichierCapteursPrives);
+	// Mode d'emploi : Méthode qui va lire le fichier 'users.csv' afin de construire
+	// la map reliant un ID capteur à un ID utilisateur privé. Pour cela, le fichier
+	// est ouvert en lecture, et construit pour chaque ligne une entrée dans la map
+	//
+	// Contrat : Chaque ligne doit être au format idUser;idCapteur
+	//
 
     bool AjouterCapteur(Capteur & capteur);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
     bool ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
     vector<Capteur>& GetCapteurs();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
 
 //------------------------------------------------- Surcharge d'opérateurs

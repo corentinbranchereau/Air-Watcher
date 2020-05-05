@@ -58,19 +58,17 @@ bool DataCapteurs::ChargerCapteurs(string fichierCapteurs)
       }
       char id[100];
       char longitude[100];
-	  char latitude[100];
-      char  description[100];
+	  char latitude[100];;
       char pb[50];
 
       fic.getline(id,50,';');
       fic.getline(latitude,50,';');
       fic.getline(longitude,50,';');
-      fic.getline(description,10,';');
 	  fic.getline(pb,10,'\n');
 
 	  PointGeographique p(atof(longitude),atof(latitude));
 
-      Capteur capteur((string)id,(string)description,p);
+      Capteur capteur((string)id,"",p);
 	  capteurs.push_back(capteur);
 
       }
@@ -78,6 +76,36 @@ bool DataCapteurs::ChargerCapteurs(string fichierCapteurs)
       return true;
 
 } //----- Fin de ChargerCapteurs
+
+bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives)
+// Algorithme : La méthode ouvre en lecture le fichier, et lis pour chaque ligne
+// les informations à entrer dans la map
+//
+{
+    ifstream file(fichierCapteursPrives);
+    if(!file.is_open())
+	{
+		cerr<<"Erreur lors du des capteurs 'privés'"<<endl;
+		return false;
+	}
+    else
+    {
+        char idCapteur[100];
+        char idUser[100];
+        while(file)
+        {
+            file.getline(idUser,100,';');
+			if(!file) // on vérifie si on a atteint la fin du fichier
+			{
+				break;
+			}
+            file.getline(idCapteur,100,'\n');
+            this->mapCapteurUtilisateur[idCapteur]=idUser;
+        }
+    }
+    return true;
+    
+} //----- Fin de ChargerCapteursPrives
 
 bool DataCapteurs::AjouterCapteur(Capteur & capteur)
 // Algorithme :
