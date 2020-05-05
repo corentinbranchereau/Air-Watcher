@@ -99,7 +99,8 @@ bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives)
 			{
 				break;
 			}
-            file.getline(idCapteur,100,'\n');
+            file.getline(idCapteur,100,';');
+            file.get(); // on lit le \n de fin de ligne
             this->mapCapteurUtilisateur[idCapteur]=idUser;
         }
     }

@@ -45,11 +45,11 @@ public:
 	//
 
 	bool ChargerCapteursPrives(string fichierCapteursPrives);
-	// Mode d'emploi : Méthode qui va lire le fichier 'users.csv' afin de construire
-	// la map reliant un ID capteur à un ID utilisateur privé. Pour cela, le fichier
+	// Mode d'emploi : Méthode qui va lire le fichier afin de construire la map 
+	// reliant un ID capteur à un ID utilisateur privé. Pour cela, le fichier
 	// est ouvert en lecture, et construit pour chaque ligne une entrée dans la map
 	//
-	// Contrat : Chaque ligne doit être au format idUser;idCapteur
+	// Contrat : Chaque ligne doit être au format idUser;idCapteur;
 	//
 
     bool AjouterCapteur(Capteur & capteur);
