@@ -52,6 +52,16 @@ NettoyeurAir::NettoyeurAir ()
 //
 {
 #ifdef MAP
+	cout << "Appel au constructeur (par défaut) de <NettoyeurAir>" << endl;
+#endif
+} //----- Fin de NettoyeurAir (par défaut)
+
+NettoyeurAir::NettoyeurAir (bool act, double ray, Horodatage horoDebut, Horodatage horoFin, string idNettoyeur, string desc, PointGeographique pGeo)
+// Algorithme : Aucun
+//
+:Equipement(idNettoyeur,desc,pGeo),actif(act),rayon(ray),debutActivite(horoDebut),finActivite(horoFin)
+{
+#ifdef MAP
 	cout << "Appel au constructeur de <NettoyeurAir>" << endl;
 #endif
 } //----- Fin de NettoyeurAir

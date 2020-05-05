@@ -13,6 +13,8 @@
 using namespace std;
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
 
 //------------------------------------------------------ Include personnel
 #include "DataNettoyeurs.h"
@@ -36,10 +38,78 @@ using namespace std;
 //} //----- Fin de Méthode
 
 bool DataNettoyeurs::ChargerNettoyeurs(string fichierNettoyeurs)
-// Algorithme :
+// Algorithme : La méthode ouvre en lecture le fichier, et construit pour
+// chaque ligne un nettoyeur, puis le stocke
 //
 {
+	ifstream file(fichierNettoyeurs);
+    if(!file.is_open())
+	{
+		cerr<<"Erreur lors du chargement des nettoyeurs"<<endl;
+		return false;
+	}
+    else
+    {
+        char idNettoyeur[100];
+        char latitudeString[100];
+		char longitudeString[100];
+		char timestampDebut[200];
+		char timestampFin[200];
+        while(file)
+        {
+            file.getline(idNettoyeur,100,';');
+			if(!file) // on vérifie si on a atteint la fin du fichier
+			{
+				break;
+			}
+            file.getline(latitudeString,100,';');
+			file.getline(longitudeString,100,';');
+			file.get(); // on enlève le ; supplémentaire
+			file.getline(timestampDebut,200,';');
+			file.getline(timestampFin,200,';');
+            file.get(); // on lit le \n de fin de ligne
 
+			stringstream ssConversion;
+
+			double latitude;
+			double longitude;
+
+			ssConversion<<latitudeString;
+			ssConversion>>latitude;
+			ssConversion.clear();
+			ssConversion<<longitudeString;
+			ssConversion>>longitude;
+
+			// horodatage début
+
+			int anneeDebut = (timestampDebut[0]-'0')*1000 + (timestampDebut[1]-'0')*100 + (timestampDebut[2]-'0')*10 + (timestampDebut[3]-'0');
+			int moisDebut = (timestampDebut[5]-'0')*10 + (timestampDebut[6]-'0');
+			int jourDebut = (timestampDebut[8]-'0')*10 + (timestampDebut[9]-'0');
+			int heureDebut = (timestampDebut[11]-'0')*10 + (timestampDebut[12]-'0');
+			int minuteDebut = (timestampDebut[14]-'0')*10 + (timestampDebut[15]-'0');
+			int secondeDebut = (timestampDebut[17]-'0')*10 + (timestampDebut[18]-'0');
+
+			// horodatage fin
+
+			int anneeFin = (timestampFin[0]-'0')*1000 + (timestampFin[1]-'0')*100 + (timestampFin[2]-'0')*10 + (timestampFin[3]-'0');
+			int moisFin = (timestampFin[5]-'0')*10 + (timestampFin[6]-'0');
+			int jourFin = (timestampFin[8]-'0')*10 + (timestampFin[9]-'0');
+			int heureFin = (timestampFin[11]-'0')*10 + (timestampFin[12]-'0');
+			int minuteFin = (timestampFin[14]-'0')*10 + (timestampFin[15]-'0');
+			int secondeFin = (timestampFin[17]-'0')*10 + (timestampFin[18]-'0');
+
+			Horodatage horoDebut(anneeDebut,moisDebut,jourDebut,heureDebut,minuteDebut,secondeDebut);
+			Horodatage horoFin(anneeFin,moisFin,jourFin,heureFin,minuteFin,secondeFin);
+
+			PointGeographique pGeo(longitude,latitude);
+
+			NettoyeurAir* nettoyeur = new NettoyeurAir(false,0.0,horoDebut,horoFin,string(idNettoyeur),"",pGeo);
+
+			this->nettoyeurs.insert(make_pair(string(idNettoyeur),nettoyeur));
+
+        }
+    }
+    return true;
 } //----- Fin de ChargerNettoyeurs
 
 bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur)
@@ -92,7 +162,6 @@ DataNettoyeurs & DataNettoyeurs::operator = (const DataNettoyeurs & unDataNettoy
 //
 {
 	this->nettoyeurs = unDataNettoyeurs.nettoyeurs;
-	this->cheminFichierNettoyeurs = unDataNettoyeurs.cheminFichierNettoyeurs;
 } //----- Fin de operator =
 
 
@@ -101,7 +170,7 @@ DataNettoyeurs & DataNettoyeurs::operator = (const DataNettoyeurs & unDataNettoy
 DataNettoyeurs::DataNettoyeurs (const DataNettoyeurs & unDataNettoyeurs)
 // Algorithme : Aucun
 //
-:nettoyeurs(unDataNettoyeurs.nettoyeurs),cheminFichierNettoyeurs(unDataNettoyeurs.cheminFichierNettoyeurs)
+:nettoyeurs(unDataNettoyeurs.nettoyeurs)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <DataNettoyeurs>" << endl;
@@ -112,7 +181,6 @@ DataNettoyeurs::DataNettoyeurs (const DataNettoyeurs & unDataNettoyeurs)
 DataNettoyeurs::DataNettoyeurs ()
 // Algorithme : Aucun
 //
-:cheminFichierNettoyeurs("")
 {
 #ifdef MAP
 	cout << "Appel au constructeur (par défaut) de <DataNettoyeurs>" << endl;

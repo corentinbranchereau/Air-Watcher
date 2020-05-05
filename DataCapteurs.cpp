@@ -101,7 +101,7 @@ bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives)
 			}
             file.getline(idCapteur,100,';');
             file.get(); // on lit le \n de fin de ligne
-            this->mapCapteurUtilisateur[idCapteur]=idUser;
+            this->mapCapteurUtilisateur.insert(make_pair(idCapteur,idUser));
         }
     }
     return true;

@@ -51,6 +51,12 @@ public:
 	// Contrat :
 	//
 
+	NettoyeurAir (bool act, double ray, Horodatage horoDebut, Horodatage horoFin, string idNettoyeur, string desc, PointGeographique pGeo);
+	// Mode d'emploi : Constructeur de NettoyeurAir qui remplit tous ses attributs
+	//
+	// Contrat : Aucun
+	//
+
 	virtual ~NettoyeurAir ();
 	// Mode d'emploi :
 	//

@@ -12,7 +12,8 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "NettoyeurAir.h"
 #include <string>
-#include <vector>
+#include <unordered_map>
+
 using namespace std;
 //------------------------------------------------------------- Constantes
 
@@ -39,9 +40,11 @@ public:
 	//
 
     bool ChargerNettoyeurs(string fichierNettoyeurs);
-	// Mode d'emploi :
+	// Mode d'emploi : Méthode qui va lire le fichier des nettoyeurs afin de charger
+	// tous les nettoyeurs dans l'application. Pour cela, le fichier est ouvert en lecture,
+	// et construit pour chaque ligne un nettoyeur
 	//
-	// Contrat :
+	// Contrat : Chaque ligne doit être au format idNettoyeur;latitude;longitude;Timestamp;
 	//
 
     bool AjouterNettoyeur(NettoyeurAir & nettoyeur);
@@ -119,8 +122,7 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    vector<NettoyeurAir> nettoyeurs;
-	string cheminFichierNettoyeurs;
+    unordered_map<string,NettoyeurAir*> nettoyeurs; // clé = id nettoyeur, valeur = objet nettoyeur
 private:
 //------------------------------------------------------- Attributs privés
 
