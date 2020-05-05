@@ -1,4 +1,4 @@
-#include "Affichage.h"
+
 #include "DataUtilisateurs.h"
 #include "DataMesures.h"
 #include "DataCapteurs.h"
@@ -24,7 +24,7 @@ bool chargementDonnees(string cheminFichierUtilisateurs, string cheminFichierMes
 // erreur à un endroit, renvoie false;
 {
 	//donneesUtilisateurs.ChargerUtilisateurs(cheminFichierUtilisateurs)&& donneesMesures.ChargerMesures(cheminFichierMesures)&&
-	return (donneesCapteurs.ChargerCapteurs(cheminFichierCapteurs)&& donneesMesures.ChargerAttributs(cheminFichierAttributs) && donneesUtilisateurs.ChargerUtilisateurs(cheminFichierUtilisateurs)&& donneesMesures.ChargerMesures(cheminFichierMesures)); // && chargement autre données
+	return (donneesCapteurs.ChargerCapteurs(cheminFichierCapteurs) && donneesMesures.ChargerAttributs(cheminFichierAttributs) && donneesUtilisateurs.ChargerUtilisateurs(cheminFichierUtilisateurs)&& donneesMesures.ChargerMesures(cheminFichierMesures)); // && chargement autre données
 }
 
 void menuAction()

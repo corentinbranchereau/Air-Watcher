@@ -35,6 +35,19 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+void CompagnieFournisseur::addNettoyeur(NettoyeurAir * nettoyeurAir)
+// Algorithme :
+// Ajoute simplement la valeur au vector
+{
+    nettoyeurs.push_back(nettoyeurAir);
+} // ------ Fin de addNettoyeur
+
+vector<NettoyeurAir *> CompagnieFournisseur::getNettoyeurs()
+// Algorithme :
+// Simple getter
+{
+    return this->nettoyeurs;
+} // ------ Fin de getNettoyeurs
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -54,16 +67,23 @@ CompagnieFournisseur::CompagnieFournisseur (const CompagnieFournisseur & unCompa
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <CompagnieFournisseur>" << endl;
 #endif
+
+	this->idProvider = unCompagnieFournisseur.idProvider;
+    for(NettoyeurAir* na : unCompagnieFournisseur.nettoyeurs)
+        this->nettoyeurs.push_back(na);
 } //----- Fin de CompagnieFournisseur (constructeur de copie)
 
 
-CompagnieFournisseur::CompagnieFournisseur ()
+CompagnieFournisseur::CompagnieFournisseur (string id)
 // Algorithme :
 //
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <CompagnieFournisseur>" << endl;
 #endif
+
+	this->idProvider=id;
+
 } //----- Fin de CompagnieFournisseur
 
 

@@ -12,6 +12,8 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "NettoyeurAir.h"
 #include <string>
+#include <vector>
+
 using namespace std;
 //------------------------------------------------------------- Constantes
 
@@ -35,6 +37,18 @@ public:
 	// Contrat :
 	//
 
+	void addNettoyeur(NettoyeurAir * nettoyeurAir);
+    // Mode d'emploi :
+    // Passe en paramètre le nettoyeur à ajouter
+    // Contrat :
+    // Le pointeur est bien défini et pointe vers le nettoyeur en mémoire
+
+    vector<NettoyeurAir*> getNettoyeurs();
+    // Mode d'emploi :
+    // Retourne la liste des nettoyeurs d'une compagnie
+    // Contrat :
+    // Aucun
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 	CompagnieFournisseur & operator = (const CompagnieFournisseur & unCompagnieFournisseur);
@@ -51,7 +65,7 @@ public:
 	// Contrat :
 	//
 
-	CompagnieFournisseur ();
+	CompagnieFournisseur (string id);
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -74,7 +88,7 @@ private:
 protected:
 //----------------------------------------------------- Attributs protégés
 	string idProvider;
-	NettoyeurAir* nettoyeursCompagnie;
+	vector<NettoyeurAir *> nettoyeurs;
 private:
 //------------------------------------------------------- Attributs privés
 

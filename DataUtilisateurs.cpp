@@ -14,6 +14,7 @@ using namespace std;
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm>
 
 //------------------------------------------------------ Include personnel
 #include "DataUtilisateurs.h"
@@ -39,6 +40,56 @@ using namespace std;
 //
 //{
 //} //----- Fin de Méthode
+
+bool DataUtilisateurs::ChargerFournisseurs(string fichierFournisseurs, unordered_map<string, NettoyeurAir *> & nettoyeurs)
+// Algorithme :
+// Charge le fichier provider.csv en le lisant ligne par ligne et en créant les fournisseurs
+// tout en maintenant à jour la liste des fournisseurs et leur liste de nettoyeurs via la structure donnée en paramètre
+// Si un fournisseur existe déjà, on lui ajoute simplement le nettoyeur associé
+// Si un des nettoyeurs n'existe pas, renvoi une erreur sur cerr et annule le chargement
+{
+    ifstream fFournisseurs(fichierFournisseurs);
+
+    if(!fFournisseurs.is_open())
+    {
+        cerr<<"Erreur lors du chargement des fournisseurs"<<endl;
+        return false;
+    }
+
+    while(!fFournisseurs.eof())
+    {
+
+        char idFournisseur[100];
+        char idCleaner[100];
+
+        fFournisseurs.getline(idFournisseur,100,';');
+        fFournisseurs.getline(idCleaner,100,';');
+
+        CompagnieFournisseur * fournisseur = new CompagnieFournisseur(string(idFournisseur));
+
+        //Insérer le fournisseur, et vérifier s'il existait ou non dans la map
+        pair<unordered_map<string,CompagnieFournisseur*>::iterator,bool> ret = fournisseurs.insert(make_pair(string(idFournisseur),fournisseur));
+
+        //S'il existe, on le delete et on récupère celui déjà présent
+        if(!ret.second)
+            delete fournisseur;
+
+        fournisseur = ret.first->second;
+
+        //Si le cleaner n'existe pas
+        if(nettoyeurs.find(string(idCleaner))==nettoyeurs.end())
+        {
+            cerr<<"Erreur lors du chargement des nettoyeurs, le nettoyeur "+string(idCleaner)+" de providers.csv n'existe pas dans les données de cleaners.csv"<<endl;
+            return false;
+        }
+
+        NettoyeurAir * nettoyeur = nettoyeurs[string(idCleaner)];
+        fournisseur->addNettoyeur(nettoyeur);
+    }
+
+    return true;
+
+} // ------ Fin de chargerNettoyeurs
 
 bool DataUtilisateurs::ChargerUtilisateurs(string fichierUtilisateurs)
 // Algorithme : La méthode ouvre en lecture le fichier, et lis pour chaque ligne
@@ -271,6 +322,11 @@ DataUtilisateurs::~DataUtilisateurs ()
 	{
 		delete (*it);
 	}
+
+	unordered_map<string,CompagnieFournisseur*>::iterator itF;
+	for(itF=fournisseurs.begin(); itF!=fournisseurs.end();++it)
+        delete (itF->second);
+
 } //----- Fin de ~DataUtilisateurs
 
 

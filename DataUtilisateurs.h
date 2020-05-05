@@ -12,8 +12,12 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "Utilisateur.h"
 #include "UtilisateurProfessionnel.h"
+#include "NettoyeurAir.h"
+#include "CompagnieFournisseur.h"
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <set>
 using namespace std;
 //------------------------------------------------------------- Constantes
 
@@ -38,6 +42,14 @@ public:
 	//
 	// Contrat :
 	//
+
+    bool ChargerFournisseurs(string fichierNettoyeurs, unordered_map<string, NettoyeurAir *> & nettoyeurs);
+    // Mode d'emploi :
+    // Charge le fichier de fournisseurs passé en paramètre.
+    // Renvoi vrai si l'opération s'est bien passé, faux sinon
+    // Contrat :
+    // Aucun.
+
 
     bool ChargerUtilisateurs(string fichierUtilisateurs);
 	// Mode d'emploi : Cette méthode va permettre de charger les utilisateurs
@@ -133,6 +145,7 @@ protected:
 //----------------------------------------------------- Attributs protégés
 	vector<Utilisateur*> utilisateurs;
 	string cheminFichierUtilisateurs;
+	unordered_map<string,CompagnieFournisseur*> fournisseurs;
 private:
 //------------------------------------------------------- Attributs privés
 
