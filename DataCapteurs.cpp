@@ -78,14 +78,14 @@ bool DataCapteurs::ChargerCapteurs(string fichierCapteurs)
 } //----- Fin de ChargerCapteurs
 
 bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives)
-// Algorithme : La méthode ouvre en lecture le fichier, et lis pour chaque ligne
+// Algorithme : La méthode ouvre en lecture le fichier, et lit pour chaque ligne
 // les informations à entrer dans la map
 //
 {
     ifstream file(fichierCapteursPrives);
     if(!file.is_open())
 	{
-		cerr<<"Erreur lors du des capteurs 'privés'"<<endl;
+		cerr<<"Erreur lors du chargement des capteurs 'privés'"<<endl;
 		return false;
 	}
     else
