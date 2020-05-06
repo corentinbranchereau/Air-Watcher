@@ -34,6 +34,20 @@ public:
 	//
 
 
+	 double getLongitude();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+
+	 double getLatitude();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+
 //------------------------------------------------- Surcharge d'opérateurs
 	PointGeographique & operator = (const PointGeographique & unPointGeographique);
 	// Mode d'emploi :

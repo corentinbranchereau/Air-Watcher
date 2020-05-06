@@ -35,6 +35,15 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+double PointGeographique::getLongitude()
+{
+	return longitude;
+}
+
+double PointGeographique::getLatitude()
+{
+	return latitude;
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 

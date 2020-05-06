@@ -13,7 +13,6 @@
 #include "Capteur.h"
 #include <vector>
 #include <unordered_map>
-
 using namespace std;
 
 //------------------------------------------------------------- Constantes
@@ -39,36 +38,13 @@ public:
 	//
 
     bool ChargerCapteurs(string fichierCapteurs);
-	// Mode d'emploi :
-	//
-	// Contrat :
-	//
-
 	bool ChargerCapteursPrives(string fichierCapteursPrives);
-	// Mode d'emploi : Méthode qui va lire le fichier afin de construire la map 
-	// reliant un ID capteur à un ID utilisateur privé. Pour cela, le fichier
-	// est ouvert en lecture, et construit pour chaque ligne une entrée dans la map
-	//
-	// Contrat : Chaque ligne doit être au format idUser;idCapteur;
-	//
 
     bool AjouterCapteur(Capteur & capteur);
-	// Mode d'emploi :
-	//
-	// Contrat :
-	//
 
     bool ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description);
-	// Mode d'emploi :
-	//
-	// Contrat :
-	//
 
-    vector<Capteur>& GetCapteurs();
-	// Mode d'emploi :
-	//
-	// Contrat :
-	//
+  	unordered_map<string,Capteur*> & GetCapteurs();
 
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -108,8 +84,9 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    unordered_map<string,Capteur*> capteurs;
-	unordered_map<string, string> capteurUtilisateur; // clé = idCapteur, valeur = idUtilisateurPrivé
+    //vector<Capteur*> capteurs;
+	unordered_map<string, string> mapCapteurUtilisateur; // clé = idCapteur, valeur = idUtilisateurPrivé
+	unordered_map<string,Capteur*> mapIDCapteurs; 
 private:
 //------------------------------------------------------- Attributs privés
 

@@ -14,8 +14,6 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "DataMesures.h"
-#include "DataCapteurs.h"
-#include "DataCapteurs.h"
 
 #include <limits>
 #include <algorithm>
@@ -109,10 +107,10 @@ bool DataMesures::ChargerMesures(string fichierMesures)
       
       double value=stod((string)valeur);
     
-      TypeAttribut type=typeAttributs[(string)attributID];
+      TypeAttribut* type=typeAttributs[(string)attributID];
 
       //on crée la mesure
-      Mesure mesure=Mesure(type,value,(string)sensorID,horo);
+      Mesure * mesure=new Mesure(*type,value,(string)sensorID,horo);
 
       mesures.push_back(mesure);//ajout de la mesure
       
@@ -157,7 +155,7 @@ bool DataMesures::ChargerAttributs(string fichierAttributs)
       fic.getline(description,50,';');
       fic.getline(pb,10,'\n');
 
-      TypeAttribut type=TypeAttribut((string)typeAttribut,(string)unite,(string)description);
+      TypeAttribut* type=new TypeAttribut((string)typeAttribut,(string)unite,(string)description);
 
       typeAttributs.insert({(string)typeAttribut,type});//insertion dans la map de l'id Attribut associé à son typeAttribut
 
@@ -210,12 +208,18 @@ bool DataMesures::EntrerDonnees(string idAttribut, double valeur, UtilisateurPri
 
 } //----- Fin de EntrerDonnees
 
-vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(vector<Capteur>& listCapteur, int nbClassesMin)
+vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, int nbClassesMin)
 // Algorithme : méthode qui regroupe les capteurs similaires
 //
 {
   //nbClassesMin : nombre de classes minimum voulu
 
+
+  vector<Capteur>listCapteur;
+  for(auto it=mapCapteur.begin();it!=mapCapteur.end();it++)
+  {
+    listCapteur.push_back(*(it->second));
+  }
   vector<vector<Capteur>> classes;//liste des classes en cours
   vector<vector<Capteur>> resultats;//liste de tous les groupes de classes rencontrés
 
@@ -327,14 +331,14 @@ vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(vector<Capteur
 
 } //----- Fin de IdentifierCapteursSimilaires
 
-bool hashFunction(Capteur c1, Capteur c2)
+bool hashFunction(Capteur & c1, Capteur & c2)
 {
   //permet de comparer 2 capteurs en fonction de leur ID
 
   return (c1.getIDInt()<c2.getIDInt());
 }
 
-double DataMesures:: dissimMax(vector<Capteur> v1,vector<Capteur> v2 )
+double DataMesures:: dissimMax(vector<Capteur> & v1,vector<Capteur> & v2 )
 // Algorithme : renvoie le max de dissimilarité  entre les 2 classes
 //
 { 
@@ -439,7 +443,7 @@ double DataMesures:: dissimMax(vector<Capteur> v1,vector<Capteur> v2 )
       {
         int ecart=0;
 
-        while(ecart+iCapteur1<mesures.size() && (((it->second).getIdAttribut())==((mesures[ecart+iCapteur1]).getTypeMesure()).getIdAttribut())==false)
+        while(ecart+iCapteur1<mesures.size() && (((*(it->second)).getIdAttribut())==((*mesures[ecart+iCapteur1]).getTypeMesure()).getIdAttribut())==false)
         {//on recherche la 1 ère valeur du capteur avec le bon attributID
           ++ecart;
           
@@ -458,9 +462,9 @@ double DataMesures:: dissimMax(vector<Capteur> v1,vector<Capteur> v2 )
           double ecartTemps=24*3600;
 
 
-          gradient1=(mesures[q2].getValeurAttribut()-mesures[q1].getValeurAttribut())/ecartTemps;
+          gradient1=((*mesures[q2]).getValeurAttribut()-(*mesures[q1]).getValeurAttribut())/ecartTemps;
           
-          gradient2=(mesures[p2].getValeurAttribut()-mesures[p1].getValeurAttribut())/ecartTemps;
+          gradient2=((*mesures[p2]).getValeurAttribut()-(*mesures[p1]).getValeurAttribut())/ecartTemps;
   
           //gradient2=((listMesure[m].valeur-listMesure[p].valeur)/(listMesure[m].temps-listMesure[p].temps));
 
@@ -490,7 +494,7 @@ double DataMesures:: dissimMax(vector<Capteur> v1,vector<Capteur> v2 )
 } //----- Fin de dissimMax
 
 
-double DataMesures::evalClasses(vector<vector<Capteur>> classI)
+double DataMesures::evalClasses(vector<vector<Capteur>> &classI)
 {
   //renvoie le maximum de dissimilarité inter-classe pour la liste de classe passé en paramètre
 
@@ -513,21 +517,69 @@ double DataMesures::evalClasses(vector<vector<Capteur>> classI)
 
 }//----- Fin de evalClasses
 
+bool LabelliserUneDonnee(vector<Mesure*> listMesuresBonnes,Mesure* m, unordered_map<string,Capteur*>& mapCapteurs)
+{
 
+  vector<Mesure> MesuresBonnesTris;
+
+  for(int i=0;i<listMesuresBonnes.size();i++)
+  {
+    if(abs((*listMesuresBonnes[i]).getdateMesure().getTempsSecondes()-(*m).getdateMesure().getTempsSecondes())<=24*3600 && (*listMesuresBonnes[i]).getTypeMesure()==(*m).getTypeMesure())
+    {
+      MesuresBonnesTris.push_back(*listMesuresBonnes[i]);
+    }
+
+  }
+
+  PointGeographique p1=(*mapCapteurs[(*m).getIdCapteur()]).getPosition();
+  double latitude1=p1.getLatitude();
+  double longitude1=p1.getLongitude();
+
+
+  double moyenne=0;
+  double denominateur=0;
+  for(int i=0;i<MesuresBonnesTris.size();i++)
+  {
+    PointGeographique p2=(*mapCapteurs[(MesuresBonnesTris[i]).getIdCapteur()]).getPosition();
+    double latitude2=p2.getLatitude();
+    double longitude2=p2.getLongitude();
+    double distance=acos(sin(latitude1)*sin(latitude2)+cos(latitude1)*cos(latitude2)*cos(longitude2-longitude1))*6371;
+    moyenne+=(1/(distance+0.1)*MesuresBonnesTris[i].getValeurAttribut());
+    denominateur+=1/(distance+0.1);
+  }
+
+  double valeurEstime=moyenne/denominateur;
+
+  if((abs(valeurEstime-(*m).getValeurAttribut())/((*m).getValeurAttribut()))>2)
+  {
+    return false;//valeur aberrante
+  }
+  return true;//valeur OK
+
+}
 
 void DataMesures::LabeliserDonneesUtilisateur()
 // Algorithme :
 //
 {
+  
 
 } //----- Fin de LabeliserDonneesUtilisateur
-
-TypeAttribut* DataMesures::GetTypeAttributs()
+unordered_map<string,TypeAttribut*>&   DataMesures::GetTypeAttributs()
 // Algorithme :
 //
-{
+{return typeAttributs;
 
 } //----- Fin de GetTypeAttributs
+
+
+vector<Mesure*>& DataMesures::GetMesures()
+// Algorithme :
+{
+  return mesures;
+}
+//----- Fin de GetMesures
+
 
 
 //------------------------------------------------- Surcharge d'opérateurs

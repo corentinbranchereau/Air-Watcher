@@ -58,7 +58,8 @@ bool DataCapteurs::ChargerCapteurs(string fichierCapteurs)
       }
       char id[100];
       char longitude[100];
-	  char latitude[100];;
+	  char latitude[100];
+      //char  description[100];
       char pb[50];
 
       fic.getline(id,50,';');
@@ -66,10 +67,14 @@ bool DataCapteurs::ChargerCapteurs(string fichierCapteurs)
       fic.getline(longitude,50,';');
 	  fic.getline(pb,10,'\n');
 
+
 	  PointGeographique p(atof(longitude),atof(latitude));
 
-      Capteur capteur((string)id,"",p);
-	  capteurs.push_back(capteur);
+      Capteur* capteur=new Capteur((string)id,"",p);
+
+      mapIDCapteurs.insert({(string)id,capteur});
+
+	  //capteurs.push_back(capteur);
 
       }
 
@@ -122,11 +127,12 @@ bool DataCapteurs::ModifierCapteur(string idCapteur, double longitude, double la
 
 } //----- Fin de ModifierCapteur
 
-vector<Capteur>& DataCapteurs::GetCapteurs()
+unordered_map<string,Capteur*> & DataCapteurs::GetCapteurs()
 // Algorithme :
 //
 {
-    return capteurs;
+
+    return mapIDCapteurs;
 
 } //----- Fin de GetCapteurs
 
