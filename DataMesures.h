@@ -65,7 +65,7 @@ public:
 	
 	bool LabelliserUneDonnee(vector<Mesure*> listMesuresBonnes,Mesure* m,unordered_map<string,Capteur*>& mapCapteurs);
 
-    vector<vector<Capteur>> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
+    vector<vector<Capteur*>> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
 	//mode d'emploi : renvoi les capteurs similaires à partir d'une liste de capteurs et du nombre de classes minimum
 	//contrat:
 
@@ -105,11 +105,11 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
-	double dissimMax(vector<Capteur> & v1,vector<Capteur> & v2 );
+	double dissimMax(vector<Capteur*> & v1,vector<Capteur*> & v2 );
 	//mode d'emploi : renvoi le maximum de dissimilarité inter-classe entre les 2 groupes de capteur passés en paramètre
 	//contrat:
 	
-	double evalClasses(vector<vector<Capteur>> & classI);
+	double evalClasses(vector<vector<Capteur*>> & classI);
 	//mode d'emploi : renvoi le maximum de dissimilarité intra-classe sur le groupe de capteur passé en paramètre
 	//contrat:
 
