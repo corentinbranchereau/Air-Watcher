@@ -112,8 +112,6 @@ bool DataMesures::ChargerMesures(string fichierMesures)
       //on crée la mesure
       Mesure * mesure=new Mesure(type,value,(string)sensorID,horo);
 
-    
-
       mesures.push_back(mesure);//ajout de la mesure
       
       }
