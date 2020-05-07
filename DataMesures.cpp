@@ -110,7 +110,9 @@ bool DataMesures::ChargerMesures(string fichierMesures)
       TypeAttribut* type=typeAttributs[(string)attributID];
 
       //on crée la mesure
-      Mesure * mesure=new Mesure(*type,value,(string)sensorID,horo);
+      Mesure * mesure=new Mesure(type,value,(string)sensorID,horo);
+
+    
 
       mesures.push_back(mesure);//ajout de la mesure
       
@@ -156,7 +158,7 @@ bool DataMesures::ChargerAttributs(string fichierAttributs)
       fic.getline(pb,10,'\n');
 
       TypeAttribut* type=new TypeAttribut((string)typeAttribut,(string)unite,(string)description);
-
+      cout<<(string)typeAttribut<<endl;
       typeAttributs.insert({(string)typeAttribut,type});//insertion dans la map de l'id Attribut associé à son typeAttribut
 
       }
@@ -208,20 +210,26 @@ bool DataMesures::EntrerDonnees(string idAttribut, double valeur, UtilisateurPri
 
 } //----- Fin de EntrerDonnees
 
-vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, int nbClassesMin)
+vector<vector<Capteur*>> DataMesures::IdentifierCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, int nbClassesMin)
 // Algorithme : méthode qui regroupe les capteurs similaires
 //
 {
   //nbClassesMin : nombre de classes minimum voulu
 
+  vector<Capteur*>listCapteur;
 
-  vector<Capteur>listCapteur;
+ 
   for(auto it=mapCapteur.begin();it!=mapCapteur.end();it++)
   {
-    listCapteur.push_back(*(it->second));
+    listCapteur.push_back((it->second));
+    //cout<<((*(it->second)).getID())<<endl;
+  
   }
-  vector<vector<Capteur>> classes;//liste des classes en cours
-  vector<vector<Capteur>> resultats;//liste de tous les groupes de classes rencontrés
+  
+
+  vector<vector<Capteur*>> classes;//liste des classes en cours
+  vector<vector<Capteur*>> resultats;//liste de tous les groupes de classes rencontrés
+
 
   memoire=(double**)malloc(sizeof(double*)*listCapteur.size());//initialise la mémoire
 
@@ -245,12 +253,12 @@ vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(unordered_map<
   for(int a=0;a<listCapteur.size();a++)
   {
     //initialisation des capteurs : tous dans des classes différentes
-    vector<Capteur>listInter;
+    vector<Capteur*>listInter;
     listInter.push_back(listCapteur[a]);
     classes.push_back(listInter);
   }
 
-  vector<vector<vector<Capteur>>> listClasses;//contient les différents groupes de classe déjà fait
+  vector<vector<vector<Capteur*>>> listClasses;//contient les différents groupes de classe déjà fait
 
    while(classes.size()>nbClassesMin)
     {
@@ -314,6 +322,7 @@ vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(unordered_map<
     {
       //on calcule le maximum de dissimilarité au sein d'une même classe pour chaque solution
       double eval2=evalClasses(listClasses[a]);
+      cout<<eval2<<endl;
 
       if(eval2-evalIni<=maxPente)
       {
@@ -331,14 +340,14 @@ vector<vector<Capteur>> DataMesures::IdentifierCapteursSimilaires(unordered_map<
 
 } //----- Fin de IdentifierCapteursSimilaires
 
-bool hashFunction(Capteur & c1, Capteur & c2)
+bool hashFunction(Capteur* c1, Capteur* c2)
 {
   //permet de comparer 2 capteurs en fonction de leur ID
 
-  return (c1.getIDInt()<c2.getIDInt());
+  return ((*c1).getIDInt()<(*c2).getIDInt());
 }
 
-double DataMesures:: dissimMax(vector<Capteur> & v1,vector<Capteur> & v2 )
+double DataMesures:: dissimMax(vector<Capteur*> & v1,vector<Capteur*> & v2 )
 // Algorithme : renvoie le max de dissimilarité  entre les 2 classes
 //
 { 
@@ -356,7 +365,7 @@ double DataMesures:: dissimMax(vector<Capteur> & v1,vector<Capteur> & v2 )
 
   for(int i=0;i<v1.size();i++)
   {
-    string num=to_string(v1[i].getIDInt());
+    string num=to_string((*(v1[i])).getIDInt());
     clef1.append(num);
   }
 
@@ -364,7 +373,7 @@ double DataMesures:: dissimMax(vector<Capteur> & v1,vector<Capteur> & v2 )
 
     for(int i=0;i<v2.size();i++)
   {
-    string num=to_string(v2[i].getIDInt());
+    string num=to_string((*(v2[i])).getIDInt());
     clef1.append(num);
     
   }
@@ -382,17 +391,18 @@ double DataMesures:: dissimMax(vector<Capteur> & v1,vector<Capteur> & v2 )
     for(int j=0;j<v2.size();j++)
     {
 
-      Capteur c1=v1[z];
-      Capteur c2= v2[j];
+      Capteur* c1=v1[z];
+      Capteur* c2=v2[j];
 
-      int minID=c1.getIDInt();
-      int maxID=c2.getIDInt();
+      int minID=(*c1).getIDInt();
+      int maxID=(*c2).getIDInt();
 
-      if(c2.getIDInt()<minID)
+
+      if((*c2).getIDInt()<minID)
       {
         //on repère le minimum et le maximum des ID capteurs à comparer
-        minID=c2.getIDInt();
-        maxID=c1.getIDInt();
+        minID=(*c2).getIDInt();
+        maxID=(*c1).getIDInt();
       }
 
       if(memoire[minID][maxID]>=0)
@@ -443,7 +453,7 @@ double DataMesures:: dissimMax(vector<Capteur> & v1,vector<Capteur> & v2 )
       {
         int ecart=0;
 
-        while(ecart+iCapteur1<mesures.size() && (((*(it->second)).getIdAttribut())==((*mesures[ecart+iCapteur1]).getTypeMesure()).getIdAttribut())==false)
+        while(ecart+iCapteur1<mesures.size() && (((*(it->second)).getIdAttribut())==((*((*mesures[ecart+iCapteur1]).getTypeMesure())).getIdAttribut())==false))
         {//on recherche la 1 ère valeur du capteur avec le bon attributID
           ++ecart;
           
@@ -494,7 +504,7 @@ double DataMesures:: dissimMax(vector<Capteur> & v1,vector<Capteur> & v2 )
 } //----- Fin de dissimMax
 
 
-double DataMesures::evalClasses(vector<vector<Capteur>> &classI)
+double DataMesures::evalClasses(vector<vector<Capteur*>> &classI)
 {
   //renvoie le maximum de dissimilarité inter-classe pour la liste de classe passé en paramètre
 

@@ -35,7 +35,7 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-TypeAttribut Mesure::getTypeMesure()
+TypeAttribut* Mesure::getTypeMesure()
 {
 	return typeMesure;
 }
@@ -89,7 +89,7 @@ Mesure::Mesure (const Mesure & unMesure)
 
 
 
-Mesure::Mesure (TypeAttribut typeMesure,double valeurAttribut,string idCapteur,Horodatage dateMesure)
+Mesure::Mesure (TypeAttribut* typeMesure,double valeurAttribut,string idCapteur,Horodatage dateMesure)
 // Algorithme :
 //
 {

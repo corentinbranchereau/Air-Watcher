@@ -42,7 +42,8 @@ using namespace std;
 
 	int Equipement:: getIDInt()
 	{
-		return  id[6]-'0';
+		string idS=id.substr(6,id.length());
+		return  stoi(idS);
 	}
 
 

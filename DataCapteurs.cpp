@@ -72,11 +72,14 @@ bool DataCapteurs::ChargerCapteurs(string fichierCapteurs)
 
       Capteur* capteur=new Capteur((string)id,"",p);
 
-      mapIDCapteurs.insert({(string)id,capteur});
-
+      mapIDCapteurs.insert(make_pair((string)id,capteur));
+   
 	  //capteurs.push_back(capteur);
 
       }
+
+    
+
 
       return true;
 

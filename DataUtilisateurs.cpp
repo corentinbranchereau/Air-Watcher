@@ -68,7 +68,7 @@ bool DataUtilisateurs::ChargerFournisseurs(string fichierFournisseurs, unordered
         CompagnieFournisseur * fournisseur = new CompagnieFournisseur(string(idFournisseur));
 
         //Insérer le fournisseur, et vérifier s'il existait ou non dans la map
-        pair<unordered_map<string,CompagnieFournisseur*>::iterator,bool> ret = fournisseurs.insert(make_pair(string(idFournisseur),fournisseur));
+        pair<unordered_map<string,CompagnieFournisseur*>::iterator,bool> ret = CompagniesFournisseurs.insert(make_pair(string(idFournisseur),fournisseur));
 
         //S'il existe, on le delete et on récupère celui déjà présent
         if(!ret.second)
@@ -314,7 +314,7 @@ DataUtilisateurs::~DataUtilisateurs ()
 	}
 
 	unordered_map<string,CompagnieFournisseur*>::iterator itF;
-	for(itF=fournisseurs.begin(); itF!=fournisseurs.end();++it)
+	for(itF=CompagniesFournisseurs.begin(); itF!=CompagniesFournisseurs.end();++it)
         delete (itF->second);
 
 } //----- Fin de ~DataUtilisateurs

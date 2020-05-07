@@ -45,7 +45,7 @@ public:
 	// Contrat : Aucun
 	//
 
-	vector<MesureUtilisateur> ConsulterDonneesEntrees();
+	vector<MesureUtilisateur*> ConsulterDonneesEntrees();
 	// Mode d'emploi : Renvoie l'attribut 'donneesEntrees' de l'utilisateur privé
 	//
 	// Contrat : Aucun

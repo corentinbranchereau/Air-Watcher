@@ -69,6 +69,8 @@ public:
 	// Contrat :
 	//
 
+
+
 //------------------------------------------------------------------ PRIVE
 
 protected:
@@ -76,11 +78,12 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-    Capteur (const Capteur &unCapteur);
-    // Mode d'emploi (constructeur de copie) :
+	Capteur (const Capteur &unCapteur);
+	// Mode d'emploi (constructeur de copie) :
     // INTERDIT
     // Contrat :
     //
+
 protected:
 //----------------------------------------------------- Attributs protégés
 	string etat;

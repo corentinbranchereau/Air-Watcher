@@ -144,6 +144,7 @@ protected:
 	vector<Utilisateur*> utilisateurs;
 	string cheminFichierUtilisateurs;
 	unordered_map<string,CompagnieFournisseur*> CompagniesFournisseurs;
+
 private:
 //------------------------------------------------------- Attributs privés
 

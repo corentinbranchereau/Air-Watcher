@@ -46,7 +46,7 @@ EmployeFournisseur & EmployeFournisseur::operator = (const EmployeFournisseur & 
 
 //-------------------------------------------- Constructeurs - destructeur
 
-EmployeFournisseur::EmployeFournisseur ()
+/*EmployeFournisseur::EmployeFournisseur ()
 // Algorithme :
 //
 {
@@ -54,7 +54,7 @@ EmployeFournisseur::EmployeFournisseur ()
 	cout << "Appel au constructeur de <EmployeFournisseur>" << endl;
 #endif;
 } //----- Fin de EmployeFournisseur
-
+*/
 
 EmployeFournisseur::~EmployeFournisseur ()
 // Algorithme :

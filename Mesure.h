@@ -36,7 +36,7 @@ public:
 	// Contrat :
 	//
 
-	TypeAttribut getTypeMesure();
+	TypeAttribut* getTypeMesure();
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -79,7 +79,7 @@ public:
 	// Contrat :
 	//
 
-	Mesure(TypeAttribut typeMesure,double valeurAttribut,string idCapteur,Horodatage dateMesure);
+	Mesure(TypeAttribut* typeMesure,double valeurAttribut,string idCapteur,Horodatage dateMesure);
 	// Mode d'emploi (constructeur de copie) :
 	//
 	// Contrat :
@@ -107,7 +107,7 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-	TypeAttribut typeMesure;
+	TypeAttribut* typeMesure;
 	double valeurAttribut;
 	string idCapteur;
 	Horodatage dateMesure;

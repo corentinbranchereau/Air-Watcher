@@ -91,7 +91,7 @@ void menuAction()
 }
 
 
-void affichageCapteursSimilaires(vector<vector<Capteur>> groupescapteurs)
+void affichageCapteursSimilaires(vector<vector<Capteur*>> groupescapteurs)
 //affiche les groupes de capteurs similaires
 {
   for(int i=0;i<groupescapteurs.size();i++)
@@ -103,7 +103,7 @@ void affichageCapteursSimilaires(vector<vector<Capteur>> groupescapteurs)
       for(int j=0;j<groupescapteurs[i].size();j++)
       {
         cout<<"CAPTEUR ID = ";
-        cout<<groupescapteurs[i][j].getID();
+        cout<<(*(groupescapteurs[i][j])).getID();
         cout<<endl;
       }
     }
@@ -112,10 +112,11 @@ void affichageCapteursSimilaires(vector<vector<Capteur>> groupescapteurs)
 
 int main(void)
 {
-	if(chargementDonnees("utilisateurs.txt","data1.txt","AttributeType.csv","Sensors.csv"))
+	if(chargementDonnees("Data/providers.csv","Data/measurements.csv","Data/attributes.csv","Data/sensors.csv"))
 	{
-		vector<vector<Capteur>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
+		vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
 		affichageCapteursSimilaires(capteursSim);
+		
 		while(1)
 		{
 			if(statutConnexion=="déconnecté")
