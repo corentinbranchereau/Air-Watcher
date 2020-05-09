@@ -13,6 +13,7 @@
 using namespace std;
 #include <iostream>
 #include <fstream>
+#include <set>
 //------------------------------------------------------ Include personnel
 #include "DataCapteurs.h"
 
@@ -76,20 +77,50 @@ bool DataCapteurs::ChargerCapteurs(string fichierCapteurs)
    
 	  //capteurs.push_back(capteur);
 
-      }
-
-    
-
-
-      return true;
+    }
+    return true;
 
 } //----- Fin de ChargerCapteurs
 
-bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives)
+bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives, string fichierUtilisateurs)
 // Algorithme : La méthode ouvre en lecture le fichier, et lit pour chaque ligne
-// les informations à entrer dans la map
+// les informations à entrer dans la map.
 //
 {
+    set<string> idExistants; // va stocker les id déjà existants dans le fichier des comptes
+    fstream fileUtilisateurs(fichierUtilisateurs,ios::in|ios::app); // ouverture en lecture et en écriture du fichier des comptes
+    if(!fileUtilisateurs.is_open())
+    {
+        cerr<<"Erreur lors de l'ouverture du fichier des comptes"<<endl;
+        return false;
+    }
+    else
+    {
+        // tout d'abord on lit tous les identifiants des utilisateurs privés existants (pour ne pas les ajouter en double ensuite)
+        char typeCompte[100];
+        char identifiant[100];
+        char buffTemp[500];
+        while(fileUtilisateurs)
+        {
+            fileUtilisateurs.getline(typeCompte,100,';');
+            if(!fileUtilisateurs) // on vérifie si on a atteint la fin du fichier
+            {
+                break;
+            }
+            if(typeCompte=="privé")
+            {
+                fileUtilisateurs.getline(identifiant,100,';');
+                fileUtilisateurs.getline(buffTemp,500,'\n'); // on lit jusqu'à la fin de la ligne pour passer à la ligne d'après
+                idExistants.insert(string(identifiant));
+            }
+            else
+            {
+                fileUtilisateurs.getline(buffTemp,500,'\n'); // on lit jusqu'à la fin de la ligne pour passer à la ligne d'après
+            }
+        }
+    }
+    
+
     ifstream file(fichierCapteursPrives);
     if(!file.is_open())
 	{
@@ -110,6 +141,13 @@ bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives)
             file.getline(idCapteur,100,';');
             file.get(); // on lit le \n de fin de ligne
             this->mapCapteurUtilisateur.insert(make_pair(idCapteur,idUser));
+
+            if(idExistants.count(string(idUser))==0) // l'id n'existe pas encore de le fichier des comptes, on va alors l'insérer
+            {
+                string id(idUser);
+                string ligneInsertion = "privé;"+id+";"+id+";"+id+";"+id+";"+id+"\n";
+                fileUtilisateurs<<ligneInsertion;
+            }
         }
     }
     return true;

@@ -38,14 +38,38 @@ public:
 	//
 
     bool ChargerCapteurs(string fichierCapteurs);
-	bool ChargerCapteursPrives(string fichierCapteursPrives);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+	bool ChargerCapteursPrives(string fichierCapteursPrives, string fichierUtilisateurs);
+	// Mode d'emploi : Méthode qui va lire le fichier renseignant pour chaque utilisateur l'id
+	// du capteur associé afin de construire la map reliant les deux id. Pour cela, le fichier
+	// est ouvert en lecture, et construit pour chaque ligne une entrée dans la map. Par ailleurs
+	// la méthode écrit également les utilisateurs lus dans le fichier stockant les comptes (si ils
+	// n'existent pas déjà dedans)
+	//
+	// Contrat : Chaque ligne doit être au format idUser;idCapteur;
+	//
 
     bool AjouterCapteur(Capteur & capteur);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
     bool ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
   	unordered_map<string,Capteur*> & GetCapteurs();
-
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
 //------------------------------------------------- Surcharge d'opérateurs
 	DataCapteurs & operator = (const DataCapteurs & unDataCapteurs);
@@ -84,9 +108,8 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-    //vector<Capteur*> capteurs;
 	unordered_map<string, string> mapCapteurUtilisateur; // clé = idCapteur, valeur = idUtilisateurPrivé
-	unordered_map<string,Capteur*> mapIDCapteurs; 
+	unordered_map<string,Capteur*> mapIDCapteurs; // clé = idCapteur
 private:
 //------------------------------------------------------- Attributs privés
 
