@@ -49,6 +49,13 @@ vector<NettoyeurAir *> CompagnieFournisseur::getNettoyeurs()
     return this->nettoyeurs;
 } // ------ Fin de getNettoyeurs
 
+string CompagnieFournisseur::getId()
+// Algorithme :
+// Simple getter
+{
+    return idProvider;
+} // ------- Fin de getId
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 CompagnieFournisseur & CompagnieFournisseur::operator = (const CompagnieFournisseur & unCompagnieFournisseur)

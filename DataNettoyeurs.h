@@ -78,7 +78,7 @@ public:
 	// Contrat :
 	//
 
-    vector<NettoyeurAir> GetNettoyeurs();
+    unordered_map<string,NettoyeurAir*> GetNettoyeurs();
 	// Mode d'emploi :
 	//
 	// Contrat :

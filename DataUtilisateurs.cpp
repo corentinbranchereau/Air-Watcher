@@ -41,7 +41,7 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
-bool DataUtilisateurs::ChargerFournisseurs(string fichierFournisseurs, unordered_map<string, NettoyeurAir *> & nettoyeurs)
+bool DataUtilisateurs::ChargerFournisseurs(string fichierFournisseurs, const unordered_map<string, NettoyeurAir *> & nettoyeurs)
 // Algorithme :
 // Charge le fichier provider.csv en le lisant ligne par ligne et en créant les fournisseurs
 // tout en maintenant à jour la liste des fournisseurs et leur liste de nettoyeurs via la structure donnée en paramètre
@@ -61,30 +61,35 @@ bool DataUtilisateurs::ChargerFournisseurs(string fichierFournisseurs, unordered
 
         char idFournisseur[100];
         char idCleaner[100];
+        char tampon[100];
 
         fFournisseurs.getline(idFournisseur,100,';');
         fFournisseurs.getline(idCleaner,100,';');
+        fFournisseurs.getline(tampon,100,'\n');
+        if(!string(idFournisseur).empty()) {
 
-        CompagnieFournisseur * fournisseur = new CompagnieFournisseur(string(idFournisseur));
+            CompagnieFournisseur *fournisseur = new CompagnieFournisseur(string(idFournisseur));
 
-        //Insérer le fournisseur, et vérifier s'il existait ou non dans la map
-        pair<unordered_map<string,CompagnieFournisseur*>::iterator,bool> ret = CompagniesFournisseurs.insert(make_pair(string(idFournisseur),fournisseur));
+            //Insérer le fournisseur, et vérifier s'il existait ou non dans la map
+            pair<unordered_map<string, CompagnieFournisseur *>::iterator, bool> ret = CompagniesFournisseurs.insert(
+                    make_pair(string(idFournisseur), fournisseur));
 
-        //S'il existe, on le delete et on récupère celui déjà présent
-        if(!ret.second)
-            delete fournisseur;
+            //S'il existe, on le delete et on récupère celui déjà présent
+            if (!ret.second)
+                delete fournisseur;
 
-        fournisseur = ret.first->second;
+            fournisseur = ret.first->second;
 
-        //Si le cleaner n'existe pas
-        if(nettoyeurs.find(string(idCleaner))==nettoyeurs.end())
-        {
-            cerr<<"Erreur lors du chargement des nettoyeurs, le nettoyeur "+string(idCleaner)+" de providers.csv n'existe pas dans les données de cleaners.csv"<<endl;
-            return false;
+            //Si le cleaner n'existe pas
+            if (nettoyeurs.find(string(idCleaner)) == nettoyeurs.end()) {
+                cerr << "Erreur lors du chargement des nettoyeurs, le nettoyeur " + string(idCleaner) +
+                        " de providers.csv n'existe pas dans les données de cleaners.csv" << endl;
+                return false;
+            }
+
+            NettoyeurAir *nettoyeur = nettoyeurs.find(string(idCleaner))->second;
+            fournisseur->addNettoyeur(nettoyeur);
         }
-
-        NettoyeurAir * nettoyeur = nettoyeurs[string(idCleaner)];
-        fournisseur->addNettoyeur(nettoyeur);
     }
 
     return true;
@@ -191,6 +196,12 @@ vector<Utilisateur*> DataUtilisateurs::GetUtilisateurs()
 {
 	return this->utilisateurs;
 } //----- Fin de GetUtilisateurs
+
+const unordered_map<string, CompagnieFournisseur *> DataUtilisateurs::GetFournisseurs()
+// Algorithme : Aucun
+{
+    return this->CompagniesFournisseurs;
+} //------ Fin de GetFournisseurs
 
 Utilisateur* DataUtilisateurs::SeConnecter(string identifiant, string mdp)
 // Algorithme : Vérifie dans la liste des utilisateurs si les informations

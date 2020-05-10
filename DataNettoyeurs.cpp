@@ -147,11 +147,11 @@ double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur)
 
 } //----- Fin de ObtenirRayonActionNettoyeur
 
-vector<NettoyeurAir> DataNettoyeurs::GetNettoyeurs()
+unordered_map<string,NettoyeurAir*> DataNettoyeurs::GetNettoyeurs()
 // Algorithme :
 //
 {
-
+    return nettoyeurs;
 } //----- Fin de GetNettoyeurs
 
 

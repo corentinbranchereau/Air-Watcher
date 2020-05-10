@@ -119,7 +119,12 @@ bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives, string fi
             }
         }
     }
-    
+
+    cout << "Test Fichier perso" << endl;
+    for(string s : idExistants)
+    {
+        cout << s << endl;
+    }
 
     ifstream file(fichierCapteursPrives);
     if(!file.is_open())
@@ -141,6 +146,8 @@ bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives, string fi
             file.getline(idCapteur,100,';');
             file.get(); // on lit le \n de fin de ligne
             this->mapCapteurUtilisateur.insert(make_pair(idCapteur,idUser));
+
+            cout << "Test idUser : " << string(idUser) << " idCapteur : " << string(idCapteur) << " --> " << idExistants.count(string(idUser)) << endl;
 
             if(idExistants.count(string(idUser))==0) // l'id n'existe pas encore de le fichier des comptes, on va alors l'insérer
             {
