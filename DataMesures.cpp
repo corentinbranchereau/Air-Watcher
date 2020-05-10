@@ -48,7 +48,7 @@ bool DataMesures::ChargerMesures(string fichierMesures)
 //
 {
 	ifstream fic(fichierMesures);
-  string idCapteurIni="sensor0";
+  string idCapteurIni="Sensor0";
   int nbMesuresCapteur=0;
 
 	if(!fic.is_open())
@@ -156,7 +156,6 @@ bool DataMesures::ChargerAttributs(string fichierAttributs)
       fic.getline(pb,10,'\n');
 
       TypeAttribut* type=new TypeAttribut((string)typeAttribut,(string)unite,(string)description);
-      cout<<(string)typeAttribut<<endl;
       typeAttributs.insert({(string)typeAttribut,type});//insertion dans la map de l'id Attribut associé à son typeAttribut
 
       }
@@ -320,8 +319,7 @@ vector<vector<Capteur*>> DataMesures::IdentifierCapteursSimilaires(unordered_map
     {
       //on calcule le maximum de dissimilarité au sein d'une même classe pour chaque solution
       double eval2=evalClasses(listClasses[a]);
-      cout<<eval2<<endl;
-
+  
       if(eval2-evalIni<=maxPente)
       {
         //on conserve uniquement le groupe de classes dont la pente est la plus faible
@@ -525,14 +523,15 @@ double DataMesures::evalClasses(vector<vector<Capteur*>> &classI)
 
 }//----- Fin de evalClasses
 
-bool LabelliserUneDonnee(vector<Mesure*> listMesuresBonnes,Mesure* m, unordered_map<string,Capteur*>& mapCapteurs)
+bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure*& m, unordered_map<string,Capteur*>& mapCapteurs)
 {
 
   vector<Mesure> MesuresBonnesTris;
 
   for(int i=0;i<listMesuresBonnes.size();i++)
   {
-    if(abs((*listMesuresBonnes[i]).getdateMesure().getTempsSecondes()-(*m).getdateMesure().getTempsSecondes())<=24*3600 && (*listMesuresBonnes[i]).getTypeMesure()==(*m).getTypeMesure())
+   
+    if(abs((*listMesuresBonnes[i]).getdateMesure().getTempsSecondes()-(*m).getdateMesure().getTempsSecondes())<=24*3600 && *((*listMesuresBonnes[i]).getTypeMesure())==*((*m).getTypeMesure()))
     {
       MesuresBonnesTris.push_back(*listMesuresBonnes[i]);
     }
@@ -558,7 +557,14 @@ bool LabelliserUneDonnee(vector<Mesure*> listMesuresBonnes,Mesure* m, unordered_
 
   double valeurEstime=moyenne/denominateur;
 
-  if((abs(valeurEstime-(*m).getValeurAttribut())/((*m).getValeurAttribut()))>2)
+  double minimum=(*m).getValeurAttribut();
+
+  if(minimum>valeurEstime)
+  {
+    minimum=valeurEstime;
+  }
+
+  if((abs(valeurEstime-(*m).getValeurAttribut())/(minimum))>2)
   {
     return false;//valeur aberrante
   }

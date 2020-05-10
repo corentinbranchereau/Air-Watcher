@@ -73,6 +73,7 @@ bool  TypeAttribut ::operator == (const TypeAttribut & unTypeAttribut)const
 	{
 		return true;
 	}
+	
 
 	return false;
 	

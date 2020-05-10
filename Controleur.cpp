@@ -114,9 +114,18 @@ int main(void)
 {
 	if(chargementDonnees("Data/providers.csv","Data/measurements.csv","Data/attributes.csv","Data/sensors.csv"))
 	{
-		vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
-		affichageCapteursSimilaires(capteursSim);
+		//vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
+		//affichageCapteursSimilaires(capteursSim);
+		Horodatage h(2019,1,4,12,0,0);
+
+		TypeAttribut* type=new TypeAttribut("O3","µg/m3","concentration d'ozone");
 		
+		Mesure* m=new Mesure(type,400,"Sensor0",h);
+
+		vector<Mesure*> listM=donneesMesures.GetMesures();
+		unordered_map<string,Capteur*> mapL=donneesCapteurs.GetCapteurs();
+		bool result=donneesMesures.LabelliserUneDonnee(listM,m,mapL);
+
 		while(1)
 		{
 			if(statutConnexion=="déconnecté")

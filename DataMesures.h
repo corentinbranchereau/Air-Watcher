@@ -63,7 +63,7 @@ public:
 
     bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur);
 	
-	bool LabelliserUneDonnee(vector<Mesure*> listMesuresBonnes,Mesure* m,unordered_map<string,Capteur*>& mapCapteurs);
+	bool LabelliserUneDonnee(vector<Mesure*>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
 
     vector<vector<Capteur*>> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
 	//mode d'emploi : renvoi les capteurs similaires à partir d'une liste de capteurs et du nombre de classes minimum
