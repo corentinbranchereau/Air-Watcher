@@ -21,7 +21,7 @@ DataNettoyeurs donneesNettoyeurs;
 Utilisateur* utilisateurConnecte = nullptr;
 string statutConnexion="déconnecté"; // variable qui va permettre de dire si un compte est connecté et son type
 
-bool chargementDonnees(string cheminFichierNettoyeurs, string cheminFichierFournisseurs, string cheminFichierUtilisateurs, string cheminFichierMesures, string cheminFichierAttributs, string cheminFichierCapteurs, string cheminFichierUtilisateursPerso)
+bool chargementDonnees(string cheminFichierNettoyeurs, string cheminFichierFournisseurs, string cheminFichierUtilisateurs, string cheminFichierMesures, string cheminFichierAttributs, string cheminFichierCapteurs, string cheminFichierUtilisateursPerso, string cheminFichierLabel)
 // Cette méthode charge les données dans chaque objet Data
 // et renvoie true si tous c'est bien passé. Si il y a eu une
 // erreur à un endroit, renvoie false;
@@ -59,10 +59,10 @@ bool chargementDonnees(string cheminFichierNettoyeurs, string cheminFichierFourn
     if(ret){cout<<"Types attributs OK\n";}
 
     //Mesures
-    ret = ret && donneesMesures.ChargerMesures(cheminFichierMesures);
+    ret = ret && donneesMesures.ChargerMesures(cheminFichierMesures,donneesCapteurs.GetMapCapteurUtilisateur());
     if(ret){cout<<"Mesures OK\n";}
     //Fichiers labels
-    ret = ret && true;
+    ret = ret && donneesMesures.ChargerLabels(cheminFichierLabel,donneesCapteurs.GetMapCapteurUtilisateur());
     if(ret){cout<<"Labels OK\n";}
     return (ret);
 }
@@ -151,8 +151,9 @@ void affichageCapteursSimilaires(vector<vector<Capteur*>> groupescapteurs)
 
 int main(void)
 {
-    if(chargementDonnees("./Data/cleaners.csv","./Data/providers.csv","./Data/users.csv","./Data/measurements.csv","./Data/attributes.csv","./Data/sensors.csv","./Data/ownUsers.csv"))
+    if(chargementDonnees("./Data/cleaners.csv","./Data/providers.csv","./Data/users.csv","./Data/measurements.csv","./Data/attributes.csv","./Data/sensors.csv","./Data/ownUsers.csv","./Data/labels.csv"))
     {
+
         //vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
         //affichageCapteursSimilaires(capteursSim);
         Horodatage h(2019,1,4,12,0,0);

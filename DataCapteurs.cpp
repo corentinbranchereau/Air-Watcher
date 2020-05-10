@@ -177,6 +177,13 @@ unordered_map<string,Capteur*> & DataCapteurs::GetCapteurs()
 
 } //----- Fin de GetCapteurs
 
+unordered_map<string,string> & DataCapteurs::GetMapCapteurUtilisateur()
+// Algorithme : Aucun
+//
+{
+    return this->mapCapteurUtilisateur;
+} //----- Fin de GetMapCapteurUtilisateur
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 

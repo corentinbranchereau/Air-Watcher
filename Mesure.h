@@ -80,7 +80,7 @@ public:
 	//
 
 	Mesure(TypeAttribut* typeMesure,double valeurAttribut,string idCapteur,Horodatage dateMesure);
-	// Mode d'emploi (constructeur de copie) :
+	// Mode d'emploi :
 	//
 	// Contrat :
 	//

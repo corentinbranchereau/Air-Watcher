@@ -35,10 +35,52 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
- double Horodatage::getTempsSecondes()
- {
-	 return annee*365*24*3600+mois*30*24*3600+jour*24*3600+heure*3600+minute*60+seconde;
- }
+double Horodatage::getTempsSecondes()
+{
+	return annee*365*24*3600+mois*30*24*3600+jour*24*3600+heure*3600+minute*60+seconde;
+}
+
+int Horodatage::GetAnnee()
+// Algorithme :
+//
+{
+	return this->annee;
+} //----- Fin de GetAnnee
+
+int Horodatage::GetMois()
+// Algorithme :
+//
+{
+	return this->mois;
+} //----- Fin de GetMois
+
+int Horodatage::GetJour()
+// Algorithme :
+//
+{
+	return this->jour;
+} //----- Fin de GetJour
+
+int Horodatage::GetHeure()
+// Algorithme :
+//
+{
+	return this->heure;
+} //----- Fin de GetHeure
+
+int Horodatage::GetMinute()
+// Algorithme :
+//
+{
+	return this->minute;
+} //----- Fin de GetMinute
+
+int Horodatage::GetSeconde()
+// Algorithme :
+//
+{
+	return this->seconde;
+} //----- Fin de GetSeconde
 
 
 //------------------------------------------------- Surcharge d'opérateurs

@@ -47,9 +47,16 @@ public:
 	// Contrat :
 	//
 
-    bool ChargerMesures(string fichierMesures);
+    bool ChargerMesures(string fichierMesures, unordered_map<string, string> & mapCapteurUtilisateur);
 
     bool ChargerAttributs(string fichierAttributs);
+
+	bool ChargerLabels(string fichierLabel, unordered_map<string, string> & mapCapteurUtilisateur);
+	// Mode d'emploi : Méthode qui va permettre d'associer à chaque mesure
+	// des utilisateurs privés leur label (si il y en a)
+	//
+	// Contrat : Aucun
+	//
 
     Mesure* ConsulterMoyenneDonneesDatePrecise(Horodatage & date, Zone & zone);
 
@@ -66,8 +73,10 @@ public:
 	bool LabelliserUneDonnee(vector<Mesure*>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
 
     vector<vector<Capteur*>> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
-	//mode d'emploi : renvoi les capteurs similaires à partir d'une liste de capteurs et du nombre de classes minimum
-	//contrat:
+	// Mode d'emploi : renvoi les capteurs similaires à partir d'une liste de capteurs et du nombre de classes minimum
+	//
+	// Contrat :
+	//
 
     void LabeliserDonneesUtilisateur();
 

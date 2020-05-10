@@ -35,6 +35,13 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+void MesureUtilisateur::SetLabel(string lab)
+// Algorithme : Aucun
+//
+{
+	this->label = lab;
+} //----- Fin de SetLabel
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 
@@ -50,6 +57,16 @@ MesureUtilisateur & MesureUtilisateur::operator = (const MesureUtilisateur & unM
 MesureUtilisateur::MesureUtilisateur ()
 // Algorithme :
 //
+{
+#ifdef MAP
+	cout << "Appel au constructeur de <MesureUtilisateur>" << endl;
+#endif
+} //----- Fin de MesureUtilisateur
+
+MesureUtilisateur::MesureUtilisateur(TypeAttribut* typeMesure,double valeurAttribut,string idCapteur,Horodatage dateMesure)
+// Algorithme : Aucun
+//
+:Mesure(typeMesure,valeurAttribut,idCapteur,dateMesure),label("")
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <MesureUtilisateur>" << endl;
