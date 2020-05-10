@@ -52,6 +52,13 @@ public:
 	// Contrat :
 	//
 
+	Zone(double rayon, PointGeographique p);
+	// Mode d'emploi : initialise une zone à partir d'un rayon et d'un centre
+	//
+	// Contrat :
+	//
+
+
 	virtual ~Zone ();
 	// Mode d'emploi :
 	//

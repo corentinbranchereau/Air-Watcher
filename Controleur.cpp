@@ -114,17 +114,27 @@ int main(void)
 {
 	if(chargementDonnees("Data/providers.csv","Data/measurements.csv","Data/attributes.csv","Data/sensors.csv"))
 	{
-		//vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
-		//affichageCapteursSimilaires(capteursSim);
+		/*vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
+		affichageCapteursSimilaires(capteursSim);
 		Horodatage h(2019,1,4,12,0,0);
 
 		TypeAttribut* type=new TypeAttribut("O3","µg/m3","concentration d'ozone");
 		
 		Mesure* m=new Mesure(type,400,"Sensor0",h);
 
+		PointGeographique p(44,0.4);
+
 		vector<Mesure*> listM=donneesMesures.GetMesures();
 		unordered_map<string,Capteur*> mapL=donneesCapteurs.GetCapteurs();
-		bool result=donneesMesures.LabelliserUneDonnee(listM,m,mapL);
+		//bool result=donneesMesures.LabelliserUneDonnee(listM,m,mapL);
+		Horodatage h1(2019,1,4,12,0,0);
+		Horodatage h2(2019,1,25,12,30,0);
+
+		Zone zone(10000,p);
+
+		int* indicesAtmo=donneesMesures.ConsulterQualitePeriodePrecise(h1,h2,zone,listM,mapL);
+		*/
+
 
 		while(1)
 		{

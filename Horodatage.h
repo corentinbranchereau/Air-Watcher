@@ -32,15 +32,30 @@ public:
 	//
 	// Contrat :
 	//
+	
 	double getTempsSecondes();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
+	void setSeconde(int sec);
+
+	void setMinute(int min);
+
+	void setheure(int heure);
+
 //------------------------------------------------- Surcharge d'opérateurs
 	Horodatage & operator = (const Horodatage & unHorodatage);
-	// Mode d'emploi :
+	// Mode d'emploi : 
+	//
+	// Contrat :
+	//
+
+	bool operator >= (const Horodatage & unHorodatage) const;
+
+	bool less (const Horodatage & unHorodatage) const;
+	// Mode d'emploi : permet de comparer 2 dates
 	//
 	// Contrat :
 	//

@@ -57,13 +57,20 @@ public:
 
     int ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone);
 
-    int* ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone);
+    int* ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
+	// Mode d'emploi :renvoie une liste d'entiers correspondant aux indices atmos, un par jour (s'il y avait des mesures à ce jour correspondant)
+	//
+	// Contrat :
+	//
 
     Mesure* ObtenirDonneesBrutes();
 
     bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur);
 	
 	bool LabelliserUneDonnee(vector<Mesure*>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
+	// Mode d'emploi : renvoie true si la mesure à vérifier est non aberrante, false sinon
+	// Contrat :
+	//
 
     vector<vector<Capteur*>> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
 	//mode d'emploi : renvoi les capteurs similaires à partir d'une liste de capteurs et du nombre de classes minimum

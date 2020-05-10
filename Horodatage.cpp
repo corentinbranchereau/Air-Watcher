@@ -40,11 +40,26 @@ using namespace std;
 	 return annee*365*24*3600+mois*30*24*3600+jour*24*3600+heure*3600+minute*60+seconde;
  }
 
+void Horodatage:: setSeconde(int sec)
+{
+	seconde=sec;
+}
+void Horodatage:: setMinute(int min)
+{
+	minute=min;
+}
+
+void Horodatage:: setheure(int heure)
+{
+	this->heure=heure;
+}
+
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 
 Horodatage & Horodatage::operator = (const Horodatage & unHorodatage)
-// Algorithme :
+// Algorithme :compare 2 dates en fonction des attributs
 //
 {
 	this->annee=unHorodatage.annee;
@@ -56,6 +71,50 @@ Horodatage & Horodatage::operator = (const Horodatage & unHorodatage)
 	return *this;
 } //----- Fin de operator =
 
+
+bool Horodatage::operator >= (const Horodatage & unHorodatage) const
+// Algorithme : renvoie true si la date en paramètre est avant celle qui appelle la méthode ou égale
+//
+{	bool res=false;
+
+	if(this->annee>unHorodatage.annee)
+	{
+		return true;
+	}
+
+	if(this->annee==unHorodatage.annee && mois>unHorodatage.mois)
+	{
+		return true;
+	}
+
+	if(this->annee==unHorodatage.annee && mois==unHorodatage.mois && jour>unHorodatage.jour)
+	{
+		return true;
+	}
+
+	if(this->annee==unHorodatage.annee && mois==unHorodatage.mois && jour==unHorodatage.jour && heure>unHorodatage.heure)
+	{
+		return true;
+	}
+
+	if(this->annee==unHorodatage.annee && mois==unHorodatage.mois && jour==unHorodatage.jour && heure==unHorodatage.heure &&minute>unHorodatage.minute )
+	{
+		return true;
+	}
+	if(this->annee==unHorodatage.annee && mois==unHorodatage.mois && jour==unHorodatage.jour && heure==unHorodatage.heure &&minute==unHorodatage.minute&& seconde>=unHorodatage.seconde )
+	{
+		return true;
+	}
+	return false;
+
+} //----- Fin de operator >=
+
+bool Horodatage::less(const Horodatage & unHorodatage) const
+// Algorithme : joue le rôle de l'opérateur <
+//
+{	
+	return !((*this)>=unHorodatage);
+} //----- Fin de less
 
 //-------------------------------------------- Constructeurs - destructeur
 

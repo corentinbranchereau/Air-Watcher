@@ -15,6 +15,7 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Zone.h"
+#include "math.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -36,9 +37,17 @@ using namespace std;
 //} //----- Fin de Méthode
 
 bool Zone::VerifierAppartenancePoint(PointGeographique & point)
-// Algorithme :
+// Algorithme : vérifie si le point passé en paramètre se trouve dans le cercle défini par son rayon et son centre
 //
-{
+{	double longitude1=centre.getLongitude();
+	double  latitude1=centre.getLatitude();
+	double longitude2=point.getLongitude();
+	double latitude2=point.getLatitude();
+
+	if(acos(sin(latitude1)*sin(latitude2)+cos(latitude1)*cos(latitude2)*cos(longitude2-longitude1))*6371<rayon)
+	{
+		return true;
+	}
 	return false;
 } //----- Fin de VerifierAppartenancePoint
 
@@ -61,6 +70,18 @@ Zone::Zone ()
 	cout << "Appel au constructeur de <Zone>" << endl;
 #endif
 } //----- Fin de Zone
+
+Zone::Zone(double rayon, PointGeographique p)
+// Algorithme : initialise une zone circulaire avec un rayon et un centre
+//
+{
+#ifdef MAP
+	cout << "Appel au constructeur de <Zone>" << endl;
+#endif
+
+this->rayon=rayon;
+this->centre=p;
+}
 
 
 Zone::~Zone ()

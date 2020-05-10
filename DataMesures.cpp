@@ -18,6 +18,7 @@ using namespace std;
 #include <limits>
 #include <algorithm>
 #include <math.h>
+#include<map>
 
 
 //------------------------------------------------------------- Constantes
@@ -186,10 +187,175 @@ int DataMesures::ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone)
 
 } //----- Fin de ConsulterQualiteDatePrecise
 
-int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone)
-// Algorithme :
+bool operator <(const Horodatage& h1, const Horodatage& h2)
+{
+  //utile pour la map dans ConsulterQualitePeriodePrecise
+  return h1.less(h2);
+}
+
+int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
+// Algorithme :renvoie l'indice atmo moyen sur la période voulue et la zone souhaitée en calculant les moyennes journalières des attributs concernés
 //
 {
+  map<Horodatage,vector<Mesure*>> datesRencontrees;
+  //clef : date, valeur : liste de Mesure*
+  
+  for(int i=0;i<listMesuresBonnes.size();i++)
+  {
+    PointGeographique p=(*mapCapteurs[(*(listMesuresBonnes[i])).getIdCapteur()]).getPosition();
+
+    Horodatage h=(*(listMesuresBonnes[i])).getdateMesure();
+    
+    if(zone.VerifierAppartenancePoint(p) && h>=dateDebut && dateFin>=h)
+    {
+      //si la mesure est dans la bonne zone etdans le bon intervalle de temps
+      h.setheure(0);
+      h.setMinute(0);
+      h.setSeconde(0);
+      //on ne garde pas l'heure, le mois, le jour
+
+      if(datesRencontrees.find(h)==datesRencontrees.end())
+      {
+        //si la date a déjà été vu on l'ajoute
+        vector<Mesure*> v;
+        v.push_back(listMesuresBonnes[i]);
+        datesRencontrees.insert({h,v});
+      }
+      else
+      {
+        //sinon on ajoute uniquement la mesure dans la map
+       (datesRencontrees[h]).push_back(listMesuresBonnes[i]);
+      }
+      
+    }
+  }
+
+  int *indicesAtmo=new int[datesRencontrees.size()];//contient les indices ATMO journaliers
+
+  double moyenneValeurs [datesRencontrees.size()][4];//1 er indice : indice date, 2 ème indice : typeAttribut
+
+  int numDate=-1;
+
+  int nPM10;
+  int minSO2;
+  int minNO2;
+  int minO3;
+
+  for(auto it=datesRencontrees.begin();it!=datesRencontrees.end();it++)
+  {
+    numDate++;
+
+    //initialisation paramètres
+    nPM10=0;
+ 
+    moyenneValeurs[numDate][0]=-100;
+    moyenneValeurs[numDate][1]=-100;
+    moyenneValeurs[numDate][2]=-100;//pour les 3 premiers éléments on garde le max et non pas la moyenne
+
+    moyenneValeurs[numDate][3]=0;//pour les particules on fait la moyenne (PM10)
+
+    for(int i=0;i<(it->second).size();i++)
+    {
+      Mesure* mesure=((it->second)[i]);
+      string attributID1=(*((*mesure).getTypeMesure())).getIdAttribut();
+
+      if(attributID1=="O3")
+      {
+        if(moyenneValeurs[numDate][0]<((*mesure).getValeurAttribut()))
+        {
+          //MAJ max 
+          moyenneValeurs[numDate][0]=((*mesure).getValeurAttribut());
+        }
+        
+      }
+
+      if(attributID1=="SO2")
+      {
+        if(moyenneValeurs[numDate][1]<((*mesure).getValeurAttribut()))
+        {
+          //MAJ max
+          moyenneValeurs[numDate][1]=((*mesure).getValeurAttribut());
+        }
+      
+      }
+
+      if(attributID1=="NO2")
+      {
+        if(moyenneValeurs[numDate][2]<((*mesure).getValeurAttribut()))
+        {
+          //MAJ max
+          moyenneValeurs[numDate][2]=((*mesure).getValeurAttribut());
+        }
+      }
+        if(attributID1=="PM10")
+      {
+        //MAJ moyenne
+        moyenneValeurs[numDate][3]+=((*mesure).getValeurAttribut());
+        ++nPM10;
+      }
+    }
+
+    moyenneValeurs[numDate][3]/=(nPM10+0.001);//on divise par le nombre de mesures pour obtenir la moyenne (PM10)
+
+  }
+
+  //initialisation tableaux pour calculer les sous indices-atmo
+
+  int tabPM10min[]={0,7,14,21,28,35,42,50,65,80};
+  int tabPM10max[]={6,13,20,27,34,41,49,64,79,1000000};
+
+  int tabNO2min[]={0,30,55,85,110,135,165,200,275,400};
+  int tabNO2max[]={29,54,84,109,134,164,199,274,399,1000000};
+
+  int tabO3min []={0,30,55,80,105,130,150,180,210,240};
+  int tabO3max []={29,54,79,104,129,149,179,209,239,1000000};
+
+  int tabSO2min []={0,40,80,120,160,200,250,300,400,500};
+  int tabSO2max []={39,79,119,159,199,249,299,399,499,1000000};
+
+  int* tabMin[4];
+  int* tabMax[4];
+
+  tabMin[0]=tabO3min;
+  tabMin[1]=tabSO2min;
+  tabMin[2]=tabNO2min;
+  tabMin[3]=tabPM10min;
+
+  tabMax[0]=tabO3max;
+  tabMax[1]=tabSO2max;
+  tabMax[2]=tabNO2max;
+  tabMax[3]=tabPM10max;
+
+  //début calculs sous-indices atmo
+
+   for(int i=0;i<=numDate;i++)
+   {
+     indicesAtmo[i]=-1;
+     for(int k=0;k<4;k++)
+     {
+       double valeur=moyenneValeurs[i][k];
+        for(int j=0;j<=9;j++)
+        {
+         if(valeur>tabMin[k][j] && valeur<tabMax[k][j])
+         {
+           if(j+1>indicesAtmo[i])
+           {
+             //on garde que le max pour chaque jour : c'est l'indice final
+           indicesAtmo[i]=j+1;
+           }
+         }
+        }
+
+     }
+   }
+
+   /*for(int i=0;i<=numDate;i++)
+   {
+     cout<<indicesAtmo[i]<<endl;
+   }
+   */
+
+   return indicesAtmo;
 
 } //----- Fin de ConsulterQualitePeriodePrecise
 
