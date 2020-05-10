@@ -71,6 +71,12 @@ public:
 	// Contrat :
 	//
 
+	unordered_map<string,string> & GetMapCapteurUtilisateur();
+	// Mode d'emploi : Retourne la map liant les id Capteur aux id Utilisateur
+	//
+	// Contrat : Aucun
+	//
+
 //------------------------------------------------- Surcharge d'opérateurs
 	DataCapteurs & operator = (const DataCapteurs & unDataCapteurs);
 	// Mode d'emploi :

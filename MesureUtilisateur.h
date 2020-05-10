@@ -35,6 +35,12 @@ public:
 	// Contrat :
 	//
 
+	void SetLabel(string lab);
+	// Mode d'emploi : Change la valeur de l'attribut label
+	//
+	// Contrat : Aucun
+	//
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 	MesureUtilisateur & operator = (const MesureUtilisateur & unMesureUtilisateur);
@@ -50,6 +56,13 @@ public:
 	// Mode d'emploi :
 	//
 	// Contrat :
+	//
+
+	MesureUtilisateur(TypeAttribut* typeMesure,double valeurAttribut,string idCapteur,Horodatage dateMesure);
+	// Mode d'emploi : Constructeur initialisant les attributs avec les valeurs fournies (initialise le label 
+	// à une chaine vide)
+	//
+	// Contrat : Aucun
 	//
 
 	virtual ~MesureUtilisateur ();

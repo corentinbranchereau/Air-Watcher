@@ -44,6 +44,42 @@ public:
 	void setMinute(int min);
 
 	void setheure(int heure);
+	
+	int GetAnnee();
+	// Mode d'emploi : Retourne l'attribut annee
+	//
+	// Contrat : Aucun
+	//
+
+	int GetMois();
+	// Mode d'emploi : Retourne l'attribut mois
+	//
+	// Contrat : Aucun
+	//
+
+	int GetJour();
+	// Mode d'emploi : Retourne l'attribut jour
+	//
+	// Contrat : Aucun
+	//
+
+	int GetHeure();
+	// Mode d'emploi : Retourne l'attribut heure
+	//
+	// Contrat : Aucun
+	//
+
+	int GetMinute();
+	// Mode d'emploi : Retourne l'attribut minute
+	//
+	// Contrat : Aucun
+	//
+
+	int GetSeconde();
+	// Mode d'emploi : Retourne l'attribut seconde
+	//
+	// Contrat : Aucun
+	//
 
 //------------------------------------------------- Surcharge d'opérateurs
 	Horodatage & operator = (const Horodatage & unHorodatage);

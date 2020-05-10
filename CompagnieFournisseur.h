@@ -49,6 +49,11 @@ public:
     // Contrat :
     // Aucun
 
+    string getId();
+    // Mode d'emploi :
+    // Retourne l'id du fournisseur
+    // Contrat :
+    // Aucun
 
 //------------------------------------------------- Surcharge d'opérateurs
 	CompagnieFournisseur & operator = (const CompagnieFournisseur & unCompagnieFournisseur);

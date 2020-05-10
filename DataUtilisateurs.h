@@ -43,7 +43,7 @@ public:
 	// Contrat :
 	//
 
-    bool ChargerFournisseurs(string fichierNettoyeurs, unordered_map<string, NettoyeurAir *> & nettoyeurs);
+    bool ChargerFournisseurs(string fichierNettoyeurs, const unordered_map<string, NettoyeurAir *> & nettoyeurs);
     // Mode d'emploi :
     // Charge le fichier de fournisseurs passé en paramètre.
     // Renvoi vrai si l'opération s'est bien passé, faux sinon
@@ -60,6 +60,12 @@ public:
 	// à savoir : 1 utilisateur par ligne et dans l'ordre : 
 	// type de compte|identifiant|mdp|nom|prénom|mail|nom compagnie (si fournisseur)
 	//
+
+    const unordered_map<string,CompagnieFournisseur*> GetFournisseurs();
+    // Mode d'emploi :
+    // Renvoi simplement les fournisseurs
+    // Contrat :
+    // Aucun
 
     bool VerifierUnCompte(string mail,bool validation);
 	// Mode d'emploi :

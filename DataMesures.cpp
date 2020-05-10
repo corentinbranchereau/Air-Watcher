@@ -44,7 +44,7 @@ unordered_map<string,double> memoireClusters;
 //} //----- Fin de Méthode
 
 
-bool DataMesures::ChargerMesures(string fichierMesures)
+bool DataMesures::ChargerMesures(string fichierMesures, unordered_map<string, string> & mapCapteurUtilisateur)
 // Algorithme : permet de lire le fichier passé en paramètres  et de charger les mesures une par une dans une liste  
 //
 {
@@ -110,9 +110,19 @@ bool DataMesures::ChargerMesures(string fichierMesures)
     
       TypeAttribut* type=typeAttributs[(string)attributID];
 
-      //on crée la mesure
-      Mesure * mesure=new Mesure(type,value,(string)sensorID,horo);
-
+      //on crée la mesure (en vérifiant si l'id Capteur correspond à un id Utilisateur ou non pour créer soit une Mesure soit une MesureUtilisateur)
+      Mesure* mesure;
+      if(mapCapteurUtilisateur.count(sensorID)>0)
+      {
+        // c'est une mesure utilisateur
+        mesure = new MesureUtilisateur(type,value,string(sensorID),horo);
+      }
+      else
+      {
+        // c'est une simple mesure
+        mesure = new Mesure(type,value,string(sensorID),horo);
+      }
+      
       mesures.push_back(mesure);//ajout de la mesure
       
       }
@@ -159,12 +169,61 @@ bool DataMesures::ChargerAttributs(string fichierAttributs)
       TypeAttribut* type=new TypeAttribut((string)typeAttribut,(string)unite,(string)description);
       typeAttributs.insert({(string)typeAttribut,type});//insertion dans la map de l'id Attribut associé à son typeAttribut
 
-      }
+    }
 
-      return true;
+    return true;
 
 
 } //----- Fin de ChargerAttributs
+
+bool DataMesures::ChargerLabels(string fichierLabel, unordered_map<string, string> & mapCapteurUtilisateur)
+// Algorithme : La méthode construit tout d'abord une map contenant toutes les mesures
+// des utilisateurs privés (la clé est une concaténation du timestamp, de l'id capteur et de
+// l'id attribut). Ensuite, elle lit le fichier des labels pour associer à chaque mesure son label
+//
+{
+  unordered_map<string,MesureUtilisateur*> mapMesuresUtilisateurs;
+
+  vector<Mesure*>::iterator it;
+  for(it=this->mesures.begin();it<this->mesures.end();++it)
+  {
+    string idCapteur = (*it)->getIdCapteur();
+    if(mapCapteurUtilisateur.count(idCapteur)>0)
+    {
+      // l'idCapteur correspond à un utilisateur -> c'est une mesure utilisateur privé
+      // on construit un idMesure en concaténant année,mois,jour,heure,minute,seconde,idCapteur,idAttribut
+      string idMesure = to_string((*it)->getdateMesure().GetAnnee())+to_string((*it)->getdateMesure().GetMois())+to_string((*it)->getdateMesure().GetJour())+to_string((*it)->getdateMesure().GetHeure())+to_string((*it)->getdateMesure().GetMinute())+to_string((*it)->getdateMesure().GetSeconde())+(*it)->getIdCapteur()+(*it)->getTypeMesure()->getIdAttribut();
+      MesureUtilisateur * mesure = dynamic_cast<MesureUtilisateur*>(*it); // conversion du pointeur Mesure* en MesureUtilisateur* (aucun problème normalement car c'est une mesure utilisateur)
+
+      // stockage dans la map
+      mapMesuresUtilisateurs.insert(make_pair(idMesure,mesure));
+    }
+  }
+
+  ifstream fileLabel(fichierLabel);
+
+  if(!fileLabel.is_open())
+	{
+		cerr<<"Erreur lors du chargement labels"<<endl;
+		return false;
+	}
+  else
+  {
+    char idMesureLu[200];
+    char labelLu[100];
+    while(fileLabel)
+    {
+      fileLabel.getline(idMesureLu,200,';');
+      if(!fileLabel) // on vérifie si on a atteint la fin du fichier
+      {
+        break;
+      }
+      fileLabel.getline(labelLu,100,'\n');
+      mapMesuresUtilisateurs.find(idMesureLu)->second->SetLabel(labelLu);
+    }
+  }
+  return true;
+} //----- Fin de ChargerLabels
 
 Mesure* DataMesures::ConsulterMoyenneDonneesDatePrecise(Horodatage & date, Zone & zone)
 // Algorithme :
