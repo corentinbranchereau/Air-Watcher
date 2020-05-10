@@ -88,7 +88,7 @@ bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives, string fi
 //
 {
     set<string> idExistants; // va stocker les id déjà existants dans le fichier des comptes
-    fstream fileUtilisateurs(fichierUtilisateurs,ios::in|ios::app); // ouverture en lecture et en écriture du fichier des comptes
+    fstream fileUtilisateurs(fichierUtilisateurs,ios::in|ios::out|ios::app); // ouverture en lecture et en écriture du fichier des comptes
     if(!fileUtilisateurs.is_open())
     {
         cerr<<"Erreur lors de l'ouverture du fichier des comptes"<<endl;
@@ -107,7 +107,7 @@ bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives, string fi
             {
                 break;
             }
-            if(typeCompte=="privé")
+            if(string(typeCompte)==string("privé"))
             {
                 fileUtilisateurs.getline(identifiant,100,';');
                 fileUtilisateurs.getline(buffTemp,500,'\n'); // on lit jusqu'à la fin de la ligne pour passer à la ligne d'après
@@ -119,12 +119,7 @@ bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives, string fi
             }
         }
     }
-
-    cout << "Test Fichier perso" << endl;
-    for(string s : idExistants)
-    {
-        cout << s << endl;
-    }
+    fileUtilisateurs.clear(); // on nettoie le flag 'eof' pour pouvoir écrire dans le fichier ensuite
 
     ifstream file(fichierCapteursPrives);
     if(!file.is_open())
@@ -146,8 +141,6 @@ bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives, string fi
             file.getline(idCapteur,100,';');
             file.get(); // on lit le \n de fin de ligne
             this->mapCapteurUtilisateur.insert(make_pair(idCapteur,idUser));
-
-            cout << "Test idUser : " << string(idUser) << " idCapteur : " << string(idCapteur) << " --> " << idExistants.count(string(idUser)) << endl;
 
             if(idExistants.count(string(idUser))==0) // l'id n'existe pas encore de le fichier des comptes, on va alors l'insérer
             {
