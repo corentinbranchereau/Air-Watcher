@@ -16,6 +16,8 @@
 #include "Affichage.h"
 #include "UtilisateurPrive.h"
 #include "EmployeFournisseur.h"
+#include "EmployeAgenceGouvernementale.h"
+#include "Admin.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -250,7 +252,7 @@ void Affichage::AfficherInformationsCompte(string type, Utilisateur* utilisateur
 	else if(type=="Fournisseur")
 	{
 		EmployeFournisseur* uFournisseur = dynamic_cast<EmployeFournisseur*>(utilisateur);
-		cout<<"\n	"<<Souligner("Compagnie")<<" : "<<endl;			// A COMPLETER -------------
+		cout<<"\n	"<<Souligner("Compagnie")<<" : "<<uFournisseur->GetCompagnie()->getId()<<endl;
 	}
 } //----- Fin de AfficherInformationsCompte
 
@@ -268,6 +270,64 @@ int Affichage::AfficherMenuActionPrive(UtilisateurPrive* utilisateur)
 	cout<<"	4) Me déconnecter.\n";
 	return SaisirChoix(4);
 } //----- Fin de AfficherMenuActionPrive
+
+int Affichage::AfficherMenuActionFournisseur(EmployeFournisseur* utilisateur)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte("Fournisseur",utilisateur);
+	cout<<"\n\n  "<<Souligner("Menu d'action")<<"\n\n";
+	cout<<"	1) Ajouter/Supprimer un nettoyeur d'air.\n";
+	cout<<"	2) Activer/Désactiver un nettoyeur d'air.\n";
+	cout<<"	3) Afficher la liste des nettoyeurs d'air de la compagnie.\n";
+	cout<<"	4) Obtenir le rayon d'action d'un nettoyeur d'air.\n";
+	cout<<"	5) Consulter les données brutes de l'application.\n";
+	cout<<"	6) Obtenir la moyenne des données brutes d'une zone (circulaire).\n";
+	cout<<"	7) Obtenir la qualité d'air moyenne d'une zone (circulaire).\n";
+	cout<<"\n	8) Modifier mon compte.\n";
+	cout<<"	9) Me déconnecter.\n";
+	return SaisirChoix(9);
+} //----- Fin de AfficherMenuActionFournisseur
+
+int Affichage::AfficherMenuActionAgenceGouv(EmployeAgenceGouvernementale* utilisateur)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte("Agence gouvernementale",utilisateur);
+	cout<<"\n\n  "<<Souligner("Menu d'action")<<"\n\n";
+	cout<<"	1) Afficher la liste de tous les capteurs.\n";
+	cout<<"	2) Afficher l'état de tous les capteurs.\n";
+	cout<<"	3) Identifier les capteurs ayant un comportement similaire.\n";
+	cout<<"	4) Consulter les données brutes de l'application.\n";
+	cout<<"	5) Obtenir la moyenne des données brutes d'une zone (circulaire).\n";
+	cout<<"	6) Obtenir la qualité d'air moyenne d'une zone (circulaire).\n";
+	cout<<"	7) Labelliser les données des utilisateurs privés.\n";
+	cout<<"\n	8) Modifier mon compte.\n";
+	cout<<"	9) Me déconnecter.\n";
+	return SaisirChoix(9);
+} //----- Fin de AfficherMenuActionAgenceGouv
+
+int Affichage::AfficherMenuActionAdmin(Admin* utilisateur)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte("Admin",utilisateur);
+	cout<<"\n\n  "<<Souligner("Menu d'action")<<"\n\n";
+	cout<<"	1) Afficher la liste des comptes en attente.\n";
+	cout<<"	2) Valider/Refuser la création d'un compte.\n";
+	cout<<"	3) Gérer un compte.\n";
+	cout<<"	4) Ajouter un capteur à l'application.\n";
+	cout<<"	5) Modifier un capteur de l'application.\n";
+	cout<<"\n	6) Modifier mon compte.\n";
+	cout<<"	7) Me déconnecter.\n";
+	return SaisirChoix(7);
+} //----- Fin de AfficherMenuActionAdmin
 
 
 //------------------------------------------------- Surcharge d'opérateurs
