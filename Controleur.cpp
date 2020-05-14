@@ -156,6 +156,7 @@ int main(void)
 
         //vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
         //affichageCapteursSimilaires(capteursSim);
+        /*
         Horodatage h(2019,1,4,12,0,0);
 
         TypeAttribut* type=new TypeAttribut("O3","µg/m3","concentration d'ozone");
@@ -165,6 +166,11 @@ int main(void)
         vector<Mesure*> listM=donneesMesures.GetMesures();
         unordered_map<string,Capteur*> mapL=donneesCapteurs.GetCapteurs();
         bool result=donneesMesures.LabelliserUneDonnee(listM,m,mapL);
+
+        double rayon=donneesNettoyeurs.ObtenirRayonActionNettoyeur("Cleaner0",donneesMesures,listM,mapL,0.2,0.5,30);
+
+        cout<<"Rayon="<<rayon<<endl;
+        */
 
         while(true)
         {

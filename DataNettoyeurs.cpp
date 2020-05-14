@@ -18,6 +18,7 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "DataNettoyeurs.h"
+
 //------------------------------------------------------------- Constantes
 
 //---------------------------------------------------- Variables de classe
@@ -140,12 +141,79 @@ bool DataNettoyeurs::DesactiverNettoyeur(string idNettoyeur)
 
 } //----- Fin de DesactiverNettoyeur
 
-double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur)
-// Algorithme :
-//
+double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesures & dataM,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs,int precision,int epsilon, double rayonMax)
+// Algorithme : recherche dichotomique du rayon d'action du nettoyeur avec son ID en paramètre  à partir des mesures enregistrées
+//Epsilon définit le degré d'efficacité demandé au cleaner ( entre 0 et 1 ). La précison du rayon est spécifiée aussi.
 {
+	NettoyeurAir* nettoyeur=nettoyeurs[idNettoyeur];
+	Horodatage debut=(*nettoyeur).getDebutActivite();
+	Horodatage fin=(*nettoyeur).getFinActivite();
+
+	double rayonMinT=0;
+	double rayonMaxT=rayonMax;
+
+	double rayon=0;
+
+	while(abs(rayonMaxT-rayonMinT)/2>precision)//tant que la précision du rayon n'est pas atteinte
+	{
+		rayon=(rayonMaxT+rayonMinT)/2;
+		Zone zone(rayon,(*nettoyeur).getPosition());
+
+		double moyenneAvant=0;
+		double moyenneApres=0;
+
+		int* qualiteAirAvant=dataM.ConsulterQualitePeriodePrecise(debut.enleverJour(3),debut,zone,listMesuresBonnes,mapCapteurs);
+		//tableau des indices atmos journaliers sur les 3 jours avant que le cleaner fonctionne
+
+		int* qualiteAirApres=dataM.ConsulterQualitePeriodePrecise(fin,fin.ajouterJour(2),zone,listMesuresBonnes,mapCapteurs);
+		//tableau des indices atmos journaliers sur les 2 jours après que le cleaner a fonctionné
+
+		double indicateur=0;
+
+		if(qualiteAirAvant[0]>0 && qualiteAirApres[0]>0)
+		{
+			for(int j=1;j<qualiteAirAvant[0]+1;j++)
+			{
+				moyenneAvant+=qualiteAirAvant[j];
+			}
+			moyenneAvant/=qualiteAirAvant[0];
+
+			//on fait la moyenne des indices atmo avant que le cleaner a fonctionné
+
+			for(int j=1;j<qualiteAirApres[0]+1;j++)
+			{
+				moyenneApres+=qualiteAirApres[j];
+			}
+			moyenneApres/=qualiteAirApres[0];
+			//on fait la moyenne des indices atmo après que le cleaner a fonctionné
+
+			indicateur=(moyenneAvant-moyenneApres)/moyenneAvant;
+
+		}
+		else
+		{	//si on a pas de mesure on arrête la recherche et on retourne le rayon courant
+			return rayon;
+		}
+		
+		//MAJ des bornes du rayon en fonction de l'indicateur
+		if(indicateur>epsilon)
+		{
+			rayonMinT=rayon;
+		}
+
+		else
+		{
+			rayonMaxT=rayon;
+		}
+			
+	}
+
+	return rayon;
+
 
 } //----- Fin de ObtenirRayonActionNettoyeur
+
+
 
 unordered_map<string,NettoyeurAir*> DataNettoyeurs::GetNettoyeurs()
 // Algorithme :

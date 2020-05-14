@@ -289,7 +289,9 @@ int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodat
     }
   }
 
-  int *indicesAtmo=new int[datesRencontrees.size()];//contient les indices ATMO journaliers
+  int *indicesAtmo=new int[datesRencontrees.size()+1];//contient les indices ATMO journaliers
+
+  indicesAtmo[0]=datesRencontrees.size();
 
   double moyenneValeurs [datesRencontrees.size()][4];//1 er indice : indice date, 2 ème indice : typeAttribut
 
@@ -389,7 +391,7 @@ int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodat
 
    for(int i=0;i<=numDate;i++)
    {
-     indicesAtmo[i]=-1;
+     indicesAtmo[i+1]=-1;
      for(int k=0;k<4;k++)
      {
        double valeur=moyenneValeurs[i][k];
@@ -397,10 +399,10 @@ int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodat
         {
          if(valeur>tabMin[k][j] && valeur<tabMax[k][j])
          {
-           if(j+1>indicesAtmo[i])
+           if(j+1>indicesAtmo[i+1])
            {
              //on garde que le max pour chaque jour : c'est l'indice final
-           indicesAtmo[i]=j+1;
+           indicesAtmo[i+1]=j+1;
            }
          }
         }

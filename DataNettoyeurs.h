@@ -11,6 +11,8 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "NettoyeurAir.h"
+#include "DataMesures.h"
+#include "Mesure.h"
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -72,8 +74,8 @@ public:
 	// Contrat :
 	//
 
-    double ObtenirRayonActionNettoyeur(string idNettoyeur);
-	// Mode d'emploi :
+    double ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesures & dataM,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs,int precision,int epsilon, double rayonMax);
+	// Mode d'emploi :Renvoie le rayon d'action du nettoyeur passé en paramètre
 	//
 	// Contrat :
 	//

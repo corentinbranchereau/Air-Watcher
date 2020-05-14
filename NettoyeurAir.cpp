@@ -38,6 +38,25 @@ using namespace std;
 
 //------------------------------------------------- Surcharge d'opérateurs
 
+Horodatage & NettoyeurAir::getDebutActivite()
+{
+	return debutActivite;
+}
+
+
+
+Horodatage & NettoyeurAir:: getFinActivite()
+{
+	return finActivite;
+}
+
+
+double NettoyeurAir:: getRayon()
+{
+	return rayon;
+}
+
+
 NettoyeurAir & NettoyeurAir::operator = (const NettoyeurAir & unNettoyeurAir)
 // Algorithme :
 //

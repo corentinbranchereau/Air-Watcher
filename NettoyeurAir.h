@@ -33,7 +33,24 @@ public:
 	//
 	// Contrat :
 	//
+	Horodatage & getDebutActivite();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
+
+	Horodatage & getFinActivite();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+	double getRayon();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
 
 //------------------------------------------------- Surcharge d'opérateurs
 	NettoyeurAir & operator = (const NettoyeurAir & unNettoyeurAir);

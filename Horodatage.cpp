@@ -34,7 +34,56 @@ using namespace std;
 //
 //{
 //} //----- Fin de Méthode
+Horodatage& Horodatage::enleverJour(int nbJours)
+{
+	Horodatage res(*this);
+	if(jour>nbJours)
+	{
+		res.jour-=nbJours;
+		return res;
+	}
+	if(mois>=2)
+	{
+		res.jour=(30)-(nbJours-jour);
+		res.mois-=1;
 
+
+	}
+	else
+	{
+		res.annee-=1;
+		res.mois=12;
+		res.jour=(31)-(nbJours-jour);
+	}
+	return res;
+	
+}
+
+
+Horodatage& Horodatage::ajouterJour(int nbJours)
+{
+	Horodatage res(*this);
+	if(nbJours+jour<30)
+	{
+		res.jour+=nbJours;
+		return res;
+	}
+	if(mois<=11)
+	{
+		res.jour=(nbJours+jour)-30;
+		res.mois+=1;
+
+
+	}
+	else
+	{
+		res.annee+=1;
+		res.mois=1;
+		res.jour=(nbJours+jour)-30;
+	}
+	return res;
+	
+}
 double Horodatage::getTempsSecondes()
 {
 	return annee*365*24*3600+mois*30*24*3600+jour*24*3600+heure*3600+minute*60+seconde;
@@ -180,10 +229,12 @@ Horodatage::Horodatage ()
 // Algorithme :
 //
 {
+
 #ifdef MAP
 	cout << "Appel au constructeur de <Horodatage>" << endl;
 #endif
 } //----- Fin de Horodatage
+
 
 
 Horodatage::Horodatage (int annee, int mois, int jour, int heure, int minute, int seconde)
