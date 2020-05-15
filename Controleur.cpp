@@ -86,6 +86,12 @@ void menuAction()
         // c'est un admin
         statutConnexion = "admin";
         affichage.AffichageFinConnexion("réussite");
+
+        while(choix!=7) // 7 = Déconnexion pour un admin
+        {
+            choix = affichage.AfficherMenuActionAdmin(admin);
+        }
+        statutConnexion = "déconnecté";
     }
     else if(uPrive!=nullptr)
     {
@@ -106,6 +112,12 @@ void menuAction()
         {
             statutConnexion = "agence";
             affichage.AffichageFinConnexion("réussite");
+
+            while(choix!=9) // 9 = Déconnexion pour un employé d'agence
+            {
+                choix = affichage.AfficherMenuActionAgenceGouv(uAgence);
+            }
+            statutConnexion = "déconnecté";
         }
         else
         {
@@ -121,6 +133,12 @@ void menuAction()
         {
             statutConnexion = "fournisseur";
             affichage.AffichageFinConnexion("réussite");
+
+            while(choix!=9) // 9 = Déconnexion pour fournisseur
+            {
+                choix = affichage.AfficherMenuActionFournisseur(uFournisseur);
+            }
+            statutConnexion = "déconnecté";
         }
         else
         {

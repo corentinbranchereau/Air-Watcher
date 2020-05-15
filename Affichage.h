@@ -11,6 +11,9 @@
 
 //--------------------------------------------------- Interfaces utilisées
 #include "UtilisateurPrive.h"
+#include "EmployeFournisseur.h"
+#include "EmployeAgenceGouvernementale.h"
+#include "Admin.h"
 #include <string>
 using namespace std;
 //------------------------------------------------------------- Constantes
@@ -120,6 +123,32 @@ public:
 	// Contrat : Aucun
 	//
 
+	int AfficherMenuActionFournisseur(EmployeFournisseur* utilisateur);
+	// Mode d'emploi : Cette méthode permet d'afficher le menu d'action d'un fournisseur
+	// et de récupérer le choix d'action qu'il a tapé.
+	// On passe en paramètre le pointeur vers l'utilisateur afin d'avoir ses informations
+	// (nom, prénom etc...)
+	//
+	// Contrat : Aucun
+	//
+
+	int AfficherMenuActionAgenceGouv(EmployeAgenceGouvernementale* utilisateur);
+	// Mode d'emploi : Cette méthode permet d'afficher le menu d'action d'un employé de
+	// l'agence gouvernementale et de récupérer le choix d'action qu'il a tapé.
+	// On passe en paramètre le pointeur vers l'utilisateur afin d'avoir ses informations
+	// (nom, prénom etc...)
+	//
+	// Contrat : Aucun
+	//
+
+	int AfficherMenuActionAdmin(Admin* utilisateur);
+	// Mode d'emploi : Cette méthode permet d'afficher le menu d'action d'un admin
+	// et de récupérer le choix d'action qu'il a tapé.
+	// On passe en paramètre le pointeur vers l'utilisateur afin d'avoir ses informations
+	// (nom, prénom etc...)
+	//
+	// Contrat : Aucun
+	//
 
 //------------------------------------------------- Surcharge d'opérateurs
 	Affichage & operator = (const Affichage & unAffichage);

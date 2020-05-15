@@ -34,6 +34,12 @@ public:
 	// Contrat :
 	//
 
+	CompagnieFournisseur* GetCompagnie();
+	// Mode d'emploi : Retourne l'attribut 'compagnie' de l'employé
+	//
+	// Contrat : Aucun
+	//
+
 //------------------------------------------------- Surcharge d'opérateurs
 	EmployeFournisseur & operator = (const EmployeFournisseur & unEmployeFournisseur);
 	// Mode d'emploi :
@@ -70,7 +76,7 @@ private:
     //
 protected:
 //----------------------------------------------------- Attributs protégés
-	CompagnieFournisseur compagnie;
+	CompagnieFournisseur* compagnie;
 
 private:
 //------------------------------------------------------- Attributs privés

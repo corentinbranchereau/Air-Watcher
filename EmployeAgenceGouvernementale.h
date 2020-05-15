@@ -70,7 +70,7 @@ private:
     //
 protected:
 //----------------------------------------------------- Attributs protégés
-	AgenceGouvernementale agence;
+	AgenceGouvernementale* agence;
 private:
 //------------------------------------------------------- Attributs privés
 

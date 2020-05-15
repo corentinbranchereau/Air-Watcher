@@ -35,6 +35,13 @@ using namespace std;
 //{
 //} //----- Fin de Méthode
 
+CompagnieFournisseur* EmployeFournisseur::GetCompagnie()
+// Algorithme : Aucun
+//
+{
+	return this->compagnie;
+} //----- Fin de GetCompagnie
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 EmployeFournisseur & EmployeFournisseur::operator = (const EmployeFournisseur & unEmployeFournisseur)
