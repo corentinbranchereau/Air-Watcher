@@ -141,7 +141,7 @@ bool DataNettoyeurs::DesactiverNettoyeur(string idNettoyeur)
 
 } //----- Fin de DesactiverNettoyeur
 
-double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesures & dataM,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs,int precision,int epsilon, double rayonMax)
+double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesures & dataM,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs,double precision,double epsilon, double rayonMax)
 // Algorithme : recherche dichotomique du rayon d'action du nettoyeur avec son ID en paramètre  à partir des mesures enregistrées
 //Epsilon définit le degré d'efficacité demandé au cleaner ( entre 0 et 1 ). La précison du rayon est spécifiée aussi.
 {
@@ -192,6 +192,7 @@ double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesur
 		}
 		else
 		{	//si on a pas de mesure on arrête la recherche et on retourne le rayon courant
+			cout<<"rayon inférieur à " << rayon<< endl;
 			return rayon;
 		}
 		

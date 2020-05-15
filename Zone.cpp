@@ -44,7 +44,7 @@ bool Zone::VerifierAppartenancePoint(PointGeographique & point)
 	double longitude2=point.getLongitude();
 	double latitude2=point.getLatitude();
 
-	if(acos(sin(latitude1)*sin(latitude2)+cos(latitude1)*cos(latitude2)*cos(longitude2-longitude1))*6371<rayon)
+	if((acos(sin(M_PI/180*latitude1)*sin(M_PI/180*latitude2)+cos(M_PI/180*latitude1)*cos(M_PI/180*latitude2)*cos(M_PI/180*(longitude2-longitude1)))*6371)<=rayon)
 	{
 		return true;
 	}

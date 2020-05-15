@@ -777,7 +777,7 @@ bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure
     PointGeographique p2=(*mapCapteurs[(MesuresBonnesTris[i]).getIdCapteur()]).getPosition();
     double latitude2=p2.getLatitude();
     double longitude2=p2.getLongitude();
-    double distance=acos(sin(latitude1)*sin(latitude2)+cos(latitude1)*cos(latitude2)*cos(longitude2-longitude1))*6371;
+    double distance=acos(sin(M_PI/180*latitude1)*sin(M_PI/180*latitude2)+cos(M_PI/180*latitude1)*cos(M_PI/180*latitude2)*cos(M_PI/180*(longitude2-longitude1)))*6371;
     moyenne+=(1/(distance+0.1)*MesuresBonnesTris[i].getValeurAttribut());
     denominateur+=1/(distance+0.1);
   }

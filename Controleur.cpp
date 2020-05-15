@@ -8,7 +8,9 @@
 #include "EmployeAgenceGouvernementale.h"
 #include "Affichage.h"
 #include "DataNettoyeurs.h"
+
 #include <iostream>
+#include "math.h"
 
 Affichage affichage;
 int choix;
@@ -156,7 +158,13 @@ int main(void)
 
         //vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
         //affichageCapteursSimilaires(capteursSim);
-        /*
+
+       /* double longitude1=1.333333;
+	    double  latitude1=45.333333;
+	    double longitude2=3.2;
+	    double latitude2=45.2;
+
+        
         Horodatage h(2019,1,4,12,0,0);
 
         TypeAttribut* type=new TypeAttribut("O3","µg/m3","concentration d'ozone");
@@ -167,10 +175,13 @@ int main(void)
         unordered_map<string,Capteur*> mapL=donneesCapteurs.GetCapteurs();
         bool result=donneesMesures.LabelliserUneDonnee(listM,m,mapL);
 
-        double rayon=donneesNettoyeurs.ObtenirRayonActionNettoyeur("Cleaner0",donneesMesures,listM,mapL,0.2,0.5,30);
+        double rayon=donneesNettoyeurs.ObtenirRayonActionNettoyeur("Cleaner0",donneesMesures,listM,mapL,0.2,0.1,500);
 
         cout<<"Rayon="<<rayon<<endl;
         */
+
+
+        
 
         while(true)
         {
