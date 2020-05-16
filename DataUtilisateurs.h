@@ -58,7 +58,7 @@ public:
 	//
 	// Contrat : Le fichier doit contenir les utilisateurs selon le bon format
 	// à savoir : 1 utilisateur par ligne et dans l'ordre : 
-	// type de compte|identifiant|mdp|nom|prénom|mail|nom compagnie (si fournisseur)
+	// type de compte;identifiant;mdp;nom;prénom;mail;id compagnie (si fournisseur)
 	//
 
     const unordered_map<string,CompagnieFournisseur*> GetFournisseurs();
@@ -107,7 +107,7 @@ public:
 	//
 	// Contrat : Le paramètre 'informationsUtilisateur' doit être un tableau
 	// de string contenant dans l'ordre : type de compte, identifiant, mdp, 
-	// nom, prénom, mail, nom compagnie (si fournisseur)
+	// nom, prénom, mail, id compagnie (si fournisseur)
 	//
 
 

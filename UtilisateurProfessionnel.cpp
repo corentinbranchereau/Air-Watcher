@@ -65,8 +65,16 @@ UtilisateurProfessionnel::UtilisateurProfessionnel ()
 :compteValide(false)
 {
 #ifdef MAP
-	cout << "Appel au constructeur de <UtilisateurProfessionnel>" << endl;
+	cout << "Appel au constructeur (par défaut) de <UtilisateurProfessionnel>" << endl;
 #endif
+} //----- Fin de UtilisateurProfessionnel (par défaut)
+
+UtilisateurProfessionnel::UtilisateurProfessionnel(string identifiant_c,string mdp_c,string nom_c,string prenom_c,string mail_c)
+// Algorithme : Aucun
+//
+:Utilisateur(identifiant_c,mdp_c,nom_c,prenom_c,mail_c),compteValide(false)
+{
+
 } //----- Fin de UtilisateurProfessionnel
 
 

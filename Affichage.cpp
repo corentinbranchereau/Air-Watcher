@@ -12,12 +12,15 @@
 //-------------------------------------------------------- Include système
 #include <iostream>
 #include <limits>
+#include <vector>
 //------------------------------------------------------ Include personnel
 #include "Affichage.h"
+#include "Utilisateur.h"
 #include "UtilisateurPrive.h"
 #include "EmployeFournisseur.h"
 #include "EmployeAgenceGouvernementale.h"
 #include "Admin.h"
+#include "Capteur.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -238,31 +241,31 @@ void Affichage::AffichageFinConnexion(string etatConnexion)
 	cin.ignore();
 } //----- Fin de AffichageConnexion
 
-void Affichage::AfficherInformationsCompte(string type, Utilisateur* utilisateur)
+void Affichage::AfficherInformationsCompte()
 // Algorithme : Aucun
 //
 {
-	cout<<"	"<<Souligner("Utilisateur")<<" : "<<utilisateur->GetPrenom()<<" "<<utilisateur->GetNom();
-	cout<<"   "<<Souligner("Compte de type")<<" : "<<type<<endl;
-	if(type=="Utilisateur privé")
+	cout<<"	"<<Souligner("Utilisateur")<<" : "<<this->utilisateurConnecte->GetPrenom()<<" "<<this->utilisateurConnecte->GetNom();
+	cout<<"   "<<Souligner("Compte de type")<<" : "<<this->typeCompte<<endl;
+	if(this->typeCompte=="Utilisateur privé")
 	{
-		UtilisateurPrive* uPrive = dynamic_cast<UtilisateurPrive*>(utilisateur);
+		UtilisateurPrive* uPrive = dynamic_cast<UtilisateurPrive*>(this->utilisateurConnecte);
 		cout<<"\n	"<<Souligner("Nombre de points")<<" : "<<uPrive->ObtenirPoints()<<endl;
 	}
-	else if(type=="Fournisseur")
+	else if(this->typeCompte=="Fournisseur")
 	{
-		EmployeFournisseur* uFournisseur = dynamic_cast<EmployeFournisseur*>(utilisateur);
+		EmployeFournisseur* uFournisseur = dynamic_cast<EmployeFournisseur*>(this->utilisateurConnecte);
 		cout<<"\n	"<<Souligner("Compagnie")<<" : "<<uFournisseur->GetCompagnie()->getId()<<endl;
 	}
 } //----- Fin de AfficherInformationsCompte
 
-int Affichage::AfficherMenuActionPrive(UtilisateurPrive* utilisateur)
+int Affichage::AfficherMenuActionPrive()
 // Algorithme : Aucun
 //
 {
 	NettoyerConsole();
 	AfficherTitre();
-	AfficherInformationsCompte("Utilisateur privé",utilisateur);
+	AfficherInformationsCompte();
 	cout<<"\n\n  "<<Souligner("Menu d'action")<<"\n\n";
 	cout<<"	1) Consulter mes données rentrées.\n";
 	cout<<"	2) Entrer une nouvelle donnée.\n";
@@ -271,13 +274,13 @@ int Affichage::AfficherMenuActionPrive(UtilisateurPrive* utilisateur)
 	return SaisirChoix(4);
 } //----- Fin de AfficherMenuActionPrive
 
-int Affichage::AfficherMenuActionFournisseur(EmployeFournisseur* utilisateur)
+int Affichage::AfficherMenuActionFournisseur()
 // Algorithme : Aucun
 //
 {
 	NettoyerConsole();
 	AfficherTitre();
-	AfficherInformationsCompte("Fournisseur",utilisateur);
+	AfficherInformationsCompte();
 	cout<<"\n\n  "<<Souligner("Menu d'action")<<"\n\n";
 	cout<<"	1) Ajouter/Supprimer un nettoyeur d'air.\n";
 	cout<<"	2) Activer/Désactiver un nettoyeur d'air.\n";
@@ -291,13 +294,13 @@ int Affichage::AfficherMenuActionFournisseur(EmployeFournisseur* utilisateur)
 	return SaisirChoix(9);
 } //----- Fin de AfficherMenuActionFournisseur
 
-int Affichage::AfficherMenuActionAgenceGouv(EmployeAgenceGouvernementale* utilisateur)
+int Affichage::AfficherMenuActionAgenceGouv()
 // Algorithme : Aucun
 //
 {
 	NettoyerConsole();
 	AfficherTitre();
-	AfficherInformationsCompte("Agence gouvernementale",utilisateur);
+	AfficherInformationsCompte();
 	cout<<"\n\n  "<<Souligner("Menu d'action")<<"\n\n";
 	cout<<"	1) Afficher la liste de tous les capteurs.\n";
 	cout<<"	2) Afficher l'état de tous les capteurs.\n";
@@ -311,13 +314,13 @@ int Affichage::AfficherMenuActionAgenceGouv(EmployeAgenceGouvernementale* utilis
 	return SaisirChoix(9);
 } //----- Fin de AfficherMenuActionAgenceGouv
 
-int Affichage::AfficherMenuActionAdmin(Admin* utilisateur)
+int Affichage::AfficherMenuActionAdmin()
 // Algorithme : Aucun
 //
 {
 	NettoyerConsole();
 	AfficherTitre();
-	AfficherInformationsCompte("Admin",utilisateur);
+	AfficherInformationsCompte();
 	cout<<"\n\n  "<<Souligner("Menu d'action")<<"\n\n";
 	cout<<"	1) Afficher la liste des comptes en attente.\n";
 	cout<<"	2) Valider/Refuser la création d'un compte.\n";
@@ -328,6 +331,55 @@ int Affichage::AfficherMenuActionAdmin(Admin* utilisateur)
 	cout<<"	7) Me déconnecter.\n";
 	return SaisirChoix(7);
 } //----- Fin de AfficherMenuActionAdmin
+
+int Affichage::CapteursSimilairesNbClassesMini(int nbClassesMax)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	cout<<"\n\n  "<<Souligner("Identification des capteurs similaires")<<"\n\n";
+	cout<<"Combien de groupe de capteurs voulez-vous au minimum ? : ";
+	return SaisirChoix(nbClassesMax);
+} //----- Fin de CapteursSimilairesNbClassesMini
+
+void Affichage::DefinirUtilisateur(Utilisateur* utilisateur, string type)
+// Algorithme : Aucun
+//
+{
+	this->utilisateurConnecte = utilisateur;
+	this->typeCompte = type;
+} //----- Fin de SetUtilisateurConnecte
+
+void Affichage::AfficherCapteursSimilaires(vector<vector<Capteur*>> & res)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	cout<<"\n\n  "<<Souligner("Résultats du regroupement")<<"\n\n";
+
+	for(int i = 0; i<res.size(); i++)
+    {
+		cout<<"**********************"<<endl;
+        cout<<"CLASSE N° "<<(i+1)<<endl;
+
+        for(int j = 0; j<res[i].size(); j++)
+        {
+            cout<<"CAPTEUR ID = "<<(*(res[i][j])).getID()<<endl;
+        }
+		cout<<"**********************"<<endl;
+    }
+
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
+} //----- Fin de AfficherCapteursSimilaires
 
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -345,6 +397,7 @@ Affichage & Affichage::operator = (const Affichage & unAffichage)
 Affichage::Affichage ()
 // Algorithme : Aucun
 //
+:utilisateurConnecte(nullptr)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <Affichage>" << endl;

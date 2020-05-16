@@ -53,7 +53,7 @@ bool chargementDonnees(string cheminFichierNettoyeurs, string cheminFichierFourn
     if(ret){cout<<"users.csv OK\n";}
 
     //Utilisateurs : notre propre fichier
-    ret = ret && donneesUtilisateurs.ChargerUtilisateurs(cheminFichierUtilisateurs);
+    ret = ret && donneesUtilisateurs.ChargerUtilisateurs(cheminFichierUtilisateursPerso);
     if(ret){cout<<"ownUsers.csv OK\n";}
 
     //TypeAttribut
@@ -72,8 +72,7 @@ bool chargementDonnees(string cheminFichierNettoyeurs, string cheminFichierFourn
 void menuAction()
 // Cette méthode permet de boucler sur le menu d'action tant que l'utilisateur ne s'est pas déconnecté
 {
-    int choix=0;
-
+    int choix = 0;
 
     // on tente de caster l'utilisateur pour trouver son type
     Admin* admin = dynamic_cast<Admin*>(utilisateurConnecte);
@@ -85,25 +84,31 @@ void menuAction()
     {
         // c'est un admin
         statutConnexion = "admin";
+
+        // on définit l'utilisateur dans l'affichage pour avoir ses infos
+        affichage.DefinirUtilisateur(utilisateurConnecte,"Admin");
+
         affichage.AffichageFinConnexion("réussite");
 
         while(choix!=7) // 7 = Déconnexion pour un admin
         {
-            choix = affichage.AfficherMenuActionAdmin(admin);
+            choix = affichage.AfficherMenuActionAdmin();
         }
-        statutConnexion = "déconnecté";
     }
     else if(uPrive!=nullptr)
     {
         // c'est un utilisateur privé
         statutConnexion = "privé";
+
+        // on définit l'utilisateur dans l'affichage pour avoir ses infos
+        affichage.DefinirUtilisateur(utilisateurConnecte,"Utilisateur privé");
+
         affichage.AffichageFinConnexion("réussite");
 
         while(choix!=4) // 4 = Déconnexion pour un utilisateur privé
         {
-            choix = affichage.AfficherMenuActionPrive(uPrive);
+            choix = affichage.AfficherMenuActionPrive();
         }
-        statutConnexion = "déconnecté";
     }
     else if(uAgence!=nullptr)
     {
@@ -111,17 +116,61 @@ void menuAction()
         if(uAgence->GetCompteValide())
         {
             statutConnexion = "agence";
+
+            // on définit l'utilisateur dans l'affichage pour avoir ses infos
+            affichage.DefinirUtilisateur(utilisateurConnecte,"Agence gouvernementale");
+
             affichage.AffichageFinConnexion("réussite");
 
             while(choix!=9) // 9 = Déconnexion pour un employé d'agence
             {
-                choix = affichage.AfficherMenuActionAgenceGouv(uAgence);
+                choix = affichage.AfficherMenuActionAgenceGouv();
+
+                switch(choix)
+                {
+                    case 1: {
+                        // liste des capteurs
+                    } break;
+
+                    case 2: {
+                        // état des capteurs
+                    } break;
+
+                    case 3: {
+                        // capteurs similaires
+                        int nbClassesMini = affichage.CapteursSimilairesNbClassesMini(donneesCapteurs.GetCapteurs().size());
+                        vector<vector<Capteur*>> resultatCapteurSimilaire = donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),nbClassesMini);
+                        affichage.AfficherCapteursSimilaires(resultatCapteurSimilaire);
+                    } break;
+
+                    case 4: {
+                        // données brutes
+                    } break;
+
+                    case 5: {
+                        // moyenne données brutes d'une zone
+                    } break;
+
+                    case 6: {
+                        // moyenne qualité air d'une zone
+                    } break;
+
+                    case 7: {
+                        // labelliser données
+                    } break;
+
+                    case 8: {
+                        // modifier compte
+                    } break;
+
+                    case 9: {
+                        // déconnexion
+                    } break;
+                }
             }
-            statutConnexion = "déconnecté";
         }
         else
         {
-            statutConnexion = "déconnecté";
             affichage.AffichageFinConnexion("attente");
         }
 
@@ -132,21 +181,27 @@ void menuAction()
         if(uFournisseur->GetCompteValide())
         {
             statutConnexion = "fournisseur";
+
+            // on définit l'utilisateur dans l'affichage pour avoir ses infos
+            affichage.DefinirUtilisateur(utilisateurConnecte,"Fournisseur");
+
             affichage.AffichageFinConnexion("réussite");
 
             while(choix!=9) // 9 = Déconnexion pour fournisseur
             {
-                choix = affichage.AfficherMenuActionFournisseur(uFournisseur);
+                choix = affichage.AfficherMenuActionFournisseur();
             }
-            statutConnexion = "déconnecté";
         }
         else
         {
-            statutConnexion = "déconnecté";
             affichage.AffichageFinConnexion("attente");
         }
 
     }
+
+    statutConnexion = "déconnecté";
+    affichage.DefinirUtilisateur(nullptr,"");
+    utilisateurConnecte = nullptr;
 }
 
 

@@ -10,11 +10,15 @@
 #define AFFICHAGE_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include "Utilisateur.h"
 #include "UtilisateurPrive.h"
 #include "EmployeFournisseur.h"
 #include "EmployeAgenceGouvernementale.h"
 #include "Admin.h"
+#include "Capteur.h"
+
 #include <string>
+#include <vector>
 using namespace std;
 //------------------------------------------------------------- Constantes
 
@@ -106,7 +110,7 @@ public:
 	// Contrat : Aucun
 	//
 
-	void AfficherInformationsCompte(string type, Utilisateur* utilisateur);
+	void AfficherInformationsCompte();
 	// Mode d'emploi : Cette méthode permet d'afficher en dessous du titre de l'application
 	// les informations essentielles du compte : nom, prénom, type du compte, nb points si utilisateur
 	// privé, nom compagnie si fournisseur
@@ -114,38 +118,52 @@ public:
 	// Contrat : Aucun
 	//
 
-	int AfficherMenuActionPrive(UtilisateurPrive* utilisateur);
+	int AfficherMenuActionPrive();
 	// Mode d'emploi : Cette méthode permet d'afficher le menu d'action d'un utilisateur
 	// privé et de récupérer le choix d'action que l'utilisateur a tapé.
-	// On passe en paramètre le pointeur vers l'utilisateur afin d'avoir ses informations
-	// (nom, prénom etc...)
 	//
 	// Contrat : Aucun
 	//
 
-	int AfficherMenuActionFournisseur(EmployeFournisseur* utilisateur);
+	int AfficherMenuActionFournisseur();
 	// Mode d'emploi : Cette méthode permet d'afficher le menu d'action d'un fournisseur
 	// et de récupérer le choix d'action qu'il a tapé.
-	// On passe en paramètre le pointeur vers l'utilisateur afin d'avoir ses informations
-	// (nom, prénom etc...)
 	//
 	// Contrat : Aucun
 	//
 
-	int AfficherMenuActionAgenceGouv(EmployeAgenceGouvernementale* utilisateur);
+	int AfficherMenuActionAgenceGouv();
 	// Mode d'emploi : Cette méthode permet d'afficher le menu d'action d'un employé de
 	// l'agence gouvernementale et de récupérer le choix d'action qu'il a tapé.
-	// On passe en paramètre le pointeur vers l'utilisateur afin d'avoir ses informations
-	// (nom, prénom etc...)
 	//
 	// Contrat : Aucun
 	//
 
-	int AfficherMenuActionAdmin(Admin* utilisateur);
+	int AfficherMenuActionAdmin();
 	// Mode d'emploi : Cette méthode permet d'afficher le menu d'action d'un admin
 	// et de récupérer le choix d'action qu'il a tapé.
-	// On passe en paramètre le pointeur vers l'utilisateur afin d'avoir ses informations
-	// (nom, prénom etc...)
+	//
+	// Contrat : Aucun
+	//
+
+	int CapteursSimilairesNbClassesMini(int nbClassesMax);
+	// Mode d'emploi : Cette méthode va permettre à l'utilisateur de saisir le
+	// nombre minimum de classes qu'il souhaite pour grouper les capteurs (au max
+	// il peut y avoir autant de classes que de capteurs)
+	//
+	// Contrat : Aucun
+	//
+
+	void DefinirUtilisateur(Utilisateur* utilisateur, string type);
+	// Mode d'emploi : Cette méthode permet de définir les attributs 'utilisateurConnecte'
+	// et 'typeCompte' afin de disposer des informations de l'utilisateur dans les affichages
+	//
+	// Contrat : Aucun
+	//
+
+	void AfficherCapteursSimilaires(vector<vector<Capteur*>> & res);
+	// Mode d'emploi : Affiche le résultat du regroupement des capteurs en
+	// groupes ayant un comportement similaire
 	//
 	// Contrat : Aucun
 	//
@@ -188,6 +206,8 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
+	Utilisateur* utilisateurConnecte;
+	string typeCompte;
 
 private:
 //------------------------------------------------------- Attributs privés

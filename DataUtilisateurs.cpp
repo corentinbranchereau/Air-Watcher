@@ -21,6 +21,7 @@ using namespace std;
 #include "UtilisateurProfessionnel.h"
 #include "Utilisateur.h"
 #include "UtilisateurPrive.h"
+#include "EmployeAgenceGouvernementale.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -116,7 +117,7 @@ bool DataUtilisateurs::ChargerUtilisateurs(string fichierUtilisateurs)
 		char charLecture[100]; // buffer de lecture
 		while(fUtilisateurs)
 		{
-			fUtilisateurs.getline(charLecture,100,'|');
+			fUtilisateurs.getline(charLecture,100,';');
 			if(!fUtilisateurs) // on vérifie si on a atteint la fin du fichier
 			{
 				break;
@@ -126,10 +127,10 @@ bool DataUtilisateurs::ChargerUtilisateurs(string fichierUtilisateurs)
 			for(int i=1;i<6;i++) // on lit les informations une à une
 			{
 				if(i<5 || informationsLues[0]=="fournisseur")
-				// seul les comptes fournisseurs ont un séparateur '|' à l'information n°5
+				// seul les comptes fournisseurs ont un séparateur ';' à l'information n°5
 				// donc pour les autres comptes (else) on lit jusqu'à la fin de la ligne
 				{
-					fUtilisateurs.getline(charLecture,100,'|');
+					fUtilisateurs.getline(charLecture,100,';');
 				}
 				else
 				{
@@ -155,7 +156,8 @@ bool DataUtilisateurs::ChargerUtilisateurs(string fichierUtilisateurs)
 			}
 			else if(informationsLues[0]=="agence")
 			{
-
+				utilisateurLu = new EmployeAgenceGouvernementale(informationsLues[1],informationsLues[2],informationsLues[3],informationsLues[4],informationsLues[5]);
+				this->utilisateurs.push_back(utilisateurLu);
 			}
 			else
 			{
@@ -216,7 +218,6 @@ Utilisateur* DataUtilisateurs::SeConnecter(string identifiant, string mdp)
 			return (*it);
 		}
 	}
-
 	// non trouvé
 	return nullptr;
 } //----- Fin de SeConnecter
@@ -269,7 +270,7 @@ bool DataUtilisateurs::SeCreerUnComptes(string* informationsUtilisateur)
 			ligneUtilisateur+=informationsUtilisateur[i];
 			if(i<5 || informationsUtilisateur[0]=="fournisseur")
 			{
-				ligneUtilisateur+="|";
+				ligneUtilisateur+=";";
 			}
 			else
 			{

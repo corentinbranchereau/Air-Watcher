@@ -51,8 +51,19 @@ EmployeAgenceGouvernementale::EmployeAgenceGouvernementale ()
 //
 {
 #ifdef MAP
+	cout << "Appel au constructeur (par défaut) de <EmployeAgenceGouvernementale>" << endl;
+#endif
+} //----- Fin de EmployeAgenceGouvernementale (par défaut)
+
+EmployeAgenceGouvernementale::EmployeAgenceGouvernementale (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c)
+// Algorithme : Aucun
+//
+:UtilisateurProfessionnel(identifiant_c,mdp_c,nom_c,prenom_c,mail_c)
+{
+#ifdef MAP
 	cout << "Appel au constructeur de <EmployeAgenceGouvernementale>" << endl;
 #endif
+	this->agence = new AgenceGouvernementale();
 } //----- Fin de EmployeAgenceGouvernementale
 
 
