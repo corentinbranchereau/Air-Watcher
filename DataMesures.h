@@ -89,7 +89,11 @@ public:
 	// Contrat : nécessite une liste de mesures fiables
 	//
 
-    Mesure* ObtenirDonneesBrutes();
+    vector<Mesure*>&  ObtenirDonneesBrutes();
+	// Mode d'emploi : renvoie toutes les mesures 
+	//
+	// Contrat : aucun
+	//
 
     bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur);
 	

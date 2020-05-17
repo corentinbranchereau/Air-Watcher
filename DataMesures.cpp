@@ -580,10 +580,11 @@ int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodat
 
 } //----- Fin de ConsulterQualitePeriodePrecise
 
-Mesure* DataMesures::ObtenirDonneesBrutes()
-// Algorithme :
+vector<Mesure*>&  DataMesures::ObtenirDonneesBrutes()
+// Algorithme : renvoie toutes les mesures 
 //
 {
+  return mesures;
 
 } //----- Fin de ObtenirDonneesBrutes
 
@@ -917,7 +918,7 @@ bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure
 
   for(int i=0;i<listMesuresBonnes.size();i++)
   {
-   
+    //si le temps correspond et le type de mesure aussi
     if(abs((*listMesuresBonnes[i]).getdateMesure().getTempsSecondes()-(*m).getdateMesure().getTempsSecondes())<=24*3600 && *((*listMesuresBonnes[i]).getTypeMesure())==*((*m).getTypeMesure()))
     {
       MesuresBonnesTris.push_back(*listMesuresBonnes[i]);
@@ -937,8 +938,13 @@ bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure
     PointGeographique p2=(*mapCapteurs[(MesuresBonnesTris[i]).getIdCapteur()]).getPosition();
     double latitude2=p2.getLatitude();
     double longitude2=p2.getLongitude();
+
     double distance=acos(sin(M_PI/180*latitude1)*sin(M_PI/180*latitude2)+cos(M_PI/180*latitude1)*cos(M_PI/180*latitude2)*cos(M_PI/180*(longitude2-longitude1)))*6371;
+    //calcul de la distance entre le point à vérifier et le point où se trouve la mesure fiable
+
     moyenne+=(1/(distance+0.1)*MesuresBonnesTris[i].getValeurAttribut());
+
+    //on pondère le poids de la mesure fiable par sa distane par rapport au point à vérifier
     denominateur+=1/(distance+0.1);
   }
 
@@ -953,6 +959,8 @@ bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure
 
   if((abs(valeurEstime-(*m).getValeurAttribut())/(minimum))>2)
   {
+    //on compare l'indicateur de fiabilité avec une valeur arbitraire (2)
+    
     return false;//valeur aberrante
   }
   return true;//valeur OK
@@ -975,7 +983,7 @@ unordered_map<string,TypeAttribut*>&   DataMesures::GetTypeAttributs()
 
 
 vector<Mesure*>& DataMesures::GetMesures()
-// Algorithme :
+// Algorithme : renvoie toutes les mesures
 {
   return mesures;
 }
