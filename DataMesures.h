@@ -48,8 +48,16 @@ public:
 	//
 
     bool ChargerMesures(string fichierMesures, unordered_map<string, string> & mapCapteurUtilisateur);
+	// Mode d'emploi : permet de charger les mesures dans la structure de données appropriée
+	//
+	// Contrat : Aucun
+	//
 
     bool ChargerAttributs(string fichierAttributs);
+	// Mode d'emploi : permet de charger les attributs dans la structure de données appropriée
+	//
+	// Contrat : Aucun
+	//
 
 	bool ChargerLabels(string fichierLabel, unordered_map<string, string> & mapCapteurUtilisateur);
 	// Mode d'emploi : Méthode qui va permettre d'associer à chaque mesure
@@ -59,15 +67,26 @@ public:
 	//
 
     Mesure* ConsulterMoyenneDonneesDatePrecise(Horodatage & date,Zone& zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
+	// Mode d'emploi :renvoie les 4 mesures moyennées sur le jour demandé ou un pointeur nul si pas de mesures pour le calcul
+	// Contrat : nécessite que ConsulterMoyenneDonneesPeriodePrecise soit implémenté
+	//
 
     Mesure** ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
+	// Mode d'emploi : renvoie un tableau 2D avec resultat[numJour][indiceAttribut] qui est une mesure avec pour valeur la valeur pondérée de la journée dans la zone correspondante
+	//Attention le 1 er élement est ficitf, sa valeur contient le nombre de jours c.a.d la taille du tableau-1
+	// Contrat : nécessite une liste de mesures fiables
+	//
+
 
     int ConsulterQualiteDatePrecise(Horodatage & date,Zone& zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
+	// Mode d'emploi :renvoie un entier correspondant à l'indice atmo du jour demandé ou bien une valeur nulle si pas de mesure
+	// Contrat : nécessite que ConsulterQualitePeriodePrecise soit implémenté
+	//
 
     int* ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
 	// Mode d'emploi :renvoie une liste d'entiers correspondant aux indices atmos, un par jour (s'il y avait des mesures à ce jour correspondant)
-	//
-	// Contrat :
+	//Attention le 1 er élement est ficitf, sa valeur contient le nombre de jours c.a.d la taille du tableau-1
+	// Contrat : nécessite une liste de mesures fiables
 	//
 
     Mesure* ObtenirDonneesBrutes();
@@ -76,19 +95,29 @@ public:
 	
 	bool LabelliserUneDonnee(vector<Mesure*>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
 	// Mode d'emploi : renvoie true si la mesure à vérifier est non aberrante, false sinon
-	// Contrat :
+	// Contrat : nécessite une liste de mesures fiables
 	//
 
     vector<vector<Capteur*>> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
 	// Mode d'emploi : renvoi les capteurs similaires à partir d'une liste de capteurs et du nombre de classes minimum
 	//
-	// Contrat :
+	// Contrat : aucun
 	//
 
     void LabeliserDonneesUtilisateur();
 
     unordered_map<string,TypeAttribut*>&  GetTypeAttributs();
+	// Mode d'emploi : renvoie la structure de données contenant les attributs 
+	//
+	// Contrat : aucun
+	//
+
 	vector<Mesure*>& GetMesures();
+	// Mode d'emploi : renvoie la structure de données contenant les mesures 
+	//
+	// Contrat : aucun
+	//
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 	DataMesures & operator = (const DataMesures & unDataMesures);
@@ -123,11 +152,11 @@ protected:
 //----------------------------------------------------- Méthodes protégées
 	double dissimMax(vector<Capteur*> & v1,vector<Capteur*> & v2 );
 	//mode d'emploi : renvoi le maximum de dissimilarité inter-classe entre les 2 groupes de capteur passés en paramètre
-	//contrat:
+	//contrat: aucun
 	
 	double evalClasses(vector<vector<Capteur*>> & classI);
 	//mode d'emploi : renvoi le maximum de dissimilarité intra-classe sur le groupe de capteur passé en paramètre
-	//contrat:
+	//contrat: aucun
 
 private:
 //------------------------------------------------------- Méthodes privées

@@ -237,8 +237,8 @@ Mesure* DataMesures::ConsulterMoyenneDonneesDatePrecise(Horodatage & date,Zone& 
   }
   else
   {
-    //pas de valeur
-    return NULL;
+    //pas de valeur on renvoie un pointeur nul
+    return nullptr;
   }
   
 
@@ -246,7 +246,7 @@ Mesure* DataMesures::ConsulterMoyenneDonneesDatePrecise(Horodatage & date,Zone& 
 
 Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
 // Algorithme : renvoie un tableau 2D de mesures représentant les jours avec la liste des mesures journalière moyennées 
-//
+//nous parcourons toutes les mesures fiables pour ne garder que celles dans la zone et la date correspondante puis on moyenne
 {
   map<Horodatage,vector<Mesure*>> datesRencontrees;
   //clef : date, valeur : liste de Mesure*
@@ -282,10 +282,13 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
   }
 
   Mesure ** resultat=new Mesure*[datesRencontrees.size()+1];//contient les indices ATMO journaliers
+  //on crée le résultat : il  va contenir toutes les mesures moyennées 
+ 
 
   for(int p=1;p<=datesRencontrees.size();p++)
   {
     resultat[p]=new Mesure[4];
+    //4 mesures par date : une pour chaque attribut
 
   }
 
@@ -294,11 +297,13 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
   resultat[0][0]= Mesure();
 
   resultat[0][0].setValue(datesRencontrees.size());
+   //le premier élement contient une mesure fictive qui indique la taille du tableau final
 
   double moyenneValeurs [datesRencontrees.size()][4];//1 er indice : indice date, 2 ème indice : typeAttribut
 
   int numDate=0;
 
+  //nb de mesures prises en compte
   int nPM10;
   int nSO2;
   int nNO2;
@@ -314,11 +319,11 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
     nNO2=0;
     nO3=0;
  
+    //tableau des moyennes
     moyenneValeurs[numDate][0]=0;
     moyenneValeurs[numDate][1]=0;
-    moyenneValeurs[numDate][2]=0;//pour les 3 premiers éléments on garde le max et non pas la moyenne
-    moyenneValeurs[numDate][3]=0;//pour les particules on fait la moyenne (PM10)
-
+    moyenneValeurs[numDate][2]=0;
+    moyenneValeurs[numDate][3]=0;
     
     for(int i=0;i<(it->second).size();i++)
     {
@@ -328,7 +333,7 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
       
       if(attributID1=="O3")
       {
-           //MAJ moyenne
+          //MAJ moyenne
 
           moyenneValeurs[numDate-1][0]+=((*mesure).getValeurAttribut());
           resultat[numDate][0]=Mesure((*mesure).getTypeMesure(),moyenneValeurs[numDate-1][0],(*mesure).getIdCapteur(),date);
@@ -363,7 +368,7 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
     }
 
     moyenneValeurs[numDate-1][3]/=(nPM10+0.001);
-    //on divise par le nombre de mesures pour obtenir la moyenne (PM10)
+    //on divise par le nombre de mesures pour obtenir la moyenne 
     resultat[numDate][3].setValue(moyenneValeurs[numDate-1][3]);
 
     moyenneValeurs[numDate-1][2]/=(nNO2+0.001);

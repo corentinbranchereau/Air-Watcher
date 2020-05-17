@@ -240,6 +240,8 @@ int main(void)
         
         Horodatage h(2019,1,4,12,0,0);
 
+        Horodatage h2(2019,1,20,12,0,0);
+
         TypeAttribut* type=new TypeAttribut("O3","µg/m3","concentration d'ozone");
 
         Mesure* m=new Mesure(type,400,"Sensor0",h);
@@ -248,12 +250,21 @@ int main(void)
         unordered_map<string,Capteur*> mapL=donneesCapteurs.GetCapteurs();
         bool result=donneesMesures.LabelliserUneDonnee(listM,m,mapL);
 
-        double rayon=donneesNettoyeurs.ObtenirRayonActionNettoyeur("Cleaner0",donneesMesures,listM,mapL,0.2,0.1,500);
-
-        cout<<"Rayon="<<rayon<<endl;
+        //double rayon=donneesNettoyeurs.ObtenirRayonActionNettoyeur("Cleaner0",donneesMesures,listM,mapL,0.2,0.1,500);
+        PointGeographique p(-1,45.3);
+        Zone z(100,p);
+        Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(h,h2,z,listM,mapL);
+        
+        for(int a=1;a<moyennesMesure[0][0].getValeurAttribut()+1;a++)
+        {
+            for(int p=0;p<4;p++)
+            {
+            cout<<"MOYENNE  ="<< moyennesMesure[a][p].getValeurAttribut()<<endl;
+            }
+            cout<<"-----------------------------"<<endl;
+        }
+        //cout<<"Rayon="<<rayon<<endl;
         */
-
-
         
 
         while(true)

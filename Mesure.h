@@ -37,34 +37,36 @@ public:
 	//
 
 	TypeAttribut* getTypeMesure();
-	// Mode d'emploi :
+	// Mode d'emploi : renvoie le type de Mesure
 	//
-	// Contrat :
+	// Contrat : aucun
 	//
 
 	double getValeurAttribut();
-	// Mode d'emploi :
+	// Mode d'emploi : renvoie la valeur de l'attribut
 	//
-	// Contrat :
+	// Contrat : aucun
 	//
 
 	string getIdCapteur();
-	// Mode d'emploi :
+	// Mode d'emploi : renvoie l'id capteur associé à la mesure
 	//
-	// Contrat :
+	// Contrat : aucun
 	//
 
 	Horodatage getdateMesure();
-	// Mode d'emploi :
+	// Mode d'emploi : renvoie la date de la mesure
 	//
-	// Contrat :
+	// Contrat : aucun
 	//
 
 	void setValue(double valeur);
+	// Mode d'emploi : permet de définir la valeur de la mesure arbitrairement
+	//
+	// Contrat : aucun
+	//
 
 	
-	
-
 
 //------------------------------------------------- Surcharge d'opérateurs
 	Mesure & operator = (const Mesure & unMesure);
@@ -82,15 +84,15 @@ public:
 	//
 
 	Mesure(TypeAttribut* typeMesure,double valeurAttribut,string idCapteur,Horodatage dateMesure);
-	// Mode d'emploi :
+	// Mode d'emploi : construit un TypeAttribut
 	//
-	// Contrat :
+	// Contrat : aucun
 	//
 
 	Mesure ();
 	// Mode d'emploi :
 	//
-	// Contrat :
+	// Contrat : aucun
 	//
 
 	virtual ~Mesure ();

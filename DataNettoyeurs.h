@@ -77,7 +77,7 @@ public:
     double ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesures & dataM,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs,double precision,double epsilon, double rayonMax);
 	// Mode d'emploi :Renvoie le rayon d'action du nettoyeur passé en paramètre
 	//
-	// Contrat :
+	// Contrat : aucun
 	//
 
     unordered_map<string,NettoyeurAir*> GetNettoyeurs();
