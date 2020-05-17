@@ -58,11 +58,11 @@ public:
 	// Contrat : Aucun
 	//
 
-    Mesure* ConsulterMoyenneDonneesDatePrecise(Horodatage & date, Zone & zone);
+    Mesure* ConsulterMoyenneDonneesDatePrecise(Horodatage & date,Zone& zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
 
-    Mesure** ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone);
+    Mesure** ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
 
-    int ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone);
+    int ConsulterQualiteDatePrecise(Horodatage & date,Zone& zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
 
     int* ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
 	// Mode d'emploi :renvoie une liste d'entiers correspondant aux indices atmos, un par jour (s'il y avait des mesures à ce jour correspondant)

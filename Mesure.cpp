@@ -55,6 +55,11 @@ Horodatage Mesure::getdateMesure()
 	return dateMesure;
 }
 
+void Mesure::setValue(double valeur)
+{
+	this->valeurAttribut=valeur;;
+}
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 

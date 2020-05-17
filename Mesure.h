@@ -60,6 +60,8 @@ public:
 	// Contrat :
 	//
 
+	void setValue(double valeur);
+
 	
 	
 

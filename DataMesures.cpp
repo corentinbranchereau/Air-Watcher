@@ -225,24 +225,179 @@ bool DataMesures::ChargerLabels(string fichierLabel, unordered_map<string, strin
   return true;
 } //----- Fin de ChargerLabels
 
-Mesure* DataMesures::ConsulterMoyenneDonneesDatePrecise(Horodatage & date, Zone & zone)
-// Algorithme :
-//
+Mesure* DataMesures::ConsulterMoyenneDonneesDatePrecise(Horodatage & date,Zone& zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
+// Algorithme : renvoie un tableau de mesures avec pour chaque type d'attribut une mesure moyenne correspondante.
+//Attention le 1 er élement est une mesure fictive avec pur valeur le nombre de jours (1 ou 0)
 {
+
+  Mesure** mesuresMoyennes=ConsulterMoyenneDonneesPeriodePrecise(date,date,zone, listMesuresBonnes, mapCapteurs);
+  if(mesuresMoyennes[0][0].getValeurAttribut()>0)
+  {
+    return mesuresMoyennes[1];
+  }
+  else
+  {
+    //pas de valeur
+    return NULL;
+  }
+  
 
 } //----- Fin de ConsulterMoyenneDonneesDatePrecise
 
-Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone)
-// Algorithme :
+Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
+// Algorithme : renvoie un tableau 2D de mesures représentant les jours avec la liste des mesures journalière moyennées 
 //
 {
+  map<Horodatage,vector<Mesure*>> datesRencontrees;
+  //clef : date, valeur : liste de Mesure*
+  
+  for(int i=0;i<listMesuresBonnes.size();i++)
+  {
+    PointGeographique p=(*mapCapteurs[(*(listMesuresBonnes[i])).getIdCapteur()]).getPosition();
+
+    Horodatage h=(*(listMesuresBonnes[i])).getdateMesure();
+    
+    if(zone.VerifierAppartenancePoint(p) && h>=dateDebut && dateFin>=h)
+    {
+      //si la mesure est dans la bonne zone etdans le bon intervalle de temps
+      h.setheure(0);
+      h.setMinute(0);
+      h.setSeconde(0);
+      //on ne garde pas l'heure, le mois, le jour
+
+      if(datesRencontrees.find(h)==datesRencontrees.end())
+      {
+        //si la date a déjà été vu on l'ajoute
+        vector<Mesure*> v;
+        v.push_back(listMesuresBonnes[i]);
+        datesRencontrees.insert({h,v});
+      }
+      else
+      {
+        //sinon on ajoute uniquement la mesure dans la map
+       (datesRencontrees[h]).push_back(listMesuresBonnes[i]);
+      }
+      
+    }
+  }
+
+  Mesure ** resultat=new Mesure*[datesRencontrees.size()+1];//contient les indices ATMO journaliers
+
+  for(int p=1;p<=datesRencontrees.size();p++)
+  {
+    resultat[p]=new Mesure[4];
+
+  }
+
+  resultat[0]=new Mesure[0];
+
+  resultat[0][0]= Mesure();
+
+  resultat[0][0].setValue(datesRencontrees.size());
+
+  double moyenneValeurs [datesRencontrees.size()][4];//1 er indice : indice date, 2 ème indice : typeAttribut
+
+  int numDate=0;
+
+  int nPM10;
+  int nSO2;
+  int nNO2;
+  int nO3;
+
+  for(auto it=datesRencontrees.begin();it!=datesRencontrees.end();it++)
+  {
+    numDate++;
+
+    //initialisation paramètres
+    nPM10=0;
+    nSO2=0;
+    nNO2=0;
+    nO3=0;
+ 
+    moyenneValeurs[numDate][0]=0;
+    moyenneValeurs[numDate][1]=0;
+    moyenneValeurs[numDate][2]=0;//pour les 3 premiers éléments on garde le max et non pas la moyenne
+    moyenneValeurs[numDate][3]=0;//pour les particules on fait la moyenne (PM10)
+
+    
+    for(int i=0;i<(it->second).size();i++)
+    {
+      Mesure* mesure=((it->second)[i]);
+      string attributID1=(*((*mesure).getTypeMesure())).getIdAttribut();
+      Horodatage date=(*mesure).getdateMesure();
+      
+      if(attributID1=="O3")
+      {
+           //MAJ moyenne
+
+          moyenneValeurs[numDate-1][0]+=((*mesure).getValeurAttribut());
+          resultat[numDate][0]=Mesure((*mesure).getTypeMesure(),moyenneValeurs[numDate-1][0],(*mesure).getIdCapteur(),date);
+          ++nO3;
+        
+      }
+
+      if(attributID1=="SO2")
+      {
+          //MAJ moyenne
+          moyenneValeurs[numDate-1][1]+=((*mesure).getValeurAttribut());
+          resultat[numDate][1]=Mesure((*mesure).getTypeMesure(),moyenneValeurs[numDate-1][1],(*mesure).getIdCapteur(),date);
+          ++nSO2;
+        
+      }
+
+      if(attributID1=="NO2")
+      {
+          //MAJ moyenne
+          moyenneValeurs[numDate-1][2]+=((*mesure).getValeurAttribut());
+          resultat[numDate][2]=Mesure((*mesure).getTypeMesure(),moyenneValeurs[numDate-1][2],(*mesure).getIdCapteur(),date);
+          ++nNO2;
+        
+      }
+        if(attributID1=="PM10")
+      {
+        //MAJ moyenne
+        moyenneValeurs[numDate-1][3]+=((*mesure).getValeurAttribut());
+        resultat[numDate][3]=Mesure((*mesure).getTypeMesure(),moyenneValeurs[numDate-1][3],(*mesure).getIdCapteur(),date);
+        ++nPM10;
+      }
+    }
+
+    moyenneValeurs[numDate-1][3]/=(nPM10+0.001);
+    //on divise par le nombre de mesures pour obtenir la moyenne (PM10)
+    resultat[numDate][3].setValue(moyenneValeurs[numDate-1][3]);
+
+    moyenneValeurs[numDate-1][2]/=(nNO2+0.001);
+    resultat[numDate][2].setValue(moyenneValeurs[numDate-1][2]);
+
+
+    moyenneValeurs[numDate-1][1]/=(nSO2+0.001);
+    resultat[numDate][1].setValue(moyenneValeurs[numDate-1][1]);
+
+    moyenneValeurs[numDate-1][0]/=(nO3+0.001);
+    resultat[numDate][0].setValue(moyenneValeurs[numDate-1][0]);
+
+  }
+
+  return resultat;
 
 } //----- Fin de ConsulterMoyenneDonneesPeriodePrecise
 
-int DataMesures::ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone)
-// Algorithme :
-//
+int DataMesures::ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
+
+// Algorithme :renvoie l'indice atmo moyen sur le jour et la zone souhaitée en calculant les moyennes journalières des attributs concernés
+//si pas de mesures correspondantes, renvoie NULL
 {
+  int * indicesAtmos=ConsulterQualitePeriodePrecise(date,date,zone, listMesuresBonnes, mapCapteurs);
+  if(indicesAtmos[0]>0)
+  {
+    return indicesAtmos[1];
+  }
+  else
+  {
+    //pas de valeur
+    return NULL;
+  }
+  
 
 } //----- Fin de ConsulterQualiteDatePrecise
 
@@ -254,7 +409,7 @@ bool operator <(const Horodatage& h1, const Horodatage& h2)
 
 int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
 // Algorithme :renvoie l'indice atmo moyen sur la période voulue et la zone souhaitée en calculant les moyennes journalières des attributs concernés
-//
+//atention le 1 er élément du tableau renvoyé contient le nombre de jours pris en compte 
 {
   map<Horodatage,vector<Mesure*>> datesRencontrees;
   //clef : date, valeur : liste de Mesure*
