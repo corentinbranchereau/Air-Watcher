@@ -41,6 +41,13 @@ public:
 	// Contrat : Aucun
 	//
 
+	string GetLabel();
+	// Mode d'emploi : renvoie la valeur  de l'attribut label
+	//
+	// Contrat : Aucun
+	//
+
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 	MesureUtilisateur & operator = (const MesureUtilisateur & unMesureUtilisateur);

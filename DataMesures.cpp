@@ -225,6 +225,70 @@ bool DataMesures::ChargerLabels(string fichierLabel, unordered_map<string, strin
   return true;
 } //----- Fin de ChargerLabels
 
+vector<Mesure*>& DataMesures:: ObtenirMesuresFiables()
+// Algorithme : parcours toutes les mesures et renvoie uniquement les mesuresUtilisateurs avec le label fiable et les mesures des capteurs fixes
+//
+{
+  vector<Mesure*> listMesuresFiables;
+  for(int i=0;i<mesures.size();i++)
+  {
+    MesureUtilisateur* m=dynamic_cast<MesureUtilisateur*>(mesures[i]);
+
+    if(m==nullptr)
+    {
+      //ce n'est pas une mesure utilisateur elle est donctoujours fiable
+      listMesuresFiables.push_back(m);
+
+    }
+    else
+    {
+     if((*m).GetLabel()=="fiable")
+     {
+       listMesuresFiables.push_back(m);
+       //si la mesure utilisateur on peut l'utiliser
+     }
+    } 
+    
+  }
+
+  return listMesuresFiables;
+
+}
+//----- Fin de ObtenirMesuresFiables
+
+vector<Mesure*>& DataMesures:: ObtenirMesuresNonLabelisees()
+// Algorithme : parcours toutes les mesures et renvoie uniquement les mesuresUtilisateurs non labellisees
+//
+{
+  vector<Mesure*> mesuresNonLabelisees;
+
+   for(int i=0;i<mesures.size();i++)
+  {
+    MesureUtilisateur* m=dynamic_cast<MesureUtilisateur*>(mesures[i]);
+
+    if(m==nullptr)
+    {
+      //ce n'est pas une mesure utilisateur 
+     
+    }
+    else
+    {
+     if((*m).GetLabel()=="")
+     {
+       mesuresNonLabelisees.push_back(m);
+       //si la mesure utilisateur est non labellise on l'ajoute
+     }
+    } 
+    
+  }
+
+  return mesuresNonLabelisees;
+
+    
+ 
+}
+//----- Fin de ObtenirMesuresFiables
+
 Mesure* DataMesures::ConsulterMoyenneDonneesDatePrecise(Horodatage & date,Zone& zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
 // Algorithme : renvoie un tableau de mesures avec pour chaque type d'attribut une mesure moyenne correspondante.
 //Attention le 1 er élement est une mesure fictive avec pur valeur le nombre de jours (1 ou 0)
@@ -967,17 +1031,48 @@ bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure
 
 }
 
-void DataMesures::LabeliserDonneesUtilisateur()
-// Algorithme :
+void DataMesures::LabeliserDonneesUtilisateur(string fichierLabel, unordered_map<string,Capteur*>& mapCapteurs)
+// Algorithme : parcourt les mesures non labellisées et calcule leur label grâce à LabelliserUnedonnee puis les écrit dans le fichier des labels
 //
 {
-  
+  vector<Mesure*> mesuresNonLabellisees=this->ObtenirMesuresNonLabelisees();
+  vector<Mesure*> mesuresFiables=this->ObtenirMesuresFiables();
+  ofstream fileLabel(fichierLabel,ios::app);
+
+   if(!fileLabel.is_open())
+	{
+		cerr<<"Erreur lors de l'écriture des  labels"<<endl;
+		
+	}
+ 
+  else
+  {
+    for(int i=0;i<mesuresNonLabellisees.size();i++)
+    {
+      bool res=this->LabelliserUneDonnee(mesuresFiables,mesuresNonLabellisees[i],mapCapteurs);
+      string label="non fiable";
+      Mesure* m=mesuresNonLabellisees[i];
+
+
+      string idMesure = to_string((m)->getdateMesure().GetAnnee())+to_string((m)->getdateMesure().GetMois())+to_string((m)->getdateMesure().GetJour())+to_string((m)->getdateMesure().GetHeure())+to_string((m)->getdateMesure().GetMinute())+to_string((m)->getdateMesure().GetSeconde())+(m)->getIdCapteur()+(m)->getTypeMesure()->getIdAttribut();
+      if(res==true)
+      {
+        //mesure fiable
+        label="fiable";
+      }
+      fileLabel<<idMesure<<";"<<label<<"\n";
+
+
+    }
+
+  }
 
 } //----- Fin de LabeliserDonneesUtilisateur
 unordered_map<string,TypeAttribut*>&   DataMesures::GetTypeAttributs()
 // Algorithme :
 //
-{return typeAttributs;
+{
+  return typeAttributs;
 
 } //----- Fin de GetTypeAttributs
 

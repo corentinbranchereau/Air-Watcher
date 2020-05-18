@@ -108,7 +108,12 @@ public:
 	// Contrat : aucun
 	//
 
-    void LabeliserDonneesUtilisateur();
+    void LabeliserDonneesUtilisateur(string fichierLabel,unordered_map<string,Capteur*>& mapCapteurs);
+	// Mode d'emploi : écrit dans le fichier des labels les labels des mesures non labellisées
+	//
+	// Contrat : aucun
+	//
+
 
     unordered_map<string,TypeAttribut*>&  GetTypeAttributs();
 	// Mode d'emploi : renvoie la structure de données contenant les attributs 
@@ -118,6 +123,18 @@ public:
 
 	vector<Mesure*>& GetMesures();
 	// Mode d'emploi : renvoie la structure de données contenant les mesures 
+	//
+	// Contrat : aucun
+	//
+
+	vector<Mesure*>& ObtenirMesuresFiables();
+	// Mode d'emploi : renvoie sous forme d'un vecteur toutes les mesures fiables
+	//
+	// Contrat : aucun
+	//
+
+	vector<Mesure*>& ObtenirMesuresNonLabelisees();
+	// Mode d'emploi : renvoie sous forme d'un vecteur toutes les mesures non labellisés
 	//
 	// Contrat : aucun
 	//

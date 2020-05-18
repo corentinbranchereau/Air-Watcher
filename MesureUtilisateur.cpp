@@ -42,6 +42,12 @@ void MesureUtilisateur::SetLabel(string lab)
 	this->label = lab;
 } //----- Fin de SetLabel
 
+string MesureUtilisateur::GetLabel()
+// Algorithme : Aucun
+//
+{
+	return label;
+} //----- Fin de SetLabel
 
 //------------------------------------------------- Surcharge d'opérateurs
 
