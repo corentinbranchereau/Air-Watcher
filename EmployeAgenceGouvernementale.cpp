@@ -55,10 +55,10 @@ EmployeAgenceGouvernementale::EmployeAgenceGouvernementale ()
 #endif
 } //----- Fin de EmployeAgenceGouvernementale (par défaut)
 
-EmployeAgenceGouvernementale::EmployeAgenceGouvernementale (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c)
+EmployeAgenceGouvernementale::EmployeAgenceGouvernementale (string idAgence, string mdpAgence, string nomAgence, string prenomAgence, string mailAgence, bool validAgence)
 // Algorithme : Aucun
 //
-:UtilisateurProfessionnel(identifiant_c,mdp_c,nom_c,prenom_c,mail_c)
+:UtilisateurProfessionnel(idAgence,mdpAgence,nomAgence,prenomAgence,mailAgence,validAgence)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <EmployeAgenceGouvernementale>" << endl;

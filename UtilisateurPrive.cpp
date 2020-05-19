@@ -78,10 +78,10 @@ UtilisateurPrive::UtilisateurPrive ()
 #endif
 } //----- Fin de UtilisateurPrive (par défaut)
 
-UtilisateurPrive::UtilisateurPrive (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c)
+UtilisateurPrive::UtilisateurPrive (string idPrive, string mdpPrive, string nomPrive, string prenomPrive, string mailPrive, int pointsPrive)
 // Algorithme : Aucun
 //
-:Utilisateur(identifiant_c,mdp_c,nom_c,prenom_c,mail_c), nbPoints(0)
+:Utilisateur(idPrive,mdpPrive,nomPrive,prenomPrive,mailPrive), nbPoints(pointsPrive)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <UtilisateurPrive>" << endl;

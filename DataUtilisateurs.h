@@ -56,9 +56,12 @@ public:
 	// déja inscrits depuis le fichier fourni. Pour cela, le fichier
 	// est ouvert en lecture, et construit pour chaque ligne un utilisateur
 	//
-	// Contrat : Le fichier doit contenir les utilisateurs selon le bon format
-	// à savoir : 1 utilisateur par ligne et dans l'ordre : 
-	// type de compte;identifiant;mdp;nom;prénom;mail;id compagnie (si fournisseur)
+	// Contrat : Le fichier doit contenir les utilisateurs(1 par ligne) selon le bon format
+	// à savoir :
+	// * utilisateur privé : privé;identifiant;mdp;nom;prénom;mail;nbPoints
+	// * employé agence : agence;identifiant;mdp;nom;prénom;mail;validité compte
+	// * employé fournisseur : fournisseur;identifiant;mdp;nom;prénom;mail;validité compte;id compagnie
+	// * admin : admin;identifiant;mdp;nom;prénom;mail
 	//
 
     const unordered_map<string,CompagnieFournisseur*> GetFournisseurs();

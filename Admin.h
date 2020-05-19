@@ -50,6 +50,12 @@ public:
 	// Contrat :
 	//
 
+	Admin(string idAdmin, string mdpAdmin, string nomAdmin, string prenomAdmin, string mailAdmin);
+	// Mode d'emploi : Constructeur qui initialise les attributs avec les valeurs fournies
+	//
+	// Contrat : Aucun
+	//
+
 	virtual ~Admin();
 	// Mode d'emploi :
 	//

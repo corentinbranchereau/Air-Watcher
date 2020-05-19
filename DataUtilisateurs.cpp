@@ -15,6 +15,7 @@ using namespace std;
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include <sstream>
 
 //------------------------------------------------------ Include personnel
 #include "DataUtilisateurs.h"
@@ -22,6 +23,8 @@ using namespace std;
 #include "Utilisateur.h"
 #include "UtilisateurPrive.h"
 #include "EmployeAgenceGouvernementale.h"
+#include "EmployeFournisseur.h"
+#include "Admin.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -113,7 +116,7 @@ bool DataUtilisateurs::ChargerUtilisateurs(string fichierUtilisateurs)
 	else
 	{
 		this->cheminFichierUtilisateurs = fichierUtilisateurs;
-		string informationsLues[7];
+		string informationsLues[8];
 		char charLecture[100]; // buffer de lecture
 		while(fUtilisateurs)
 		{
@@ -124,25 +127,31 @@ bool DataUtilisateurs::ChargerUtilisateurs(string fichierUtilisateurs)
 			}
 			informationsLues[0]=charLecture;
 
-			for(int i=1;i<6;i++) // on lit les informations une à une
+			for(int i=1;i<8;i++) // on lit les informations une à une
 			{
-				if(i<5 || informationsLues[0]=="fournisseur")
-				// seul les comptes fournisseurs ont un séparateur ';' à l'information n°5
-				// donc pour les autres comptes (else) on lit jusqu'à la fin de la ligne
+				if(i==5 && informationsLues[0]=="admin")
 				{
-					fUtilisateurs.getline(charLecture,100,';');
+					fUtilisateurs.getline(charLecture,100,'\n');
+					informationsLues[i] = charLecture;
+					break;
+				}
+				else if(i==6 && (informationsLues[0]=="privé" || informationsLues[0]=="agence"))
+				{
+					fUtilisateurs.getline(charLecture,100,'\n');
+					informationsLues[i] = charLecture;
+					break;
+				}
+				else if(i==7) // dans le cas d'un fournisseur
+				{
+					fUtilisateurs.getline(charLecture,100,'\n');
+					informationsLues[i] = charLecture;
+					break;
 				}
 				else
 				{
-					fUtilisateurs.getline(charLecture,100,'\n');
+					fUtilisateurs.getline(charLecture,100,';');
+					informationsLues[i] = charLecture;
 				}
-				informationsLues[i]=charLecture;
-			}
-			if(informationsLues[0]=="fournisseur") 
-			// si c'est un compte fournisseur, on lit le nom de la compagnie
-			{
-				fUtilisateurs.getline(charLecture,100,'\n');
-				informationsLues[6]=charLecture;
 			}
 
 			
@@ -151,18 +160,34 @@ bool DataUtilisateurs::ChargerUtilisateurs(string fichierUtilisateurs)
 			// on détecte d'abord le type
 			if(informationsLues[0]=="privé")
 			{
-				utilisateurLu = new UtilisateurPrive(informationsLues[1],informationsLues[2],informationsLues[3],informationsLues[4],informationsLues[5]); 
-				this->utilisateurs.push_back(utilisateurLu);
+				// nb de points
+				int nbPoints;
+				stringstream ssConversion;
+				ssConversion<<informationsLues[6];
+				ssConversion>>nbPoints;
+
+				utilisateurLu = new UtilisateurPrive(informationsLues[1],informationsLues[2],informationsLues[3],informationsLues[4],informationsLues[5],nbPoints); 
 			}
 			else if(informationsLues[0]=="agence")
 			{
-				utilisateurLu = new EmployeAgenceGouvernementale(informationsLues[1],informationsLues[2],informationsLues[3],informationsLues[4],informationsLues[5]);
-				this->utilisateurs.push_back(utilisateurLu);
+				bool compteValide = (informationsLues[6]=="valide");
+				utilisateurLu = new EmployeAgenceGouvernementale(informationsLues[1],informationsLues[2],informationsLues[3],informationsLues[4],informationsLues[5],compteValide);
 			}
-			else
+			else if(informationsLues[0]=="fournisseur")
 			{
-				
+				// on recherche la compagnie
+				CompagnieFournisseur * compagnie = this->CompagniesFournisseurs.find(informationsLues[7])->second;
+
+				bool compteValide = (informationsLues[6]=="valide");
+
+				utilisateurLu = new EmployeFournisseur(informationsLues[1],informationsLues[2],informationsLues[3],informationsLues[4],informationsLues[5],compteValide,compagnie);;
 			}
+			else // admin
+			{
+				utilisateurLu = new Admin(informationsLues[1],informationsLues[2],informationsLues[3],informationsLues[4],informationsLues[5]);
+			}
+			
+			this->utilisateurs.push_back(utilisateurLu);
 			
 		}
 	}
@@ -242,17 +267,26 @@ bool DataUtilisateurs::SeCreerUnComptes(string* informationsUtilisateur)
 
 	if(typeCompte=="privé")
 	{
-		utilisateurCree = new UtilisateurPrive(informationsUtilisateur[1],informationsUtilisateur[2],informationsUtilisateur[3],informationsUtilisateur[4],informationsUtilisateur[5]);
-		this->utilisateurs.push_back(utilisateurCree);
+		utilisateurCree = new UtilisateurPrive(informationsUtilisateur[1],informationsUtilisateur[2],informationsUtilisateur[3],informationsUtilisateur[4],informationsUtilisateur[5],0);
 	}
 	else if(typeCompte=="fournisseur")
 	{
+		// recherche compagnie
+		CompagnieFournisseur * compagnie = this->CompagniesFournisseurs.find(informationsUtilisateur[6])->second;
 
+		utilisateurCree = new EmployeFournisseur(informationsUtilisateur[1],informationsUtilisateur[2],informationsUtilisateur[3],informationsUtilisateur[4],informationsUtilisateur[5],false,compagnie);
 	}
-	else // agence
+	else if(typeCompte=="agence")
 	{
-		
+		utilisateurCree = new EmployeAgenceGouvernementale(informationsUtilisateur[1],informationsUtilisateur[2],informationsUtilisateur[3],informationsUtilisateur[4],informationsUtilisateur[5],false);
 	}
+	else // admin
+	{
+		utilisateurCree = new Admin(informationsUtilisateur[1],informationsUtilisateur[2],informationsUtilisateur[3],informationsUtilisateur[4],informationsUtilisateur[5]);
+	}
+
+	this->utilisateurs.push_back(utilisateurCree);
+
 
 	// écriture dans le fichier du nouvel utilisateur
 	ofstream fUtilisateurs(cheminFichierUtilisateurs,std::ofstream::app);
@@ -265,22 +299,49 @@ bool DataUtilisateurs::SeCreerUnComptes(string* informationsUtilisateur)
 	{
 		//construction de la ligne à écrire
 		string ligneUtilisateur="";
-		for(int i=0;i<6;i++)
+		for(int i=0;i<8;i++)
 		{
-			ligneUtilisateur+=informationsUtilisateur[i];
-			if(i<5 || informationsUtilisateur[0]=="fournisseur")
+
+			if(i<=5)
 			{
-				ligneUtilisateur+=";";
+				ligneUtilisateur+=informationsUtilisateur[i];
+
+				if(typeCompte=="admin" && i==5)
+				{
+					ligneUtilisateur+='\n';
+					break;
+				}
+				ligneUtilisateur+=';';
 			}
-			else
+
+			if(i==6)
 			{
-				ligneUtilisateur+="\n";
+				if(typeCompte=="privé")
+				{
+					ligneUtilisateur+='0';
+					ligneUtilisateur+='\n';
+					break;
+				}
+				else // agence et fournisseur
+				{
+					ligneUtilisateur+="attente";
+
+					if(typeCompte=="agence")
+					{
+						ligneUtilisateur+='\n';
+						break;
+					}
+					ligneUtilisateur+=';';
+				}
+			}
+
+			if(i==7) // fournisseur
+			{
+				ligneUtilisateur+= informationsUtilisateur[6];
+				ligneUtilisateur+='\n';
 			}
 		}
-		if(informationsUtilisateur[0]=="fournisseur")
-		{
-			ligneUtilisateur+=informationsUtilisateur[6]+"\n";
-		}
+		
 		fUtilisateurs<<ligneUtilisateur;
 	}
 

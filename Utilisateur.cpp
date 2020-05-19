@@ -97,10 +97,10 @@ Utilisateur::Utilisateur ()
 #endif
 } //----- Fin de Utilisateur (par défaut)
 
-Utilisateur::Utilisateur (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c)
+Utilisateur::Utilisateur (string idUtil, string mdpUtil, string nomUtil, string prenomUtil, string mailUtil)
 // Algorithme : Aucun
 //
-:identifiant(identifiant_c),mail(mail_c),mdp(mdp_c),nom(nom_c),prenom(prenom_c)
+:identifiant(idUtil),mdp(mdpUtil),nom(nomUtil),prenom(prenomUtil),mail(mailUtil)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <Utilisateur>" << endl;

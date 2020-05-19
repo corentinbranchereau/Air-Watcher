@@ -63,6 +63,14 @@ EmployeFournisseur & EmployeFournisseur::operator = (const EmployeFournisseur & 
 } //----- Fin de EmployeFournisseur
 */
 
+EmployeFournisseur::EmployeFournisseur (string idFourn, string mdpFourn, string nomFourn, string prenomFourn, string mailFourn, bool validFourn, CompagnieFournisseur* compagnieFourn)
+// Algorithme : Aucun
+//
+:UtilisateurProfessionnel(idFourn,mdpFourn,nomFourn,prenomFourn,mailFourn,validFourn),compagnie(compagnieFourn)
+{
+
+} //----- Fin de EmployeFournisseur
+
 EmployeFournisseur::~EmployeFournisseur ()
 // Algorithme :
 //

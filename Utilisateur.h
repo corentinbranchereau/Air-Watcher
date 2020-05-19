@@ -85,7 +85,7 @@ public:
 	// Contrat : Aucun
 	//
 
-	Utilisateur(string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c);
+	Utilisateur(string idUtil, string mdpUtil, string nomUtil, string prenomUtil, string mailUtil);
 	// Mode d'emploi : Constructeur qui initialise les attributs avec les valeurs fournies
 	//
 	// Contrat : Aucun

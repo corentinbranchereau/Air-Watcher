@@ -127,13 +127,13 @@ public:
 	// Contrat : aucun
 	//
 
-	vector<Mesure*>& ObtenirMesuresFiables();
+	vector<Mesure*> ObtenirMesuresFiables();
 	// Mode d'emploi : renvoie sous forme d'un vecteur toutes les mesures fiables
 	//
 	// Contrat : aucun
 	//
 
-	vector<Mesure*>& ObtenirMesuresNonLabelisees();
+	vector<Mesure*> ObtenirMesuresNonLabelisees();
 	// Mode d'emploi : renvoie sous forme d'un vecteur toutes les mesures non labellisés
 	//
 	// Contrat : aucun
