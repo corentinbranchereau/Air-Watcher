@@ -225,7 +225,7 @@ bool DataMesures::ChargerLabels(string fichierLabel, unordered_map<string, strin
   return true;
 } //----- Fin de ChargerLabels
 
-vector<Mesure*>& DataMesures:: ObtenirMesuresFiables()
+vector<Mesure*> DataMesures:: ObtenirMesuresFiables()
 // Algorithme : parcours toutes les mesures et renvoie uniquement les mesuresUtilisateurs avec le label fiable et les mesures des capteurs fixes
 //
 {
@@ -252,11 +252,10 @@ vector<Mesure*>& DataMesures:: ObtenirMesuresFiables()
   }
 
   return listMesuresFiables;
-
 }
 //----- Fin de ObtenirMesuresFiables
 
-vector<Mesure*>& DataMesures:: ObtenirMesuresNonLabelisees()
+vector<Mesure*> DataMesures:: ObtenirMesuresNonLabelisees()
 // Algorithme : parcours toutes les mesures et renvoie uniquement les mesuresUtilisateurs non labellisees
 //
 {
@@ -454,7 +453,7 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
 int DataMesures::ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
 
 // Algorithme :renvoie l'indice atmo moyen sur le jour et la zone souhaitée en calculant les moyennes journalières des attributs concernés
-//si pas de mesures correspondantes, renvoie NULL
+// si pas de mesures correspondantes, renvoie 0
 {
   int * indicesAtmos=ConsulterQualitePeriodePrecise(date,date,zone, listMesuresBonnes, mapCapteurs);
   if(indicesAtmos[0]>0)
@@ -464,7 +463,7 @@ int DataMesures::ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone,vect
   else
   {
     //pas de valeur
-    return NULL;
+    return 0;
   }
   
 

@@ -58,7 +58,7 @@ public:
 	// Contrat :
 	//
 
-	UtilisateurProfessionnel(string identifiant_c,string mdp_c,string nom_c,string prenom_c,string mail_c);
+	UtilisateurProfessionnel(string idPro,string mdpPro,string nomPro,string prenomPro,string mailPro, bool validPro);
 	// Mode d'emploi : Constructeur qui initialise les attributs avec les valeurs fournies
 	//
 	// Contrat : Aucun

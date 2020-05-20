@@ -69,10 +69,10 @@ UtilisateurProfessionnel::UtilisateurProfessionnel ()
 #endif
 } //----- Fin de UtilisateurProfessionnel (par défaut)
 
-UtilisateurProfessionnel::UtilisateurProfessionnel(string identifiant_c,string mdp_c,string nom_c,string prenom_c,string mail_c)
+UtilisateurProfessionnel::UtilisateurProfessionnel(string idPro,string mdpPro,string nomPro,string prenomPro,string mailPro, bool validPro)
 // Algorithme : Aucun
 //
-:Utilisateur(identifiant_c,mdp_c,nom_c,prenom_c,mail_c),compteValide(false)
+:Utilisateur(idPro,mdpPro,nomPro,prenomPro,mailPro),compteValide(validPro)
 {
 
 } //----- Fin de UtilisateurProfessionnel

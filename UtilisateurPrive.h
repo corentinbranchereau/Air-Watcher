@@ -68,7 +68,7 @@ public:
 	// Contrat : Aucun
 	//
 
-	UtilisateurPrive (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c);
+	UtilisateurPrive (string idPrive, string mdpPrive, string nomPrive, string prenomPrive, string mailPrive, int pointsPrive);
 	// Mode d'emploi : Constructeur qui initialise les attributs avec les valeurs fournies
 	//
 	// Contrat : Aucun

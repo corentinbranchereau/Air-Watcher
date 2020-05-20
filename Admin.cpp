@@ -51,8 +51,16 @@ Admin::Admin ()
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de <Admin>" << endl;
+	cout << "Appel au constructeur (par défaut) de <Admin>" << endl;
 #endif
+} //----- Fin de Admin (par défaut)
+
+Admin::Admin(string idAdmin, string mdpAdmin, string nomAdmin, string prenomAdmin, string mailAdmin)
+// Algorithme : Aucun
+//
+:Utilisateur(idAdmin,mdpAdmin,nomAdmin,prenomAdmin,mailAdmin)
+{
+
 } //----- Fin de Admin
 
 

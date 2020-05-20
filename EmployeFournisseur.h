@@ -56,6 +56,12 @@ public:
 	// Contrat :
 	//
 
+	EmployeFournisseur (string idFourn, string mdpFourn, string nomFourn, string prenomFourn, string mailFourn, bool validFourn, CompagnieFournisseur* compagnieFourn);
+	// Mode d'emploi : Constructeur qui initialise les attributs avec les valeurs fournies
+	//
+	// Contrat : Aucun
+	//
+
 	virtual ~EmployeFournisseur ();
 	// Mode d'emploi :
 	//

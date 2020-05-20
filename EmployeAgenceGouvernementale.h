@@ -50,7 +50,7 @@ public:
 	// Contrat :
 	//
 
-	EmployeAgenceGouvernementale (string identifiant_c, string mdp_c, string nom_c, string prenom_c, string mail_c);
+	EmployeAgenceGouvernementale (string idAgence, string mdpAgence, string nomAgence, string prenomAgence, string mailAgence, bool validAgence);
 	// Mode d'emploi : Constructeur qui initialise les attributs avec les valeurs fournies
 	//
 	// Contrat : Aucun
