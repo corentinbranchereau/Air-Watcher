@@ -148,10 +148,18 @@ void menuAction()
                     } break;
 
                     case 5: {
-                        // moyenne données brutes d'une zone
+                        // moyenne données brutes d'une zone sur une période donnée
+                        affichage.AvantSaisieConsulterMoyenneDonnees();
+                        Horodatage debut=affichage.SaisirDate("début");
+                        Horodatage fin=affichage.SaisirDate("fin");
+                        Zone zone=affichage.SaisirZone();
+                        vector<Mesure*>listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
+                        Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
+
                     } break;
 
                     case 6: {
+                        
                         // moyenne qualité air d'une zone
                     } break;
 

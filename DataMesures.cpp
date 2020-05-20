@@ -652,10 +652,61 @@ vector<Mesure*>&  DataMesures::ObtenirDonneesBrutes()
 
 } //----- Fin de ObtenirDonneesBrutes
 
-bool DataMesures::EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur)
-// Algorithme :
+bool DataMesures::EntrerDonnees(string fichierCapteurs,string fichierMesures,string idAttribut, double valeur,Horodatage& date,PointGeographique& p, UtilisateurPrive & utilisateur,unordered_map<string, string> & mapCapteurUtilisateur,unordered_map<string,Capteur*>& mapIDCapteurs)
+// Algorithme : regarde si l'utilisateur a un capteur associé, sinon on crée son capteur puis on inscrit la mesure dans le fichier des mesures
 //
 {
+
+  string idUser=utilisateur.GetIdentifiant();
+  string idCapteurNouveau="";
+
+  for(auto it=mapCapteurUtilisateur.begin();it!=mapCapteurUtilisateur.end();it++)
+  {
+    if(it->second==idUser)
+    {
+      idCapteurNouveau=it->first;
+      break;
+    }
+  }
+
+  int idMax=0;
+
+  if(idCapteurNouveau=="")
+  {
+    for(auto it=mapIDCapteurs.begin();it!=mapIDCapteurs.end();it++)
+    {
+     if((*(it->second)).getIDInt()>idMax)
+     {
+       idMax=(*(it->second)).getIDInt();
+     }
+    } 
+
+    idCapteurNouveau="Sensor";
+    idCapteurNouveau.append(to_string(idMax+1));
+
+    Capteur* capteurNouveau=new Capteur(idCapteurNouveau,"",p);
+    mapCapteurUtilisateur.insert({idCapteurNouveau,idUser});
+    mapIDCapteurs.insert({idCapteurNouveau,capteurNouveau});
+
+    //ofstream fileCapteurs(fichierCapteurs,ios::app);
+    //fileCapteurs<<
+
+  }
+  TypeAttribut* type =(typeAttributs.find(idAttribut))->second;
+  //type valeur string date
+  MesureUtilisateur* nouvelleMesure=new MesureUtilisateur(type,valeur,idCapteurNouveau,date);
+  mesures.push_back(nouvelleMesure);
+  if(idMax==0)
+  {
+
+		string idS=idCapteurNouveau.substr(6,idCapteurNouveau.length());
+    nbMesuresAttributs[stoi(idS)]+=1;
+  }
+  else
+  {
+    nbMesuresAttributs.push_back(1);
+  }
+  
 
 } //----- Fin de EntrerDonnees
 

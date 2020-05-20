@@ -58,12 +58,20 @@ public:
 	// Contrat :
 	//
 
+	Zone (const Zone & unZone)
+	{
+		this->rayon=unZone.rayon;
+		this->centre=unZone.centre;
+	}
+
 
 	virtual ~Zone ();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
+
+
 
 //------------------------------------------------------------------ PRIVE
 
@@ -72,11 +80,8 @@ protected:
 
 private:
 //------------------------------------------------------- Méthodes privées
-    Zone (const Zone & unZone);
-    // Mode d'emploi (constructeur de copie) :
-    // INTERDIT
-    // Contrat :
-    //
+
+
 protected:
 //----------------------------------------------------- Attributs protégés
 	double rayon;

@@ -99,6 +99,24 @@ int Affichage::SaisirChoix(int choixMax)
 	return choix;
 } //----- Fin de SaisirChoix
 
+double Affichage::SaisirDouble(double choixMin,double choixMax)
+// Algorithme : Vérifie que le retour de cin est correct, et
+// vérifie que l'entier est compris entre 1 et choixMax
+//
+{
+	double choix = 0;
+	cout<<"Choix : ";
+	while(!(cin>>choix) || choix>choixMax || choix<choixMin)
+	{
+		cout<<"Veuillez saisir une option valide.\n";
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+		cout<<"Choix : ";
+	}
+	return choix;
+} //----- Fin de SaisirChoix
+
+
 int Affichage::AfficherMenuPrincipal()
 // Algorithme : Aucun
 //
@@ -343,6 +361,68 @@ int Affichage::CapteursSimilairesNbClassesMini(int nbClassesMax)
 	cout<<"Combien de groupe de capteurs voulez-vous au minimum ? : ";
 	return SaisirChoix(nbClassesMax);
 } //----- Fin de CapteursSimilairesNbClassesMini
+
+void Affichage::AvantSaisieConsulterMoyenneDonnees()
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	cout<<"\n\n  "<<Souligner("Consultation des moyennes des données sur une période et une zone choisie")<<"\n\n";
+
+} //----- Fin de AvantSaisieConsulterMoyenneDonnees
+
+
+Horodatage Affichage::SaisirDate(string type)
+// Algorithme : Aucun
+//
+{	
+	if(type=="")
+	{
+	cout<<"Quelle date voulez vous ? : "<<endl;
+	}
+	if(type=="début")
+	{
+		cout<<"Quelle date de début voulez vous ? : "<<endl;
+	}
+
+	if(type=="fin")
+	{
+	cout<<"Quelle date de fin voulez vous ? : "<<endl;	
+	}
+	
+	cout <<"Quelle année ? :";
+	int annee=SaisirChoix(2050);
+	cout <<"Quel mois (entre 1 et 12) ? :";
+	int mois=SaisirChoix(12);
+	cout <<"Quel jour (entre 1 et 31) ?  :";
+	int jour=SaisirChoix(12);
+
+	Horodatage date(annee,mois,jour,0,0,0);
+
+	return date;
+
+} //----- Fin de SaisirDate
+
+Zone Affichage::SaisirZone()
+// Algorithme : Aucun
+//
+{
+	cout<<"Définisez votre zone  : "<<endl;
+	cout <<"Quelle longitude ? ";
+	double longitude=SaisirDouble(-100,100);
+	cout <<"Quelle latitude ? :";
+	double latitude=SaisirDouble(-100,100);
+	cout <<"Quel rayon de zone ?  :";
+	double rayon =SaisirDouble(0.000001,numeric_limits<double>::max());
+
+	PointGeographique p(longitude,latitude);
+	Zone zone(rayon,p);
+
+	return zone;
+
+} //----- Fin de SaisirDate
 
 void Affichage::DefinirUtilisateur(Utilisateur* utilisateur, string type)
 // Algorithme : Aucun

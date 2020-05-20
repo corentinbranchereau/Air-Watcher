@@ -16,6 +16,7 @@
 #include "EmployeAgenceGouvernementale.h"
 #include "Admin.h"
 #include "Capteur.h"
+#include "Zone.h"
 
 #include <string>
 #include <vector>
@@ -153,6 +154,31 @@ public:
 	//
 	// Contrat : Aucun
 	//
+
+	void AvantSaisieConsulterMoyenneDonnees();
+	// Mode d'emploi : Cette méthode prépare la saisie pour consulter les données c'est à dire effacer la console, afficher le titre etc...
+	//
+	// Contrat : Aucun
+	//
+
+	Horodatage SaisirDate(string type="");
+	// Mode d'emploi : Cette méthode va permettre à l'utilisateur de saisir une date puis de la créer et de la retourner
+	//
+	// Contrat : Aucun
+	//
+
+	double SaisirDouble(double choixMin,double choixMax);
+	// Mode d'emploi : demande à l'utilisateur de saisir un double compris entre choixMin et choixMax
+	//
+	// Contrat : Aucun
+	//
+
+	Zone SaisirZone();
+	// Mode d'emploi : Cette méthode va permettre à l'utilisateur de saisir une date puis de la créer et de la retourner
+	//
+	// Contrat : Aucun
+	//
+
 
 	void DefinirUtilisateur(Utilisateur* utilisateur, string type);
 	// Mode d'emploi : Cette méthode permet de définir les attributs 'utilisateurConnecte'

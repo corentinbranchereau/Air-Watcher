@@ -95,7 +95,7 @@ public:
 	// Contrat : aucun
 	//
 
-    bool EntrerDonnees(string idAttribut, double valeur, UtilisateurPrive & utilisateur);
+    bool EntrerDonnees(string fichierCapteurs,string fichierMesures,string idAttribut, double valeur,Horodatage& date, PointGeographique& p,UtilisateurPrive & utilisateur,unordered_map<string, string> & mapCapteurUtilisateur,unordered_map<string,Capteur*>& mapIDCapteurs);
 	
 	bool LabelliserUneDonnee(vector<Mesure*>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
 	// Mode d'emploi : renvoie true si la mesure à vérifier est non aberrante, false sinon
