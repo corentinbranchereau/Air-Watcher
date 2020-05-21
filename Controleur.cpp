@@ -61,7 +61,7 @@ bool chargementDonnees(string cheminFichierNettoyeurs, string cheminFichierFourn
     if(ret){cout<<"Types attributs OK\n";}
 
     //Mesures
-    ret = ret && donneesMesures.ChargerMesures(cheminFichierMesures,donneesCapteurs.GetMapCapteurUtilisateur());
+    ret = ret && donneesMesures.ChargerMesures(cheminFichierMesures,donneesCapteurs.GetMapCapteurUtilisateur(),donneesUtilisateurs.GetUtilisateurs());
     if(ret){cout<<"Mesures OK\n";}
     //Fichiers labels
     ret = ret && donneesMesures.ChargerLabels(cheminFichierLabel,donneesCapteurs.GetMapCapteurUtilisateur());
@@ -108,6 +108,29 @@ void menuAction()
         while(choix!=4) // 4 = Déconnexion pour un utilisateur privé
         {
             choix = affichage.AfficherMenuActionPrive();
+
+            switch(choix)
+            {
+                case 1: {
+                    // consultation données
+                    affichage.PreparationConsole("Consultation de vos données entrées");
+                    Horodatage debut = affichage.SaisirDate("début");
+                    Horodatage fin = affichage.SaisirDate("fin");
+                    affichage.AfficherDonnesUtilisateurPrive(debut,fin);
+                } break;
+
+                case 2: {
+                    // entrer une donnée
+                } break;
+
+                case 3: {
+                    // modifier compte
+                } break;
+
+                case 4: {
+                    // déconnexion
+                } break;
+            }
         }
     }
     else if(uAgence!=nullptr)
@@ -147,6 +170,10 @@ void menuAction()
 
                     case 4: {
                         // données brutes
+                        affichage.PreparationConsole("Consultation des données brutes de l'application");
+                        Horodatage debut=affichage.SaisirDate("début");
+                        Horodatage fin=affichage.SaisirDate("fin");
+                        affichage.AfficherDonneesBrutes(debut,fin,donneesMesures.GetMesures());
                     } break;
 
                     case 5: {

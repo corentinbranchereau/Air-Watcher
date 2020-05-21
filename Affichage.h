@@ -17,6 +17,8 @@
 #include "Admin.h"
 #include "Capteur.h"
 #include "Zone.h"
+#include "Horodatage.h"
+#include "Mesure.h"
 
 #include <string>
 #include <vector>
@@ -199,18 +201,37 @@ public:
 
 	void AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure);
 	// Mode d'emploi : Affiche le résultat des moyennes des mesures journalières
+	//
 	// Contrat : Aucun
 	//
 
 	void AfficherQualitePeriodePrecise(map<Horodatage,int> mapDateIndices);
 	// Mode d'emploi : Affiche le résultat des moyennes des indices atmos journaliers
+	//
+	//
 	// Contrat : Aucun
 	//
 
 	void AfficherApresLabel();
 	// Mode d'emploi : Affiche un message lorsque les mesures sont finies de labelliser
+	//
 	// Contrat : Aucun
 	//
+
+	void AfficherDonnesUtilisateurPrive(Horodatage debut, Horodatage fin);
+	// Mode d'emploi : Affiche les données que l'utilisateur (privé) a
+	// précédemment entrées entre les dates de début et de fin données
+	//
+	// Contrat : Aucun
+	//
+
+	void AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<Mesure*> & mesures);
+	// Mode d'emploi : Affiche les données brutes de l'application comprise
+	// entre les dates de début et de fin données
+	//
+	// Contrat : Aucun
+	//
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 	Affichage & operator = (const Affichage & unAffichage);

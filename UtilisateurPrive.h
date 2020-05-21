@@ -45,8 +45,15 @@ public:
 	// Contrat : Aucun
 	//
 
-	vector<MesureUtilisateur*> ConsulterDonneesEntrees();
+	vector<MesureUtilisateur*> & ConsulterDonneesEntrees();
 	// Mode d'emploi : Renvoie l'attribut 'donneesEntrees' de l'utilisateur privé
+	//
+	// Contrat : Aucun
+	//
+
+	void EntrerDonnee(MesureUtilisateur* nouvelleDonnee);
+	// Mode d'emploi : Ajoute la mesure passée en paramètre à la liste
+	// des mesures de l'utilisateur
 	//
 	// Contrat : Aucun
 	//

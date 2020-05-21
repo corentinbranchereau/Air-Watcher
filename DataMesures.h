@@ -48,8 +48,9 @@ public:
 	// Contrat :
 	//
 
-    bool ChargerMesures(string fichierMesures, unordered_map<string, string> & mapCapteurUtilisateur);
-	// Mode d'emploi : permet de charger les mesures dans la structure de données appropriée
+    bool ChargerMesures(string fichierMesures, unordered_map<string, string> & mapCapteurUtilisateur, vector<Utilisateur*> & utilisateurs);
+	// Mode d'emploi : permet de charger les mesures dans la structure de données appropriée et de remplir également
+	// les données entrées de chaque utilisateur privé
 	//
 	// Contrat : Aucun
 	//

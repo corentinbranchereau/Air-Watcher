@@ -217,7 +217,7 @@ bool DataUtilisateurs::GererCompte(string mail, string nom, string prenom, strin
 
 } //----- Fin de GererCompte
 
-vector<Utilisateur*> DataUtilisateurs::GetUtilisateurs()
+vector<Utilisateur*> & DataUtilisateurs::GetUtilisateurs()
 // Algorithme : Aucun
 //
 {
@@ -346,6 +346,22 @@ bool DataUtilisateurs::SeCreerUnComptes(string* informationsUtilisateur)
 	}
 
 	return true;	
+} //----- Fin de SeCreerUnComptes
+
+Utilisateur* DataUtilisateurs::TrouverUtilisateurParIdentifiant(string identifiant)
+// Algorithme : Regarde pour chaque utilisateur si son identifiant correspond avec celui
+// passé en paramètre
+//
+{
+	vector<Utilisateur*>::iterator it;
+	for(it=this->utilisateurs.begin();it<this->utilisateurs.end();++it)
+	{
+		if((*it)->GetIdentifiant()==identifiant)
+		{
+			return (*it);
+		}
+	}
+	return nullptr; // utilisateur non trouvé
 } //----- Fin de SeCreerUnComptes
 
 //------------------------------------------------- Surcharge d'opérateurs

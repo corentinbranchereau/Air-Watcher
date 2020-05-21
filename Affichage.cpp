@@ -21,6 +21,9 @@
 #include "EmployeAgenceGouvernementale.h"
 #include "Admin.h"
 #include "Capteur.h"
+#include "MesureUtilisateur.h"
+#include "Horodatage.h"
+#include "Mesure.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -376,23 +379,22 @@ Horodatage Affichage::SaisirDate(string type)
 {	
 	if(type=="")
 	{
-	cout<<"Quelle date voulez vous ? : "<<endl;
+		cout<<"Quelle date voulez vous ? : "<<endl;
 	}
-	if(type=="début")
+	else if(type=="début")
 	{
-		cout<<"Quelle date de début voulez vous ? : "<<endl;
+		cout<<"Quelle "<<Souligner("date de début")<<" voulez vous ? : \n"<<endl;
 	}
-
-	if(type=="fin")
+	else if(type=="fin")
 	{
-	cout<<"Quelle date de fin voulez vous ? : "<<endl;	
+		cout<<"\nQuelle "<<Souligner("date de fin")<<" voulez vous ? : \n"<<endl;
 	}
 	
-	cout <<"Quelle année ? :";
+	cout<<"Quelle année ? ";
 	int annee=SaisirChoix(2050);
-	cout <<"Quel mois (entre 1 et 12) ? :";
+	cout<<"Quel mois (entre 1 et 12) ? ";
 	int mois=SaisirChoix(12);
-	cout <<"Quel jour (entre 1 et 31) ?  :";
+	cout<<"Quel jour (entre 1 et 31) ?  ";
 	int jour=SaisirChoix(31);
 
 	Horodatage date(annee,mois,jour,0,0,0);
@@ -406,11 +408,11 @@ Zone Affichage::SaisirZone()
 //
 {
 	cout<<"Définisez votre zone  : "<<endl;
-	cout <<"Quelle longitude ? ";
+	cout<<"Quelle longitude ? ";
 	double longitude=SaisirDouble(-100,100);
-	cout <<"Quelle latitude ? :";
+	cout<<"Quelle latitude ? :";
 	double latitude=SaisirDouble(-100,100);
-	cout <<"Quel rayon de zone (km)?  :";
+	cout<<"Quel rayon de zone (km)?  :";
 	double rayon =SaisirDouble(0.000001,numeric_limits<double>::max());
 
 	PointGeographique p(longitude,latitude);
@@ -544,6 +546,93 @@ void Affichage::AfficherApresLabel()
 
 	cin.ignore();
 } //----- Fin de AfficherCapteursSimilaires
+
+void Affichage::AfficherDonnesUtilisateurPrive(Horodatage debut, Horodatage fin)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	cout<<"\n\n  "<<Souligner("Consultation de vos données entrées")<<"\n\n";
+
+	UtilisateurPrive * uPrive = dynamic_cast<UtilisateurPrive*>(this->utilisateurConnecte);
+	
+	// /!\ on considère que les données sont pas groupe de 4 (une pour chaque attribut) /!\
+
+	vector<MesureUtilisateur*>::iterator it;
+	for(it=uPrive->ConsulterDonneesEntrees().begin();it<uPrive->ConsulterDonneesEntrees().end();++it)
+	{
+		// on affiche la mesure uniquement si elle est dans l'intervalle de temps donné
+		bool apresDebut = ((*it)->getdateMesure().GetJour()>=debut.GetJour()) && ((*it)->getdateMesure().GetMois()>=debut.GetMois()) && ((*it)->getdateMesure().GetAnnee()>=debut.GetAnnee());
+		bool avantFin = ((*it)->getdateMesure().GetJour()<=fin.GetJour()) && ((*it)->getdateMesure().GetMois()<=fin.GetMois()) && ((*it)->getdateMesure().GetAnnee()<=fin.GetAnnee());
+
+		if(apresDebut && avantFin)
+		{
+			cout<<" "<<Souligner("Jour")<<" : "<<(*it)->getdateMesure().GetJour()<<"/"<<(*it)->getdateMesure().GetMois()<<"/"<<(*it)->getdateMesure().GetAnnee()<<endl;
+
+			for(int n=0;n<4;n++)
+			{
+				cout<<" "<<(*it)->getTypeMesure()->getIdAttribut()<<" : "<<(*it)->getValeurAttribut()<<" "<<(*it)->getTypeMesure()->getUnite()<<endl;
+				if(n!=3)
+				{
+					++it;
+				}
+			}
+			cout<<"\n";
+		}
+	}
+
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
+
+} //----- Fin de AfficherDonnesUtilisateurPrive
+
+void Affichage::AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<Mesure*> & mesures)
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	cout<<"\n\n  "<<Souligner("Consultation des données brutes de l'application")<<"\n\n";
+
+	// /!\ on considère que les données sont pas groupe de 4 (une pour chaque attribut) /!\
+
+	vector<Mesure*>::iterator it;
+
+	for(it=mesures.begin();it<mesures.end();++it)
+	{
+		// on affiche la mesure uniquement si elle est dans l'intervalle de temps donné
+		bool apresDebut = ((*it)->getdateMesure().GetJour()>=debut.GetJour()) && ((*it)->getdateMesure().GetMois()>=debut.GetMois()) && ((*it)->getdateMesure().GetAnnee()>=debut.GetAnnee());
+		bool avantFin = ((*it)->getdateMesure().GetJour()<=fin.GetJour()) && ((*it)->getdateMesure().GetMois()<=fin.GetMois()) && ((*it)->getdateMesure().GetAnnee()<=fin.GetAnnee());
+
+		if(apresDebut && avantFin)
+		{
+			cout<<" "<<Souligner("Jour")<<" : "<<(*it)->getdateMesure().GetJour()<<"/"<<(*it)->getdateMesure().GetMois()<<"/"<<(*it)->getdateMesure().GetAnnee()<<endl;
+
+			for(int n=0;n<4;n++)
+			{
+				cout<<" "<<(*it)->getTypeMesure()->getIdAttribut()<<" : "<<(*it)->getValeurAttribut()<<" "<<(*it)->getTypeMesure()->getUnite()<<endl;
+				if(n!=3)
+				{
+					++it;
+				}
+			}
+			cout<<"\n";
+		}
+	}
+
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
+
+}
 
 
 //------------------------------------------------- Surcharge d'opérateurs

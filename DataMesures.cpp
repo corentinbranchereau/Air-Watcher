@@ -44,7 +44,7 @@ unordered_map<string,double> memoireClusters;
 //} //----- Fin de Méthode
 
 
-bool DataMesures::ChargerMesures(string fichierMesures, unordered_map<string, string> & mapCapteurUtilisateur)
+bool DataMesures::ChargerMesures(string fichierMesures, unordered_map<string, string> & mapCapteurUtilisateur, vector<Utilisateur*> & utilisateurs)
 // Algorithme : permet de lire le fichier passé en paramètres  et de charger les mesures une par une dans une liste  
 //
 {
@@ -112,10 +112,25 @@ bool DataMesures::ChargerMesures(string fichierMesures, unordered_map<string, st
 
       //on crée la mesure (en vérifiant si l'id Capteur correspond à un id Utilisateur ou non pour créer soit une Mesure soit une MesureUtilisateur)
       Mesure* mesure;
-      if(mapCapteurUtilisateur.count(sensorID)>0)
+      unordered_map<string,string>::iterator itCapteurUtilisateur;
+      itCapteurUtilisateur = mapCapteurUtilisateur.find(sensorID);
+
+      if(itCapteurUtilisateur!=mapCapteurUtilisateur.end()) // id trouvé dans la map
       {
         // c'est une mesure utilisateur
         mesure = new MesureUtilisateur(type,value,string(sensorID),horo);
+
+        // on l'insère également dans les données entrées de l'utilisateur correspondant
+        vector<Utilisateur*>::iterator itUtilisateur;
+        for(itUtilisateur=utilisateurs.begin();itUtilisateur<utilisateurs.end();++itUtilisateur)
+        {
+          if((*itUtilisateur)->GetIdentifiant()==itCapteurUtilisateur->second) // l'identifiant de l'utilisateur est le même que celui trouvé pour la mesure
+          {
+            UtilisateurPrive * uPrive = dynamic_cast<UtilisateurPrive*>(*itUtilisateur);
+            MesureUtilisateur * mesureUtilisateur = dynamic_cast<MesureUtilisateur*>(mesure);
+            uPrive->EntrerDonnee(mesureUtilisateur);
+          }
+        }
       }
       else
       {

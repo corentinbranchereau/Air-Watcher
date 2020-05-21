@@ -42,12 +42,19 @@ int UtilisateurPrive::ObtenirPoints()
 	return this->nbPoints;
 } //----- Fin de ObtenirPoints
 
-vector<MesureUtilisateur*> UtilisateurPrive::ConsulterDonneesEntrees()
+vector<MesureUtilisateur*> & UtilisateurPrive::ConsulterDonneesEntrees()
 // Algorithme : Aucun
 //
 {
-	return donneesEntrees;
+	return this->donneesEntrees;
 } //----- Fin de ConsulterDonneesEntrees
+
+void UtilisateurPrive::EntrerDonnee(MesureUtilisateur* nouvelleDonnee)
+// Algorithme : Aucun
+//
+{
+	this->donneesEntrees.push_back(nouvelleDonnee);
+} //----- Fin de EntrerDonnee
 
 //------------------------------------------------- Surcharge d'opérateurs
 

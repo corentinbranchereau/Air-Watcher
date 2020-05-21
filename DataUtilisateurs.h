@@ -54,7 +54,7 @@ public:
     bool ChargerUtilisateurs(string fichierUtilisateurs);
 	// Mode d'emploi : Cette méthode va permettre de charger les utilisateurs
 	// déja inscrits depuis le fichier fourni. Pour cela, le fichier
-	// est ouvert en lecture, et construit pour chaque ligne un utilisateur
+	// est ouvert en lecture, et construit pour chaque ligne un utilisateur.
 	//
 	// Contrat : Le fichier doit contenir les utilisateurs(1 par ligne) selon le bon format
 	// à savoir :
@@ -88,8 +88,15 @@ public:
 	// Contrat :
 	//
 
-	vector<Utilisateur*> GetUtilisateurs();
+	vector<Utilisateur*> & GetUtilisateurs();
 	// Mode d'emploi : Permet de renvoyer la liste des utilisateurs de l'application
+	//
+	// Contrat : Aucun
+	//
+
+	Utilisateur* TrouverUtilisateurParIdentifiant(string identifiant);
+	// Mode d'emploi : Cette méthode permet de chercher et de retourner un utilisateur
+	// grâce à son identifiant
 	//
 	// Contrat : Aucun
 	//
