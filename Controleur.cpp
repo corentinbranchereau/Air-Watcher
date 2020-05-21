@@ -122,6 +122,8 @@ void menuAction()
 
             affichage.AffichageFinConnexion("réussite");
 
+            vector<Mesure*>listMesureBonnes;
+
             while(choix!=9) // 9 = Déconnexion pour un employé d'agence
             {
                 choix = affichage.AfficherMenuActionAgenceGouv();
@@ -149,18 +151,21 @@ void menuAction()
 
                     case 5: {
                         // moyenne données brutes d'une zone sur une période donnée
-                        affichage.AvantSaisieConsulterMoyenneDonnees();
-                        Horodatage debut=affichage.SaisirDate("début");
-                        Horodatage fin=affichage.SaisirDate("fin");
-                        Zone zone=affichage.SaisirZone();
-                        vector<Mesure*>listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
-                        Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
+
 
                     } break;
 
                     case 6: {
                         
                         // moyenne qualité air d'une zone
+
+                        affichage.AvantSaisieConsulterMoyenneDonnees();
+                        Horodatage debut=affichage.SaisirDate("début");
+                        Horodatage fin=affichage.SaisirDate("fin");
+                        Zone zone=affichage.SaisirZone();
+                        listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
+                        Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
+                        affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
                     } break;
 
                     case 7: {

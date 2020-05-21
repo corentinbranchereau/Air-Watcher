@@ -237,14 +237,14 @@ vector<Mesure*> DataMesures:: ObtenirMesuresFiables()
     if(m==nullptr)
     {
       //ce n'est pas une mesure utilisateur elle est donctoujours fiable
-      listMesuresFiables.push_back(m);
+      listMesuresFiables.push_back(mesures[i]);
 
     }
     else
     {
      if((*m).GetLabel()=="fiable")
      {
-       listMesuresFiables.push_back(m);
+       listMesuresFiables.push_back(mesures[i]);
        //si la mesure utilisateur on peut l'utiliser
      }
     } 
@@ -274,7 +274,7 @@ vector<Mesure*> DataMesures:: ObtenirMesuresNonLabelisees()
     {
      if((*m).GetLabel()=="")
      {
-       mesuresNonLabelisees.push_back(m);
+       mesuresNonLabelisees.push_back(mesures[i]);
        //si la mesure utilisateur est non labellise on l'ajoute
      }
     } 

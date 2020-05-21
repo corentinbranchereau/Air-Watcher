@@ -194,6 +194,11 @@ public:
 	// Contrat : Aucun
 	//
 
+	void AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure);
+	// Mode d'emploi : Affiche le résultat des moyennes des mesures journalières
+	// Contrat : Aucun
+	//
+
 //------------------------------------------------- Surcharge d'opérateurs
 	Affichage & operator = (const Affichage & unAffichage);
 	// Mode d'emploi : Ne fait rien en particulier

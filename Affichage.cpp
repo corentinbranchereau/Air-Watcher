@@ -397,7 +397,7 @@ Horodatage Affichage::SaisirDate(string type)
 	cout <<"Quel mois (entre 1 et 12) ? :";
 	int mois=SaisirChoix(12);
 	cout <<"Quel jour (entre 1 et 31) ?  :";
-	int jour=SaisirChoix(12);
+	int jour=SaisirChoix(31);
 
 	Horodatage date(annee,mois,jour,0,0,0);
 
@@ -414,7 +414,7 @@ Zone Affichage::SaisirZone()
 	double longitude=SaisirDouble(-100,100);
 	cout <<"Quelle latitude ? :";
 	double latitude=SaisirDouble(-100,100);
-	cout <<"Quel rayon de zone ?  :";
+	cout <<"Quel rayon de zone (km)?  :";
 	double rayon =SaisirDouble(0.000001,numeric_limits<double>::max());
 
 	PointGeographique p(longitude,latitude);
@@ -461,6 +461,38 @@ void Affichage::AfficherCapteursSimilaires(vector<vector<Capteur*>> & res)
 	cin.ignore();
 } //----- Fin de AfficherCapteursSimilaires
 
+void Affichage::AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	//cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
+
+	for(int i = 1; i<moyennesMesure[0]->getValeurAttribut()+1; i++)
+    {
+		Mesure* m=moyennesMesure[i];
+		Horodatage date=m->getdateMesure();
+		cout<<"**********************"<<endl;
+       	// cout<<"JOUR n° "<<i<<endl;
+		cout <<"JOUR : "<<date.GetJour()<<"/"<<date.GetMois()<<"/"<<date.GetAnnee()<<endl;
+
+		cout<<"MOYENNE O3 : "<<m[0].getValeurAttribut()<<(m[0].getTypeMesure())->getUnite()<<endl;
+		cout<<"MOYENNE SO2 : "<<m[1].getValeurAttribut()<<(m[1].getTypeMesure())->getUnite()<<endl;
+		cout<<"MOYENNE NO2 : "<<m[2].getValeurAttribut()<<(m[2].getTypeMesure())->getUnite()<<endl;
+		cout<<"MOYENNE PM10 : "<<m[3].getValeurAttribut()<<(m[3].getTypeMesure())->getUnite()<<endl;
+
+		cout<<"**********************"<<endl;
+    }
+
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
+} //----- Fin de AfficherCapteursSimilaires
 
 //------------------------------------------------- Surcharge d'opérateurs
 
