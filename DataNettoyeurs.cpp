@@ -117,8 +117,9 @@ bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur)
 // Algorithme :
 //
 {
-	return (nettoyeurs.insert(make_pair(nettoyeur.getID,&nettoyeur))).second;
+	return (nettoyeurs.insert(make_pair(nettoyeur.getID(),&nettoyeur))).second;
 } //----- Fin de AjouterNettoyeurm
+
 
 bool DataNettoyeurs::SupprimerNettoyeur(string idNettoyeur)
 // Algorithme :
@@ -132,6 +133,7 @@ bool DataNettoyeurs::SupprimerNettoyeur(string idNettoyeur)
 		return true;
 	}
 } //----- Fin de SupprimerNettoyeur
+
 
 bool DataNettoyeurs::ActiverNettoyeur(string idNettoyeur)
 // Algorithme :
@@ -148,6 +150,7 @@ bool DataNettoyeurs::ActiverNettoyeur(string idNettoyeur)
 		return true;
   }
 } //----- Fin de ActiverNettoyeur
+
 
 bool DataNettoyeurs::DesactiverNettoyeur(string idNettoyeur)
 // Algorithme :
