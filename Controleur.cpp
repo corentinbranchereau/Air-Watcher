@@ -152,24 +152,38 @@ void menuAction()
                     case 5: {
                         // moyenne données brutes d'une zone sur une période donnée
 
-
-                    } break;
-
-                    case 6: {
-                        
-                        // moyenne qualité air d'une zone
-
-                        affichage.AvantSaisieConsulterMoyenneDonnees();
+                        affichage.PreparationConsole("Consultation des moyennes journalières des données sur une période et une zone choisie");
                         Horodatage debut=affichage.SaisirDate("début");
                         Horodatage fin=affichage.SaisirDate("fin");
                         Zone zone=affichage.SaisirZone();
                         listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
+
+
+                    } break;
+
+                    case 6: {
+                        
+                        // moyenne qualité air d'une zone sur une période
+
+                        affichage.PreparationConsole("Consultation des indices atmos journaliers sur une période et une zone choisie");
+                        Horodatage debut=affichage.SaisirDate("début");
+                        Horodatage fin=affichage.SaisirDate("fin");
+                        Zone zone=affichage.SaisirZone();
+                        vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables();
+                        map<Horodatage,int> moyennesIndices=donneesMesures.ConsulterQualitePeriodePrecise(debut,fin,zone,listMesureBonnesQualite,donneesCapteurs.GetCapteurs());
+                        affichage.AfficherQualitePeriodePrecise(moyennesIndices);
+                        
+
                     } break;
 
                     case 7: {
                         // labelliser données
+                        affichage.PreparationConsole("Labellisation des données des utilisateurs privés");
+                        donneesMesures.LabeliserDonneesUtilisateur("Data/labels.csv",donneesCapteurs.GetCapteurs());
+                        affichage.AfficherApresLabel();
+                        
                     } break;
 
                     case 8: {
@@ -241,7 +255,7 @@ int main(void)
 {
     if(chargementDonnees("./Data/cleaners.csv","./Data/providers.csv","./Data/users.csv","./Data/measurements.csv","./Data/attributes.csv","./Data/sensors.csv","./Data/ownUsers.csv","./Data/labels.csv"))
     {
-
+        //donneesMesures.LabeliserDonneesUtilisateur("Data/labels.csv",donneesCapteurs.GetCapteurs());
         //vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
         //affichageCapteursSimilaires(capteursSim);
 

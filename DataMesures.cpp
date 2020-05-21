@@ -209,10 +209,12 @@ bool DataMesures::ChargerLabels(string fichierLabel, unordered_map<string, strin
 	}
   else
   {
-    char idMesureLu[200];
-    char labelLu[100];
+
     while(fileLabel)
     {
+      char idMesureLu[200];
+      char labelLu[100];
+      
       fileLabel.getline(idMesureLu,200,';');
       if(!fileLabel) // on vérifie si on a atteint la fin du fichier
       {
@@ -355,7 +357,7 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
 
   }
 
-  resultat[0]=new Mesure[0];
+  resultat[0]=new Mesure[1];
 
   resultat[0][0]= Mesure();
 
@@ -455,10 +457,10 @@ int DataMesures::ConsulterQualiteDatePrecise(Horodatage & date, Zone & zone,vect
 // Algorithme :renvoie l'indice atmo moyen sur le jour et la zone souhaitée en calculant les moyennes journalières des attributs concernés
 // si pas de mesures correspondantes, renvoie 0
 {
-  int * indicesAtmos=ConsulterQualitePeriodePrecise(date,date,zone, listMesuresBonnes, mapCapteurs);
-  if(indicesAtmos[0]>0)
+  map<Horodatage,int> indicesAtmos=ConsulterQualitePeriodePrecise(date,date,zone, listMesuresBonnes, mapCapteurs);
+  if(indicesAtmos.size()>0)
   {
-    return indicesAtmos[1];
+    return indicesAtmos[date];
   }
   else
   {
@@ -475,12 +477,15 @@ bool operator <(const Horodatage& h1, const Horodatage& h2)
   return h1.less(h2);
 }
 
-int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
+map<Horodatage,int> DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
 // Algorithme :renvoie l'indice atmo moyen sur la période voulue et la zone souhaitée en calculant les moyennes journalières des attributs concernés
 //atention le 1 er élément du tableau renvoyé contient le nombre de jours pris en compte 
 {
   map<Horodatage,vector<Mesure*>> datesRencontrees;
   //clef : date, valeur : liste de Mesure*
+
+  map<Horodatage,int> resultats;
+  //clef : date, valeur: indiceAtmo 
   
   for(int i=0;i<listMesuresBonnes.size();i++)
   {
@@ -502,19 +507,23 @@ int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodat
         vector<Mesure*> v;
         v.push_back(listMesuresBonnes[i]);
         datesRencontrees.insert({h,v});
+
+        resultats.insert({h,0});
       }
       else
       {
         //sinon on ajoute uniquement la mesure dans la map
        (datesRencontrees[h]).push_back(listMesuresBonnes[i]);
+       
       }
       
     }
   }
 
-  int *indicesAtmo=new int[datesRencontrees.size()+1];//contient les indices ATMO journaliers
+  //int *indicesAtmo=new int[datesRencontrees.size()+1];//contient les indices ATMO journaliers
 
-  indicesAtmo[0]=datesRencontrees.size();
+
+  //indicesAtmo[0]=datesRencontrees.size();
 
   double moyenneValeurs [datesRencontrees.size()][4];//1 er indice : indice date, 2 ème indice : typeAttribut
 
@@ -612,9 +621,13 @@ int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodat
 
   //début calculs sous-indices atmo
 
-   for(int i=0;i<=numDate;i++)
-   {
-     indicesAtmo[i+1]=-1;
+  int i=-1;
+
+  for(auto it=datesRencontrees.begin();it!=datesRencontrees.end();it++)
+  {
+    i++;
+     //indicesAtmo[i+1]=-1;
+     resultats[it->first]=-1;
      for(int k=0;k<4;k++)
      {
        double valeur=moyenneValeurs[i][k];
@@ -622,10 +635,11 @@ int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodat
         {
          if(valeur>tabMin[k][j] && valeur<tabMax[k][j])
          {
-           if(j+1>indicesAtmo[i+1])
+           if(j+1>resultats[it->first])
            {
              //on garde que le max pour chaque jour : c'est l'indice final
-           indicesAtmo[i+1]=j+1;
+           //indicesAtmo[i+1]=j+1;
+            resultats[it->first]=j+1;
            }
          }
         }
@@ -639,7 +653,7 @@ int* DataMesures::ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodat
    }
    */
 
-   return indicesAtmo;
+   return resultats;
 
 } //----- Fin de ConsulterQualitePeriodePrecise
 

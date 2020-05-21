@@ -162,34 +162,37 @@ double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesur
 		double moyenneAvant=0;
 		double moyenneApres=0;
 
-		int* qualiteAirAvant=dataM.ConsulterQualitePeriodePrecise(debut.enleverJour(3),debut,zone,listMesuresBonnes,mapCapteurs);
+		map<Horodatage,int> qualiteAirAvant=dataM.ConsulterQualitePeriodePrecise(debut.enleverJour(3),debut,zone,listMesuresBonnes,mapCapteurs);
 		//tableau des indices atmos journaliers sur les 3 jours avant que le cleaner fonctionne
 
-		int* qualiteAirApres=dataM.ConsulterQualitePeriodePrecise(fin,fin.ajouterJour(2),zone,listMesuresBonnes,mapCapteurs);
+		map<Horodatage,int> qualiteAirApres=dataM.ConsulterQualitePeriodePrecise(fin,fin.ajouterJour(2),zone,listMesuresBonnes,mapCapteurs);
 		//tableau des indices atmos journaliers sur les 2 jours après que le cleaner a fonctionné
 
 		double indicateur=0;
 
-		if(qualiteAirAvant[0]>0 && qualiteAirApres[0]>0)
+		if(qualiteAirAvant.size()>0 && qualiteAirApres.size()>0)
 		{
-			for(int j=1;j<qualiteAirAvant[0]+1;j++)
-			{
-				moyenneAvant+=qualiteAirAvant[j];
-			}
-			moyenneAvant/=qualiteAirAvant[0];
 
-			//on fait la moyenne des indices atmo avant que le cleaner a fonctionné
-
-			for(int j=1;j<qualiteAirApres[0]+1;j++)
+			for(auto it=qualiteAirAvant.begin();it!=qualiteAirAvant.end();it++)
 			{
-				moyenneApres+=qualiteAirApres[j];
+				moyenneAvant+=it->second;
+
 			}
-			moyenneApres/=qualiteAirApres[0];
-			//on fait la moyenne des indices atmo après que le cleaner a fonctionné
+			moyenneAvant/=qualiteAirAvant.size();
+
+			for(auto it=qualiteAirApres.begin();it!=qualiteAirApres.end();it++)
+			{
+				moyenneApres+=it->second;
+
+			}
+
+			moyenneApres/=qualiteAirApres.size();
 
 			indicateur=(moyenneAvant-moyenneApres)/moyenneAvant;
 
 		}
+
+
 		else
 		{	//si on a pas de mesure on arrête la recherche et on retourne le rayon courant
 			cout<<"rayon inférieur à " << rayon<< endl;

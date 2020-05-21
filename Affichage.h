@@ -20,6 +20,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 using namespace std;
 //------------------------------------------------------------- Constantes
 
@@ -155,11 +156,13 @@ public:
 	// Contrat : Aucun
 	//
 
-	void AvantSaisieConsulterMoyenneDonnees();
-	// Mode d'emploi : Cette méthode prépare la saisie pour consulter les données c'est à dire effacer la console, afficher le titre etc...
+
+	void PreparationConsole(string message);
+	// Mode d'emploi : Cette méthode prépare la console avant l'affichage d'un résultat c'est à dire effacer la console, afficher le titre en paramètre etc...
 	//
 	// Contrat : Aucun
 	//
+	
 
 	Horodatage SaisirDate(string type="");
 	// Mode d'emploi : Cette méthode va permettre à l'utilisateur de saisir une date puis de la créer et de la retourner
@@ -196,6 +199,16 @@ public:
 
 	void AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure);
 	// Mode d'emploi : Affiche le résultat des moyennes des mesures journalières
+	// Contrat : Aucun
+	//
+
+	void AfficherQualitePeriodePrecise(map<Horodatage,int> mapDateIndices);
+	// Mode d'emploi : Affiche le résultat des moyennes des indices atmos journaliers
+	// Contrat : Aucun
+	//
+
+	void AfficherApresLabel();
+	// Mode d'emploi : Affiche un message lorsque les mesures sont finies de labelliser
 	// Contrat : Aucun
 	//
 

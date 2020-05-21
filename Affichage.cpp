@@ -362,17 +362,13 @@ int Affichage::CapteursSimilairesNbClassesMini(int nbClassesMax)
 	return SaisirChoix(nbClassesMax);
 } //----- Fin de CapteursSimilairesNbClassesMini
 
-void Affichage::AvantSaisieConsulterMoyenneDonnees()
-// Algorithme : Aucun
-//
+void Affichage::PreparationConsole(string message)
 {
 	NettoyerConsole();
 	AfficherTitre();
 	AfficherInformationsCompte();
-	cout<<"\n\n  "<<Souligner("Consultation des moyennes des données sur une période et une zone choisie")<<"\n\n";
-
-} //----- Fin de AvantSaisieConsulterMoyenneDonnees
-
+	cout<<"\n\n  "<<Souligner(message)<<"\n\n";
+}
 
 Horodatage Affichage::SaisirDate(string type)
 // Algorithme : Aucun
@@ -468,7 +464,7 @@ void Affichage::AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure)
 	NettoyerConsole();
 	AfficherTitre();
 	AfficherInformationsCompte();
-	//cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
+	cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
 
 	for(int i = 1; i<moyennesMesure[0]->getValeurAttribut()+1; i++)
     {
@@ -492,7 +488,63 @@ void Affichage::AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure)
 	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 
 	cin.ignore();
+} //----- Fin de AfficherMoyennesPeriodePrecise
+
+void Affichage::AfficherQualitePeriodePrecise(map<Horodatage,int> mapDatesIndices)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	//cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
+
+	for(auto it=mapDatesIndices.begin(); it!=mapDatesIndices.end(); it++)
+    {
+
+		Horodatage date=it->first;
+		int indiceAtmo=it->second;
+		cout<<"**********************"<<endl;
+       	// cout<<"JOUR n° "<<i<<endl;
+		cout <<"JOUR : "<<date.GetJour()<<"/"<<date.GetMois()<<"/"<<date.GetAnnee()<<endl;
+
+		cout<<"INDICE ATMO : "<<indiceAtmo<<endl;
+	
+
+		cout<<"**********************"<<endl;
+    }
+
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
 } //----- Fin de AfficherCapteursSimilaires
+
+void Affichage::AfficherApresLabel()
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	//cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
+
+		cout<<"**********************"<<endl;
+
+		cout<<"DONNES FINIES DE LABELLISER : OK "<<endl;
+	
+		cout<<"**********************"<<endl;
+    
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
+} //----- Fin de AfficherCapteursSimilaires
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 

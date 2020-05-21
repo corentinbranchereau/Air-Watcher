@@ -201,6 +201,19 @@ bool Horodatage::operator >= (const Horodatage & unHorodatage) const
 
 } //----- Fin de operator >=
 
+
+bool Horodatage::operator == (const Horodatage & unHorodatage) const
+// Algorithme : renvoie true si la date en paramètre est égale 
+//
+{	
+	if(this->annee==unHorodatage.annee && mois==unHorodatage.mois && jour==unHorodatage.jour && heure==unHorodatage.heure &&minute==unHorodatage.minute&& seconde==unHorodatage.seconde )
+	{
+		return true;
+	}
+	return false;
+
+} //----- Fin de operator >=
+
 bool Horodatage::less(const Horodatage & unHorodatage) const
 // Algorithme : joue le rôle de l'opérateur <
 //

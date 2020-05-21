@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <map>
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -83,7 +84,7 @@ public:
 	// Contrat : nécessite que ConsulterQualitePeriodePrecise soit implémenté
 	//
 
-    int* ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
+    map<Horodatage,int> ConsulterQualitePeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
 	// Mode d'emploi :renvoie une liste d'entiers correspondant aux indices atmos, un par jour (s'il y avait des mesures à ce jour correspondant)
 	//Attention le 1 er élement est ficitf, sa valeur contient le nombre de jours c.a.d la taille du tableau-1
 	// Contrat : nécessite une liste de mesures fiables

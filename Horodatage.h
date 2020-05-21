@@ -94,6 +94,8 @@ public:
 
 	bool operator >= (const Horodatage & unHorodatage) const;
 
+	bool operator == (const Horodatage & unHorodatage) const;
+
 	bool less (const Horodatage & unHorodatage) const;
 	// Mode d'emploi : permet de comparer 2 dates
 	//
