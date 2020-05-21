@@ -252,7 +252,7 @@ void affichageCapteursSimilaires(vector<vector<Capteur*>> groupescapteurs)
 
 
 int main(void)
-{
+{    
     if(chargementDonnees("./Data/cleaners.csv","./Data/providers.csv","./Data/users.csv","./Data/measurements.csv","./Data/attributes.csv","./Data/sensors.csv","./Data/ownUsers.csv","./Data/labels.csv"))
     {
         //donneesMesures.LabeliserDonneesUtilisateur("Data/labels.csv",donneesCapteurs.GetCapteurs());
@@ -291,7 +291,22 @@ int main(void)
             cout<<"-----------------------------"<<endl;
         }
         //cout<<"Rayon="<<rayon<<endl;
-        */
+
+
+            /*____TEST DATA NETTOYEURS______*/
+            
+        /*DataNettoyeurs* d=new DataNettoyeurs();
+        cout << "chargement des données: " << d->ChargerNettoyeurs("Data/cleaners.csv");
+        Horodatage debut(2010,2,3,4,5,6);
+        Horodatage fin(2020,2,3,4,5,6);
+        PointGeographique pGeo(0,0);
+        string s=(string)"nettoyeur test";
+        NettoyeurAir* n=new NettoyeurAir(true,100, debut,fin,"1",s, pGeo);
+        cout << "ajout du nettoyeur :" << d->AjouterNettoyeur(*n)<< endl;
+        cout << "activation du nettoyeur: " << d-> ActiverNettoyeur("1")<< endl;
+        cout << "desaction du nettoyeur: " << d-> DesactiverNettoyeur("1") << endl;
+        cout << "suppression du nettoyeur" << d-> SupprimerNettoyeur("1") <<endl;*/
+            
         
 
         while(true)

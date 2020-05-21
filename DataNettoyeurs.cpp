@@ -117,28 +117,55 @@ bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur)
 // Algorithme :
 //
 {
+	return (nettoyeurs.insert(make_pair(nettoyeur.getID(),&nettoyeur))).second;
+} //----- Fin de AjouterNettoyeurm
 
-} //----- Fin de AjouterNettoyeur
 
 bool DataNettoyeurs::SupprimerNettoyeur(string idNettoyeur)
 // Algorithme :
 //
 {
-
+	int nbElemDeleted=nettoyeurs.erase(idNettoyeur);
+	if(nbElemDeleted==0){
+		return false;
+	}
+	else{
+		return true;
+	}
 } //----- Fin de SupprimerNettoyeur
+
 
 bool DataNettoyeurs::ActiverNettoyeur(string idNettoyeur)
 // Algorithme :
 //
 {
+	unordered_map<string,NettoyeurAir*>::const_iterator got = nettoyeurs.find (idNettoyeur);
 
+  if ( got == nettoyeurs.end() ){
+		return false;
+  }
+  else{
+	  	NettoyeurAir* cleaner=got->second;
+		cleaner->setActif(true);
+		return true;
+  }
 } //----- Fin de ActiverNettoyeur
+
 
 bool DataNettoyeurs::DesactiverNettoyeur(string idNettoyeur)
 // Algorithme :
 //
 {
+	unordered_map<string,NettoyeurAir*>::const_iterator got = nettoyeurs.find (idNettoyeur);
 
+  if ( got == nettoyeurs.end() ){
+		return false;
+  }
+  else{
+	  	NettoyeurAir* cleaner=got->second;
+		cleaner->setActif(false);
+		return true;
+  }
 } //----- Fin de DesactiverNettoyeur
 
 double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesures & dataM,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs,double precision,double epsilon, double rayonMax)

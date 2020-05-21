@@ -56,6 +56,11 @@ double NettoyeurAir:: getRayon()
 	return rayon;
 }
 
+void NettoyeurAir:: setActif(bool act)
+{
+	this->actif=act;
+}
+
 
 NettoyeurAir & NettoyeurAir::operator = (const NettoyeurAir & unNettoyeurAir)
 // Algorithme :
