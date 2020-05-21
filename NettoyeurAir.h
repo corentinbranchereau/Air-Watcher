@@ -52,6 +52,12 @@ public:
 	// Contrat :
 	//
 
+	void setActif(bool act);
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
 //------------------------------------------------- Surcharge d'opérateurs
 	NettoyeurAir & operator = (const NettoyeurAir & unNettoyeurAir);
 	// Mode d'emploi :
