@@ -19,6 +19,7 @@
 #include "Zone.h"
 #include "Horodatage.h"
 #include "Mesure.h"
+#include "DataNettoyeurs.h"
 
 #include <string>
 #include <vector>
@@ -232,7 +233,46 @@ public:
 	// Contrat : Aucun
 	//
 
+	void AfficherNettoyeursCompagnie(vector<NettoyeurAir *> & nettoyeurs, bool actif, bool inactif);
+    // Mode d'emploi : Affiche les nettoyeurs propre à une compagnie
+    // actif et inactif permettent d'afficher les nettoyeurs actifs et/inactifs
+    // Contrat : Aucun
 
+    int AfficherMenuAjoutSuppressionNettoyeur();
+    // Mode d'emploi : Permet d'afficher le choix lors de l'ajout ou de la suppression d'un nettoyeur
+    // Renvoi le choix réalisé entre 1 et 3
+    // Contrat : Aucun
+
+    int AfficherMenuActiverDesactiverNettoyeur();
+    // Mode d'emploi : Permet d'afficher le choix lors de l'activer
+    // ou de la désactivation d'un nettoyeur
+    // Renvoi le choix réalisé entre 1 et 3
+    // Contrat : Aucun
+
+    void AfficherSupprimerNettoyeur();
+    // Mode d'emploi : Permet d'afficher les différents choix
+    // Pour supprimer un nettoyeur
+    // Contrat : Aucun
+
+    void AfficherAjouterNettoyeur();
+    // Mode d'emploi : Permet d'afficher les différents choix
+    // Pour ajouter un nettoyeur
+    // Contrat : Aucun
+
+    void AfficherActiverNettoyeur(DataNettoyeurs & dataNettoyeurs);
+    // Mode d'emploi : Permet d'afficher les différents choix
+    // Pour activer un nettoyeur
+    // Contrat : Aucun
+
+    void AfficherDesactiverNettoyeur(DataNettoyeurs & dataNettoyeurs);
+    // Mode d'emploi : Permet d'afficher les différents choix
+    // Pour désactiver un nettoyeur
+    // Contrat : Aucun
+
+    PointGeographique SaisirPosition();
+    // Mode d'emploi : Permet la saisie d'un point géographique
+    // Renvoi le point géographique
+    // Contrat : Aucun
 //------------------------------------------------- Surcharge d'opérateurs
 	Affichage & operator = (const Affichage & unAffichage);
 	// Mode d'emploi : Ne fait rien en particulier

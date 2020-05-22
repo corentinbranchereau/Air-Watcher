@@ -56,6 +56,11 @@ double NettoyeurAir:: getRayon()
 	return rayon;
 }
 
+bool NettoyeurAir::getActif()
+{
+    return actif;
+}
+
 void NettoyeurAir:: setActif(bool act)
 {
 	this->actif=act;

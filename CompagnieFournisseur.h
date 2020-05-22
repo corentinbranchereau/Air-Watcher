@@ -43,7 +43,7 @@ public:
     // Contrat :
     // Le pointeur est bien défini et pointe vers le nettoyeur en mémoire
 
-    vector<NettoyeurAir*> getNettoyeurs();
+    vector<NettoyeurAir*> & getNettoyeurs();
     // Mode d'emploi :
     // Retourne la liste des nettoyeurs d'une compagnie
     // Contrat :

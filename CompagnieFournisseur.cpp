@@ -42,7 +42,7 @@ void CompagnieFournisseur::addNettoyeur(NettoyeurAir * nettoyeurAir)
     nettoyeurs.push_back(nettoyeurAir);
 } // ------ Fin de addNettoyeur
 
-vector<NettoyeurAir *> CompagnieFournisseur::getNettoyeurs()
+vector<NettoyeurAir *> & CompagnieFournisseur::getNettoyeurs()
 // Algorithme :
 // Simple getter
 {

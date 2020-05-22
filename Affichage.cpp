@@ -407,12 +407,12 @@ Zone Affichage::SaisirZone()
 // Algorithme : Aucun
 //
 {
-	cout<<"Définisez votre zone  : "<<endl;
+	cout<<"Définissez votre zone  : "<<endl;
 	cout<<"Quelle longitude ? ";
 	double longitude=SaisirDouble(-100,100);
-	cout<<"Quelle latitude ? :";
+	cout<<"Quelle latitude ? ";
 	double latitude=SaisirDouble(-100,100);
-	cout<<"Quel rayon de zone (km)?  :";
+	cout<<"Quel rayon de zone (km)? ";
 	double rayon =SaisirDouble(0.000001,numeric_limits<double>::max());
 
 	PointGeographique p(longitude,latitude);
@@ -420,7 +420,7 @@ Zone Affichage::SaisirZone()
 
 	return zone;
 
-} //----- Fin de SaisirDate
+} //----- Fin de SaisirZone
 
 void Affichage::DefinirUtilisateur(Utilisateur* utilisateur, string type)
 // Algorithme : Aucun
@@ -634,6 +634,179 @@ void Affichage::AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<M
 
 }
 
+void Affichage::AfficherNettoyeursCompagnie(vector<NettoyeurAir *> & nettoyeurs, bool actif, bool inactif)
+//Algorithme : Aucun en particulier, uniquement de l'affichage
+{
+    bool needCheck = false;
+
+    if(actif && inactif)
+    {
+        cout<<"  === "<<"Liste des nettoyeurs d'air de votre compagnie"<<" ===\n"<<endl;
+    }
+    else if(actif)
+    {
+        cout<<"  === "<<"Liste des nettoyeurs actifs de votre compagnie"<<" ===\n"<<endl;
+        needCheck = true;
+    }
+    else if(inactif)
+    {
+        cout<<"  === "<<"Liste des nettoyeurs inactifs de votre compagnie"<<" ===\n"<<endl;
+        needCheck = true;
+    }
+
+
+    vector<NettoyeurAir *>::iterator it;
+
+    for(it=nettoyeurs.begin(); it<nettoyeurs.end(); ++it)
+    {
+        //On affiche le nettoyeur seulement s'il correspond bien à l'état voulu
+        NettoyeurAir* net = (*it);
+
+        if(needCheck)
+        {
+            if(actif && !net->getActif()) { continue; }
+            else if(inactif && net->getActif()) { continue; }
+        }
+
+        string etat;
+        if(net->getActif())
+            etat = "actif";
+        else
+            etat = "inactif";
+
+        cout << " * " << Souligner("ID") << " : " << net->getID();
+        cout << " | " << Souligner ("Latitude") << " : " << net->getPosition().getLatitude();
+        cout << " | " << Souligner ("Longitude") << " : " << net->getPosition().getLongitude();
+        cout << " | " << Souligner ("Mise en service") << " : " << net->getDebutActivite().GetJour() << "/" << net->getDebutActivite().GetMois() << "/" << net->getDebutActivite().GetAnnee();
+        cout << " | " << Souligner ("Etat") << " : " << etat << endl;
+        cout << "\n";
+    }
+    cout<<"  === "<<"Fin de la liste"<<" ==="<<"\n\n";
+
+    if(actif && inactif)
+    {
+        cout << "\nAppuyez sur 'Entrée' pour revenir au " << Souligner("menu d'action");
+        //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        cin.ignore();
+    }
+} // ------ Fin de AfficherNettoyeursCompagnie
+
+int Affichage::AfficherMenuAjoutSuppressionNettoyeur()
+// Algorithme : Aucun
+//
+{
+    cout<<"Que voulez-vous faire ?"<<endl;
+
+    cout<<"	1) Ajouter un nettoyeur d'air.\n";
+    cout<<"	2) Supprimer un nettoyeur d'air.\n";
+    cout<<"	3) Retour au menu principal.\n";
+    return SaisirChoix(3);
+} //----- Fin de AfficherMenuAjoutSuppressionNettoyeur
+
+int Affichage::AfficherMenuActiverDesactiverNettoyeur()
+// Algorithme : Aucun
+//
+{
+    cout<<"Que voulez-vous faire ?" <<endl;
+
+    cout<<"	1) Activer un nettoyeur d'air.\n";
+    cout<<"	2) Désactiver un nettoyeur d'air.\n";
+    cout<<"	3) Retour au menu principal.\n";
+    return SaisirChoix(3);
+} //----- Fin de AfficherMenuAjoutSuppressionNettoyeur
+
+void Affichage::AfficherAjouterNettoyeur()
+// Algorithme : Aucun
+//
+{
+
+    cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+    //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+    cin.ignore();
+} // ---- Fin de AfficherAjoutNettoyeur
+
+void Affichage::AfficherSupprimerNettoyeur()
+// Algorithme : Aucun
+//
+{
+
+
+    cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+    //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+    cin.ignore();
+} // ---- Fin de AfficherSupprimerNettoyeur
+
+void Affichage::AfficherActiverNettoyeur(DataNettoyeurs & dataNettoyeurs)
+// Algorithme : Aucun
+//
+{
+    string idSaisie;
+    cout<<"Veuillez saisir l'ID du nettoyeur que vous voulez activer : ";
+    cin>>idSaisie;
+
+    bool res = dataNettoyeurs.ActiverNettoyeur(idSaisie);
+
+    if(res)
+        cout << "\nLe nettoyeur d'ID " << idSaisie << " à bien été activé !" <<endl;
+    else
+        cout << "\nERREUR ! Le nettoyeur d'ID " << idSaisie << " n'à pas pu être activé !" <<endl;
+
+    cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+    //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+    cin.ignore();
+} // ---- Fin de AfficherActiverNettoyeur
+
+void Affichage::AfficherDesactiverNettoyeur(DataNettoyeurs & dataNettoyeurs)
+// Algorithme : Aucun
+//
+{
+
+    string idSaisie;
+    cout<<"Veuillez saisir l'ID du nettoyeur que vous voulez désactiver : ";
+    cin>>idSaisie;
+
+    bool res = dataNettoyeurs.DesactiverNettoyeur(idSaisie);
+
+    if(res)
+        cout << "\nLe nettoyeur d'ID " << idSaisie << " à bien été désactivé !" <<endl;
+    else
+        cout << "\nERREUR ! Le nettoyeur d'ID " << idSaisie << " n'à pas pu être désactivé !" <<endl;
+
+    cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+    //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+    cin.ignore();
+} // ---- Fin de AfficherDesactiverNettoyeur
+
+PointGeographique Affichage::SaisirPosition()
+// Algorithme : Aucun
+//
+{
+    cout<<"Définissez la position  : "<<endl;
+    cout<<"Quelle longitude ? ";
+    double longitude=SaisirDouble(-100,100);
+    cout<<"Quelle latitude ? ";
+    double latitude=SaisirDouble(-100,100);
+
+    PointGeographique p(longitude,latitude);
+
+    return p;
+
+} //----- Fin de SaisirPosition
 
 //------------------------------------------------- Surcharge d'opérateurs
 

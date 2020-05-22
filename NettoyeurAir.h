@@ -34,28 +34,34 @@ public:
 	// Contrat :
 	//
 	Horodatage & getDebutActivite();
-	// Mode d'emploi :
-	//
-	// Contrat :
-	//
+    // Mode d'emploi : Simple getter
+    //
+    // Contrat : Aucun
+    //
 
 
 	Horodatage & getFinActivite();
-	// Mode d'emploi :
-	//
-	// Contrat :
-	//
+    // Mode d'emploi : Simple getter
+    //
+    // Contrat : Aucun
+    //
 
 	double getRayon();
-	// Mode d'emploi :
+    // Mode d'emploi : Simple getter
+    //
+    // Contrat : Aucun
+    //
+
+	bool getActif();
+	// Mode d'emploi : Simple getter
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 	void setActif(bool act);
-	// Mode d'emploi :
+	// Mode d'emploi : Simple setter
 	//
-	// Contrat :
+	// Contrat : Aucun
 	//
 
 //------------------------------------------------- Surcharge d'opérateurs
