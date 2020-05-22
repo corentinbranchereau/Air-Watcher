@@ -89,6 +89,14 @@ public:
 	// Contrat :
 	// Il faut appeler SauvegarderNettoyeur à la fin de l'application pour pouvoir enregistrer les changements
 
+	NettoyeurAir* VerifierAppartenanceNettoyeur(string idNettoyeur,vector<NettoyeurAir*>& nettoyeursCompagnie);
+	// Mode d'emploi : indique si le ntettoyeur avec l'id passé en paramètre appartient au provider et le renvoie 
+	//
+	// Contrat :
+	//
+
+
+
     double ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesures & dataM,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs,double precision,double epsilon, double rayonMax);
 	// Mode d'emploi :Renvoie le rayon d'action du nettoyeur passé en paramètre
 	//

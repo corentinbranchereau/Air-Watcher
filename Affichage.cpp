@@ -634,7 +634,7 @@ void Affichage::AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<M
 
 }
 
-void Affichage::AfficherNettoyeursCompagnie(vector<NettoyeurAir *> & nettoyeurs, bool actif, bool inactif)
+void Affichage::AfficherNettoyeursCompagnie(vector<NettoyeurAir *> & nettoyeurs, bool actif, bool inactif, bool fin)
 //Algorithme : Aucun en particulier, uniquement de l'affichage
 {
     bool needCheck = false;
@@ -683,7 +683,7 @@ void Affichage::AfficherNettoyeursCompagnie(vector<NettoyeurAir *> & nettoyeurs,
     }
     cout<<"  === "<<"Fin de la liste"<<" ==="<<"\n\n";
 
-    if(actif && inactif)
+    if(actif && inactif && fin==true)
     {
         cout << "\nAppuyez sur 'Entrée' pour revenir au " << Souligner("menu d'action");
         //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
@@ -693,6 +693,34 @@ void Affichage::AfficherNettoyeursCompagnie(vector<NettoyeurAir *> & nettoyeurs,
         cin.ignore();
     }
 } // ------ Fin de AfficherNettoyeursCompagnie
+
+void Affichage:: AfficherRayonAction(double rayon, double rayonMax, string idNettoyeur)
+//Algorithme : vérifie si rayon>rayonMax alors le rayon obtenu est le rayon maximum théorique
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	cout<<"\n\n  "<<Souligner("Affichage du rayon d'action d'un nettoyeur d'air")<<"\n\n";
+	if(rayon<rayonMax)
+	{
+	cout << "\n Le nettoyeur " << idNettoyeur << " a un rayon d'action de "<< Souligner(to_string(rayon))<<" km"<<endl;
+	}
+	else
+	{
+		cout << "\n Le nettoyeur " << idNettoyeur << " a un rayon d'action inférieur à "<< Souligner(to_string(rayon-2*rayonMax))<<" km"<<endl;
+		cout<<" \n Il manquait des mesures plus proches du nettoyeur pour être plus précis"<<endl;
+	}
+
+
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
+
+}
+// ------ Fin de AfficherRayonAction
 
 int Affichage::AfficherMenuAjoutSuppressionNettoyeur()
 // Algorithme : Aucun
@@ -791,6 +819,36 @@ void Affichage::AfficherDesactiverNettoyeur(DataNettoyeurs & dataNettoyeurs)
 
     cin.ignore();
 } // ---- Fin de AfficherDesactiverNettoyeur
+
+ NettoyeurAir* Affichage::AfficherSaisieRayonNettoyeur(DataNettoyeurs & dataNettoyeurs,vector<NettoyeurAir*>& nettoyeursCompagnie)
+// Algorithme : Aucun
+//
+{
+    string idSaisie;
+    cout<<"Veuillez saisir l'ID du nettoyeur dont vous voulez connaître le rayon d'action : ";
+    cin>>idSaisie;
+
+    NettoyeurAir* res = dataNettoyeurs.VerifierAppartenanceNettoyeur(idSaisie,nettoyeursCompagnie);
+
+    if(res!=0)
+	{
+        cout << "\nDébut du calcul du rayon d'action pour le nettoyeur n° " << idSaisie <<endl;
+		cin.clear();
+	}
+    else
+	{
+        cout << "\nERREUR ! Le nettoyeur d'ID " << idSaisie << " n'est pas valide !" <<endl;
+		cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+		//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+		cin.ignore();
+	}
+
+	return res;
+
+    
+} // ---- Fin de AfficherSaisieRayonNettoyeur
 
 PointGeographique Affichage::SaisirPosition()
 // Algorithme : Aucun

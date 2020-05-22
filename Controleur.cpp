@@ -323,6 +323,16 @@ void menuAction()
                     case 4 : {
                         //Obtenir le rayon d'action d'un nettoyeur d'air
                         affichage.PreparationConsole("Obtenir le rayon d'action d'un nettoyeur d'air - A FAIRE");
+                        affichage.AfficherNettoyeursCompagnie(uFournisseur->GetCompagnie()->getNettoyeurs(),true, true,false);
+                        NettoyeurAir* nettoyeur=affichage.AfficherSaisieRayonNettoyeur(donneesNettoyeurs,uFournisseur->GetCompagnie()->getNettoyeurs());
+                        if(nettoyeur!=0)
+                        {
+                            vector<Mesure*> listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
+                            double rayonMax=1000;
+                            double rayon=donneesNettoyeurs.ObtenirRayonActionNettoyeur(nettoyeur->getID(),donneesMesures,listMesureBonnes,donneesCapteurs.GetCapteurs(),1,0.4,rayonMax);
+                            affichage.AfficherRayonAction(rayon,rayonMax,nettoyeur->getID());
+                        }
+
                     } break;
 
                     case 5 : {

@@ -233,7 +233,14 @@ public:
 	// Contrat : Aucun
 	//
 
-	void AfficherNettoyeursCompagnie(vector<NettoyeurAir *> & nettoyeurs, bool actif, bool inactif);
+	void AfficherRayonAction(double rayon, double rayonMax,string idNettoyeur);
+	// Mode d'emploi : Affiche le rayon du nettoyeur, le rayonMax permet de connaitre si une valeur de retour spéciale a eu lieu avec rayon>rayonMax
+	// 
+	//
+	// Contrat : Aucun
+	//
+
+	void AfficherNettoyeursCompagnie(vector<NettoyeurAir *> & nettoyeurs, bool actif, bool inactif, bool fin=true);
     // Mode d'emploi : Affiche les nettoyeurs propre à une compagnie
     // actif et inactif permettent d'afficher les nettoyeurs actifs et/inactifs
     // Contrat : Aucun
@@ -268,6 +275,12 @@ public:
     // Mode d'emploi : Permet d'afficher les différents choix
     // Pour désactiver un nettoyeur
     // Contrat : Aucun
+
+	NettoyeurAir* AfficherSaisieRayonNettoyeur(DataNettoyeurs & dataNettoyeurs,vector<NettoyeurAir*>& nettoyeursCompagnie);
+	// Mode d'emploi : Permet d'afficher les différents choix
+    // Pour choisir un nettoyeur pour son rayon d'action
+    // Contrat : Aucun
+
 
     PointGeographique SaisirPosition();
     // Mode d'emploi : Permet la saisie d'un point géographique
