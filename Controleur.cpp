@@ -93,6 +93,45 @@ void menuAction()
         while(choix!=7) // 7 = Déconnexion pour un admin
         {
             choix = affichage.AfficherMenuActionAdmin();
+
+            switch(choix)
+            {
+                case 1 : {
+                    //Afficher la liste des comptes en attente
+                    affichage.PreparationConsole("Liste des comptes en attente - A FAIRE");
+                } break;
+
+                case 2 : {
+                    //Valider/refuser la création d'un compte
+                    affichage.PreparationConsole("Validation ou refus de création d'un compte - A FAIRE");
+                } break;
+
+                case 3 : {
+                    //Gérer un compte
+                    affichage.PreparationConsole("Gérer un compte - A FAIRE");
+                } break;
+
+                case 4 : {
+                    //Ajouter un capteur à l'application
+                    affichage.PreparationConsole("Ajouter un capteur à l'application - A FAIRE");
+                } break;
+
+                case 5 : {
+                    //Modifier un capteur de l'application
+                    affichage.PreparationConsole("Modifier un capteur de l'application - A FAIRE");
+                } break;
+
+                case 6 : {
+                    //Modifier son compte
+                    affichage.PreparationConsole("Modifier son compte - A FAIRE");
+                } break;
+
+                case 7 : {
+                    //déconnexion
+                } break;
+
+            }
+
         }
     }
     else if(uPrive!=nullptr)
@@ -121,10 +160,12 @@ void menuAction()
 
                 case 2: {
                     // entrer une donnée
+                    affichage.PreparationConsole("Entrée d'une nouvelle donnée - A FAIRE");
                 } break;
 
                 case 3: {
                     // modifier compte
+                    affichage.PreparationConsole("Modification de son compte - A FAIRE");
                 } break;
 
                 case 4: {
@@ -155,14 +196,17 @@ void menuAction()
                 {
                     case 1: {
                         // liste des capteurs
+                        affichage.PreparationConsole("Consultation de la liste des capteurs - A FAIRE");
                     } break;
 
                     case 2: {
                         // état des capteurs
+                        affichage.PreparationConsole("Consultation de l'état des capteurs - A FAIRE");
                     } break;
 
                     case 3: {
                         // capteurs similaires
+                        affichage.PreparationConsole("Consultation des capteurs similaires");
                         int nbClassesMini = affichage.CapteursSimilairesNbClassesMini(donneesCapteurs.GetCapteurs().size());
                         vector<vector<Capteur*>> resultatCapteurSimilaire = donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),nbClassesMini);
                         affichage.AfficherCapteursSimilaires(resultatCapteurSimilaire);
@@ -178,7 +222,6 @@ void menuAction()
 
                     case 5: {
                         // moyenne données brutes d'une zone sur une période donnée
-
                         affichage.PreparationConsole("Consultation des moyennes journalières des données sur une période et une zone choisie");
                         Horodatage debut=affichage.SaisirDate("début");
                         Horodatage fin=affichage.SaisirDate("fin");
@@ -186,14 +229,11 @@ void menuAction()
                         listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
-
-
                     } break;
 
                     case 6: {
                         
                         // moyenne qualité air d'une zone sur une période
-
                         affichage.PreparationConsole("Consultation des indices atmos journaliers sur une période et une zone choisie");
                         Horodatage debut=affichage.SaisirDate("début");
                         Horodatage fin=affichage.SaisirDate("fin");
@@ -201,8 +241,6 @@ void menuAction()
                         vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables();
                         map<Horodatage,int> moyennesIndices=donneesMesures.ConsulterQualitePeriodePrecise(debut,fin,zone,listMesureBonnesQualite,donneesCapteurs.GetCapteurs());
                         affichage.AfficherQualitePeriodePrecise(moyennesIndices);
-                        
-
                     } break;
 
                     case 7: {
@@ -210,11 +248,11 @@ void menuAction()
                         affichage.PreparationConsole("Labellisation des données des utilisateurs privés");
                         donneesMesures.LabeliserDonneesUtilisateur("Data/labels.csv",donneesCapteurs.GetCapteurs());
                         affichage.AfficherApresLabel();
-                        
                     } break;
 
                     case 8: {
                         // modifier compte
+                        affichage.PreparationConsole("Modification de son compte - A FAIRE");
                     } break;
 
                     case 9: {
@@ -244,6 +282,54 @@ void menuAction()
             while(choix!=9) // 9 = Déconnexion pour fournisseur
             {
                 choix = affichage.AfficherMenuActionFournisseur();
+
+                switch(choix)
+                {
+                    case 1 : {
+                        //Ajouter ou supprimer un nettoyeur d'air
+                        affichage.PreparationConsole("Ajouter ou supprimer un nettoyeur d'air - A FAIRE");
+                    } break;
+
+                    case 2 : {
+                        //Activer ou désactiver un nettoyeur d'air
+                        affichage.PreparationConsole("Activer ou désactiver un nettoyeur d'air - A FAIRE");
+                    } break;
+
+                    case 3 : {
+                        //Afficher la liste des nettoyeurs d'air de la compagnie
+                        affichage.PreparationConsole("Afficher la liste des nettoyeurs d'air de la compagnie - A FAIRE");
+                    } break;
+
+                    case 4 : {
+                        //Obtenir le rayon d'action d'un nettoyeur d'air
+                        affichage.PreparationConsole("Obtenir le rayon d'action d'un nettoyeur d'air - A FAIRE");
+                    } break;
+
+                    case 5 : {
+                        //Consulter les données brutes de l'application
+                        affichage.PreparationConsole("Consulter les données brutes de l'application - A FAIRE");
+                    } break;
+
+                    case 6 : {
+                        //Obtenir la moyenne des données brutes d'une zone (circulaire)
+                        affichage.PreparationConsole("Obtenir la moyenne des données brutes d'une zone (circulaire) - A FAIRE");
+                    } break;
+
+                    case 7 : {
+                        //Obtenir la qualité d'air moyenne d'une zone (circulaire)
+                        affichage.PreparationConsole("Obtenir la qualité d'air moyenne d'une zone (circulaire) - A FAIRE");
+                    } break;
+
+                    case 8 : {
+                        //Modifier son compte
+                        affichage.PreparationConsole("Modification de son compte - A FAIRE");
+                    } break;
+
+                    case 9 : {
+                        //déconnexion
+                    } break;
+                }
+
             }
         }
         else
