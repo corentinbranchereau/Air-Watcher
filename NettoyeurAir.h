@@ -59,7 +59,11 @@ public:
 	//
 
 	void setActif(bool act);
-	// Mode d'emploi : Simple setter
+	// Mode d'emploi : Met a jour le status du nettoyeur
+	// si il passe de désactivé a activé, met sa date de début d'activié au temps actuel,
+	// et les valeurs de sa date de fin d'activité à NULL
+	//
+	// Si il passe d'activé à désactivé, met à jour sa date de fin d'activité à la date actuelle
 	//
 	// Contrat : Aucun
 	//

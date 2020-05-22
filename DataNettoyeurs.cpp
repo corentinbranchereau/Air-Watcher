@@ -113,6 +113,34 @@ bool DataNettoyeurs::ChargerNettoyeurs(string fichierNettoyeurs)
     return true;
 } //----- Fin de ChargerNettoyeurs
 
+
+bool DataNettoyeurs::SauvegarderNettoyeurs(string fichierNettoyeurs)
+// Algorithme : La méthode ouvre en ecriture le fichier, et pour chaque nettoyeur présent dans la map,
+// construit une ligne
+//
+{
+	ofstream file(fichierNettoyeurs,ios::trunc);
+    if(!file.is_open())
+	{
+		cerr<<"Erreur lors de la sauvegarde des nettoyeurs"<<endl;
+		return false;
+	}
+    else
+    {
+		unordered_map<string,NettoyeurAir*>::const_iterator it;
+		for(it=nettoyeurs.begin();it!=nettoyeurs.end();it++)
+		{
+			file << it->first << ";" 
+				 << it->second->getPosition().getLatitude() << ";"
+				 << it->second->getPosition().getLongitude() << ";;" 
+				 << it->second->getDebutActivite() << ";" 
+				 << it->second->getFinActivite() << endl;
+		}
+	}
+	return true;
+}//----- Fin de SauvegarderNettoyeurs
+
+
 bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur, CompagnieFournisseur & fournisseur)
 // Algorithme :
 //

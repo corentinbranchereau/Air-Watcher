@@ -12,6 +12,7 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <iomanip>
 
 //------------------------------------------------------ Include personnel
 #include "Horodatage.h"
@@ -162,6 +163,24 @@ Horodatage & Horodatage::operator = (const Horodatage & unHorodatage)
 	this->seconde=unHorodatage.seconde;
 	return *this;
 } //----- Fin de operator =
+
+std::ostream& operator<<(std::ostream &strm, const Horodatage &h)
+{
+	string sAnnee=to_string(h.annee);
+	string sMois=to_string(h.mois);
+	string sJour=to_string(h.jour);
+	string sHeure=to_string(h.heure);
+	string sMinute=to_string(h.minute);
+	string sSeconde=to_string(h.seconde);
+
+	strm << setfill('0') << setw(4)<<  h.annee << "-" 
+		<< setfill('0') << setw(2) << h.mois << "-" 
+		<< setfill('0') << setw(2) << h.jour << " " 
+		<< setfill('0') << setw(2) << h.heure <<":" 
+		<< setfill('0') << setw(2) << h.minute << ":" 
+		<< setfill('0') << setw(2) << h.seconde;
+	return strm;
+}
 
 
 bool Horodatage::operator >= (const Horodatage & unHorodatage) const

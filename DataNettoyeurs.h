@@ -48,32 +48,46 @@ public:
 	// tous les nettoyeurs dans l'application. Pour cela, le fichier est ouvert en lecture,
 	// et construit pour chaque ligne un nettoyeur
 	//
-	// Contrat : Chaque ligne doit être au format idNettoyeur;latitude;longitude;Timestamp;
+	// Contrat : Chaque ligne doit être au format idNettoyeur;latitude;longitude;;DateDebut;DateFin;
 	//
+
+	bool SauvegarderNettoyeurs(string fichierNettoyeurs);
+	// Mode d'emploi : Méthode qui va ouvrir le fichier en paramètre en écriture, afin d'y 
+	// ecrire les informations propres à chaque nettoyeur présent dans l'attribut map< > nettoyeurs
+	//
+	// ATTENTION : les informations qui étaient initialement présente dans le fichier sont écrasées, afin de permettre
+	// la mise à jour des nettoyeurs modifiés ou supprimés. 
+	// 
+	// Contrat : Chaque ligne doit être au format idNettoyeur;latitude;longitude;;DateDebut;DateFin;
+	//			 La méthode ChargerNettoyeurs doit avoir été appelée au début de l'application
 
     bool AjouterNettoyeur(NettoyeurAir & nettoyeur,CompagnieFournisseur & fournisseur);
-	// Mode d'emploi :
+	// Mode d'emploi : Ajoute le nettoyeur dans la liste de DataNettoyeurs, et va l'ajouter 
+	// dans la liste du fournisseur passé en paramètre
 	//
 	// Contrat :
-	//
+	//le fournisseur en paramètre doit être celui qui crée le nettoyeur
+	// Il faut appeler SauvegarderNettoyeur à la fin de l'application pour pouvoir enregistrer les changements
 
     bool SupprimerNettoyeur(string idNettoyeur,CompagnieFournisseur & fournisseur);
-	// Mode d'emploi :
-	//
+	// Mode d'emploi : Supprime le nettoyeur dans la liste des nettoyeurs de DataNettoyeurs, va également 
+	//le supprimer dans la liste des Fournisseurs, et désalloue la mémoire liée à ce nettoyeur 
+	// 
 	// Contrat :
-	//
+	// le fournisseur en paramètre doit être celui qui possède le nettoyeur
+	// Il faut appeler SauvegarderNettoyeur à la fin de l'application pour pouvoir enregistrer les changements
 
     bool ActiverNettoyeur(string idNettoyeur);
 	// Mode d'emploi :
 	//
 	// Contrat :
-	//
+	// Il faut appeler SauvegarderNettoyeur à la fin de l'application pour pouvoir enregistrer les changements
 
     bool DesactiverNettoyeur(string idNettoyeur);
 	// Mode d'emploi :
 	//
 	// Contrat :
-	//
+	// Il faut appeler SauvegarderNettoyeur à la fin de l'application pour pouvoir enregistrer les changements
 
     double ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesures & dataM,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs,double precision,double epsilon, double rayonMax);
 	// Mode d'emploi :Renvoie le rayon d'action du nettoyeur passé en paramètre

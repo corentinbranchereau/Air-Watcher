@@ -63,6 +63,31 @@ bool NettoyeurAir::getActif()
 
 void NettoyeurAir:: setActif(bool act)
 {
+	time_t currentTime;
+	struct tm *localTime;
+
+	time( &currentTime );                   // Get the current time
+	localTime = localtime( &currentTime );  // Convert the current time to the local time
+	int hour   = localTime->tm_hour;
+	int min    = localTime->tm_min;
+	int sec    = localTime->tm_sec;
+	int day    = localTime->tm_mday;
+	int month    = localTime->tm_mon;
+	int year = 1900 + localTime->tm_year;
+
+	if(this->actif && !act) // le nettoyeur passe d'activé à désactivé
+	{
+		Horodatage fin(year,month,day,hour,min,sec);
+		finActivite=fin;
+	}
+	else if(!(this->actif) && act) //le nettoyeur passe de désactivé à activé
+	{
+		Horodatage deb(year,month,day,hour,min,sec);
+		Horodatage fin(-1,-1,-1,-1,-1,-1);
+		debutActivite=deb;
+		finActivite=fin;
+	}
+
 	this->actif=act;
 }
 

@@ -10,6 +10,7 @@
 #define HORODATAGE_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include <iostream>
 
 //------------------------------------------------------------- Constantes
 
@@ -91,7 +92,7 @@ public:
 	//
 	// Contrat :
 	//
-
+	
 	bool operator >= (const Horodatage & unHorodatage) const;
 
 	bool operator == (const Horodatage & unHorodatage) const;
@@ -101,6 +102,9 @@ public:
 	//
 	// Contrat :
 	//
+
+	friend ostream& operator<<(std::ostream&, const Horodatage &h);
+	
 
 
 //-------------------------------------------- Constructeurs - destructeur

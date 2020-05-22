@@ -443,17 +443,19 @@ int main(void)
 
             /*____TEST DATA NETTOYEURS______*/
             
-        /*DataNettoyeurs* d=new DataNettoyeurs();
-        cout << "chargement des données: " << d->ChargerNettoyeurs("Data/cleaners.csv");
+        /*
+        
+        DataNettoyeurs* d=new DataNettoyeurs();
+        cout << "chargement des données: " << d->ChargerNettoyeurs("Data/cleaners2.csv");
         Horodatage debut(2010,2,3,4,5,6);
         Horodatage fin(2020,2,3,4,5,6);
         PointGeographique pGeo(0,0);
         string s=(string)"nettoyeur test";
+        CompagnieFournisseur f("1");
         NettoyeurAir* n=new NettoyeurAir(true,100, debut,fin,"1",s, pGeo);
-        cout << "ajout du nettoyeur :" << d->AjouterNettoyeur(*n)<< endl;
-        cout << "activation du nettoyeur: " << d-> ActiverNettoyeur("1")<< endl;
-        cout << "desaction du nettoyeur: " << d-> DesactiverNettoyeur("1") << endl;
-        cout << "suppression du nettoyeur" << d-> SupprimerNettoyeur("1") <<endl;*/
+        cout << "ajout du nettoyeur :" << d->AjouterNettoyeur(*n,f)<< endl;
+        cout << "sauvegarde des données: " << d->SauvegarderNettoyeurs("Data/cleaners2.csv");
+*/
             
         
 
