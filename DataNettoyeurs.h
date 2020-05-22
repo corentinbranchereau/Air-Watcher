@@ -12,6 +12,7 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "NettoyeurAir.h"
 #include "DataMesures.h"
+#include "CompagnieFournisseur.h"
 #include "Mesure.h"
 #include <string>
 #include <unordered_map>
@@ -50,13 +51,13 @@ public:
 	// Contrat : Chaque ligne doit être au format idNettoyeur;latitude;longitude;Timestamp;
 	//
 
-    bool AjouterNettoyeur(NettoyeurAir & nettoyeur);
+    bool AjouterNettoyeur(NettoyeurAir & nettoyeur,CompagnieFournisseur & fournisseur);
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-    bool SupprimerNettoyeur(string idNettoyeur);
+    bool SupprimerNettoyeur(string idNettoyeur,CompagnieFournisseur & fournisseur);
 	// Mode d'emploi :
 	//
 	// Contrat :

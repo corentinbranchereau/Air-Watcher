@@ -113,19 +113,23 @@ bool DataNettoyeurs::ChargerNettoyeurs(string fichierNettoyeurs)
     return true;
 } //----- Fin de ChargerNettoyeurs
 
-bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur)
+bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur, CompagnieFournisseur & fournisseur)
 // Algorithme :
 //
 {
+	fournisseur.addNettoyeur(& nettoyeur);
 	return (nettoyeurs.insert(make_pair(nettoyeur.getID(),&nettoyeur))).second;
 } //----- Fin de AjouterNettoyeurm
 
 
-bool DataNettoyeurs::SupprimerNettoyeur(string idNettoyeur)
+
+bool DataNettoyeurs::SupprimerNettoyeur(string idNettoyeur,CompagnieFournisseur & fournisseur)
 // Algorithme :
-//
+// On va supprimer 
 {
+	unordered_map<string,NettoyeurAir*>::const_iterator got = nettoyeurs.find (idNettoyeur);
 	int nbElemDeleted=nettoyeurs.erase(idNettoyeur);
+	fournisseur.deleteNettoyeur(got->second);
 	if(nbElemDeleted==0){
 		return false;
 	}

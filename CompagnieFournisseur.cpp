@@ -12,6 +12,8 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <algorithm>
+#include <vector>
 
 //------------------------------------------------------ Include personnel
 #include "CompagnieFournisseur.h"
@@ -41,6 +43,18 @@ void CompagnieFournisseur::addNettoyeur(NettoyeurAir * nettoyeurAir)
 {
     nettoyeurs.push_back(nettoyeurAir);
 } // ------ Fin de addNettoyeur
+
+void CompagnieFournisseur::deleteNettoyeur(NettoyeurAir * nettoyeurAir)
+// Algorithme :
+// supprime la valeur du vector
+{
+	vector<NettoyeurAir*>::iterator it=find(nettoyeurs.begin(), nettoyeurs.end(), nettoyeurAir);
+	if ( it != nettoyeurs.end() )
+	{
+		nettoyeurs.erase(it);
+	}
+	delete(nettoyeurAir);
+}// ------ Fin de deleteNettoyeur
 
 vector<NettoyeurAir *> & CompagnieFournisseur::getNettoyeurs()
 // Algorithme :

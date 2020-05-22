@@ -43,6 +43,12 @@ public:
     // Contrat :
     // Le pointeur est bien défini et pointe vers le nettoyeur en mémoire
 
+	void deleteNettoyeur(NettoyeurAir * nettoyeurAir);
+	// Mode d'emploi :
+    // Passe en paramètre le nettoyeur à ajouter
+    // Contrat :
+    // Le pointeur est bien défini et pointe vers le nettoyeur en mémoire
+
     vector<NettoyeurAir*> & getNettoyeurs();
     // Mode d'emploi :
     // Retourne la liste des nettoyeurs d'une compagnie
