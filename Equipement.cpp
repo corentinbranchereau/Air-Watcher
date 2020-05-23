@@ -61,6 +61,17 @@ using namespace std;
 		return position;
 	}
 
+	void Equipement::setDescription(string desc)
+	{
+		this->description=desc;
+	}
+
+	void Equipement::setPosition(double lon,double lat)
+	{
+		this->position.setLatitude(lat);
+		this->position.setLongitude(lon);
+	}
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 

@@ -51,19 +51,27 @@ public:
 	// n'existent pas déjà dedans)
 	//
 	// Contrat : Chaque ligne doit être au format idUser;idCapteur;
-	//
+	// Sensor.csv --> mapIdCapteur --> fichier CapteurPrive
+	// users.csv --> mapCapteurUtilisateur --> fichierUtilisateurs
 
-    bool AjouterCapteur(Capteur & capteur);
+	bool SauvegarderCapteursPrives(string fichierCapteursPrives, string fichierUtilisateurs);
 	// Mode d'emploi :
-	//
+	// parcours les deux map et réécrit leur contenu dans les fichiers sensors.csv et users.csv
+	// Contrat :
+	// Methode a appeler systématiquement à la fin de chaque execution de l'application
+
+
+    bool AjouterCapteur(Capteur & capteur,string idUtilisateurPrive, string fichierCapteurs, string fichierUtilisateurs);
+	// Mode d'emploi :
+	// Ajoute un capteur aux deux map, et l'associe avec l'utilisateur en paramètre
 	// Contrat :
 	//
 
-    bool ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description);
+    bool ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description,string fichierUtilisateurs);
 	// Mode d'emploi :
-	//
+	// permet de changer les informations du capteur correspondant à l'idCapteur
 	// Contrat :
-	//
+	// l'id capteur est utilisé pour rechercher le capteur à modifier, on ne peut donc pas modifier l'idcapteur
 
   	unordered_map<string,Capteur*> & GetCapteurs();
 	// Mode d'emploi :

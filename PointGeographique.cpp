@@ -45,6 +45,16 @@ double PointGeographique::getLatitude()
 	return latitude;
 }
 
+void PointGeographique::setLatitude(double lat)
+{
+	this->latitude=lat;
+}
+
+void PointGeographique::setLongitude(double lon)
+{
+	this->longitude=lon;
+}
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 PointGeographique & PointGeographique::operator = (const PointGeographique & unPointGeographique)

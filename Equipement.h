@@ -38,6 +38,10 @@ public:
 
 	void setID(string unId);
 
+	void setDescription(string desc);
+
+	void setPosition(double lon,double lat);
+
 	int getIDInt();
 
 	string getDescription();

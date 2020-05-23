@@ -35,6 +35,8 @@ public:
 	// Contrat :
 	//
 	string getEtat();
+
+	void setEtat(string state);
 	
 	
 	

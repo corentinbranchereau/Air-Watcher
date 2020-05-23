@@ -47,6 +47,10 @@ public:
 	// Contrat :
 	//
 
+	void setLatitude(double lat);
+
+	void setLongitude(double lon);
+
 
 //------------------------------------------------- Surcharge d'opérateurs
 	PointGeographique & operator = (const PointGeographique & unPointGeographique);

@@ -40,6 +40,10 @@ string Capteur::getEtat()
 	return etat;
 }
 
+void Capteur::setEtat(string state)
+{
+	this->etat=state;
+}
 
 //------------------------------------------------- Surcharge d'opérateurs
 

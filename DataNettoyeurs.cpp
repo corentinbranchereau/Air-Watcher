@@ -130,12 +130,6 @@ bool DataNettoyeurs::SauvegarderNettoyeurs(string fichierNettoyeurs)
 		unordered_map<string,NettoyeurAir*>::const_iterator it;
 		for(it=nettoyeurs.begin();it!=nettoyeurs.end();it++)
 		{
-			cout << it->first << ";" 
-				 << it->second->getPosition().getLatitude() << ";"
-				 << it->second->getPosition().getLongitude() << ";;" 
-				 << it->second->getDebutActivite() << ";" 
-				 << it->second->getFinActivite() << '\n';
-			
 			file << it->first << ";" 
 				 << it->second->getPosition().getLatitude() << ";"
 				 << it->second->getPosition().getLongitude() << ";;" 
@@ -160,7 +154,8 @@ bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur, CompagnieFournis
 		got = nettoyeurs.find (newId);
 		nb++;
 		
-	}	
+	}
+	nettoyeur.setActif(true);
 	nettoyeur.setID(newId);
 	fournisseur.addNettoyeur(& nettoyeur);
 	return (nettoyeurs.insert(make_pair(nettoyeur.getID(),&nettoyeur))).second;

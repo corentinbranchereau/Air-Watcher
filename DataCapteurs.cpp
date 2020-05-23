@@ -154,28 +154,98 @@ bool DataCapteurs::ChargerCapteursPrives(string fichierCapteursPrives, string fi
     
 } //----- Fin de ChargerCapteursPrives
 
-bool DataCapteurs::AjouterCapteur(Capteur & capteur)
+
+bool DataCapteurs::SauvegarderCapteursPrives(string fichierCapteurs, string fichierUtilisateurs)
 // Algorithme :
 //
 {
+    ofstream fileCapteurs(fichierCapteurs,ios::trunc);
+    if(!fileCapteurs.is_open())
+	{
+		cerr<<"Erreur lors de la sauvegarde de capteurs"<<endl;
+		return false;
+	}
+    else
+    {
 
+        unordered_map<string,Capteur*>::iterator it;
+        for(it=mapIDCapteurs.begin();it!=mapIDCapteurs.end();it++)
+        {
+               fileCapteurs << it->second->getID() << ";"
+                            << it->second->getPosition().getLatitude() << ";"
+                            << it->second->getPosition().getLongitude() << ";"
+                            << "\n";
+        }
+    }    
+    fileCapteurs.clear();
+
+     ofstream fileUsers(fichierUtilisateurs,ios::trunc);
+     if(!fileUsers.is_open())
+	{
+		cerr<<"Erreur lors de la sauvegarde de capteurs"<<endl;
+		return false;
+	}
+    else
+    {
+        unordered_map<string, string>:: iterator itM;
+        for(itM=mapCapteurUtilisateur.begin();itM!=mapCapteurUtilisateur.end();itM++)
+        {        
+                fileUsers << itM->second << ";"
+                          << itM->first  << ";"
+                          << "\n";
+        }
+    }
+
+    return true;
+}//----- Fin de SauvegarderCapteursPrives
+
+bool DataCapteurs::AjouterCapteur(Capteur & capteur,string idUtilisateurPrive, string fichierCapteurs, string fichierUtilisateurs)
+// Algorithme :
+//
+{
+    string newId=capteur.getID();
+	int nb=0;
+	unordered_map<string,Capteur*>::const_iterator got = mapIDCapteurs.find (newId);
+	while(got!=mapIDCapteurs.end() || newId=="") //tant que l'id existe dans la map, ou est défini sur null, on cherche un nouvel id
+	{
+		newId="Sensor"+to_string(mapIDCapteurs.size()+nb);
+		got = mapIDCapteurs.find (newId);
+		nb++;
+	}	
+	capteur.setID(newId);
+	mapCapteurUtilisateur.insert(make_pair(capteur.getID(),idUtilisateurPrive));
+
+    return mapIDCapteurs.insert(make_pair(capteur.getID(),&capteur)).second;
 } //----- Fin de AjouterCapteur
 
-bool DataCapteurs::ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description)
+
+bool DataCapteurs::ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description,string fichierCapteurs)
 // Algorithme :
 //
 {
-
+    unordered_map<string,Capteur*>::const_iterator got = mapIDCapteurs.find (idCapteur);
+    if(got!=mapIDCapteurs.end())
+    {
+        Capteur* c=got->second;
+        c->setDescription(description);
+        c->setEtat(etat);
+        c->setPosition(longitude,latitude);
+    }
+    else{
+        return false;
+    }
+    return true;
 } //----- Fin de ModifierCapteur
+
+
 
 unordered_map<string,Capteur*> & DataCapteurs::GetCapteurs()
 // Algorithme :
 //
 {
-
     return mapIDCapteurs;
-
 } //----- Fin de GetCapteurs
+
 
 unordered_map<string,string> & DataCapteurs::GetMapCapteurUtilisateur()
 // Algorithme : Aucun
