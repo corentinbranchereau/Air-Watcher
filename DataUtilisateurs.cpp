@@ -200,13 +200,38 @@ bool DataUtilisateurs::VerifierUnCompte(string mail,bool validation)
 // Algorithme :
 //
 {
-
+    Utilisateur * aCaster = TrouverUtilisateurParIdentifiant(mail);
+    if(aCaster!=nullptr)
+    {
+        UtilisateurProfessionnel* aVerifier = dynamic_cast<UtilisateurProfessionnel*>(aCaster);
+        if(aVerifier!=nullptr)
+        {
+            aVerifier->setCompteValide(validation);
+            return true;
+        }
+    }
+    return false;
 } //----- Fin de VerifierUnCompte
 
 vector<UtilisateurProfessionnel*> DataUtilisateurs::ObtenirComptesEnAttente()
 // Algorithme :
-//
+// Parcourir l'ensemble des Utilisateurs, les caster de façon dynamique pour vérifier leur type
+// Pour chaque UtilisateurProfessionnel, voir s'ils sont en attente ou non.
+// Si oui, ajouter au vecteur de retour.
 {
+    vector<UtilisateurProfessionnel*> comptesAttente;
+
+    vector<Utilisateur*>::iterator it;
+    for(it=utilisateurs.begin(); it!=utilisateurs.end(); ++it)
+    {
+        UtilisateurProfessionnel * aVerifier = dynamic_cast<UtilisateurProfessionnel*>(*(it));
+        if(aVerifier!=nullptr && !aVerifier->GetCompteValide())
+        {
+            comptesAttente.push_back(aVerifier);
+        }
+    }
+
+    return comptesAttente;
 
 } //----- Fin de ObtenirComptesEnAttente
 

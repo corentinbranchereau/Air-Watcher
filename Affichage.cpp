@@ -870,6 +870,52 @@ void Affichage::AfficherDesactiverNettoyeur(DataNettoyeurs & dataNettoyeurs)
     
 } // ---- Fin de AfficherSaisieRayonNettoyeur
 
+void Affichage::AfficherComptesEnAttente(vector<UtilisateurProfessionnel *> &comptesAttente, bool fin)
+// Algorithme : Uniquement de l'affichage en castant dynamiquement pour obtenir le type de compte Professionnel
+{
+
+    cout<< "  === Liste des comptes en attente ==="<<endl<<endl;
+
+    vector<UtilisateurProfessionnel *>::iterator it;
+    int cpt = 1;
+    for(it=comptesAttente.begin(); it!=comptesAttente.end(); ++it)
+    {
+        EmployeFournisseur * eFour = dynamic_cast<EmployeFournisseur*>(*(it));
+        EmployeAgenceGouvernementale * eGouv = dynamic_cast<EmployeAgenceGouvernementale*>(*(it));
+
+        if(eFour!=nullptr)
+        {
+            cout << "(" << cpt << ") Fournisseur => " << Souligner("Nom") << " : " << eFour->GetNom();
+            cout << " | " << Souligner("Prenom") << " : " << eFour->GetPrenom();
+            cout << " | " << Souligner("Adresse mail") << " : " << eFour->GetMail();
+            cout << " | " << Souligner("Compagnie") << " : " << eFour->GetCompagnie()->getId() << endl;
+        }
+        else if(eGouv!= nullptr)
+        {
+            cout << "(" << cpt << ") Agence Gouvernementale => " << Souligner("Nom") << " : " << eGouv->GetNom();
+            cout << " | " << Souligner("Prenom") << " : " << eGouv->GetPrenom();
+            cout << " | " << Souligner("Adresse mail") << " : " << eGouv->GetMail() << endl;
+        }
+        else {
+            cout << "\nUne erreur s'est produite lors de l'affichage des comptes" << endl;
+            fin = true;
+            break;
+        }
+        ++cpt;
+    }
+
+    cout << "\n  === Fin de la liste ===" << endl;
+
+    if(fin)
+    {
+        cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+        //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+        cin.ignore();
+    }
+} // ------ Fin de AfficherComptesEnAttente
+
 PointGeographique Affichage::SaisirPosition()
 // Algorithme : Aucun
 //
@@ -885,6 +931,69 @@ PointGeographique Affichage::SaisirPosition()
     return p;
 
 } //----- Fin de SaisirPosition
+
+int Affichage::AfficherMenuValidationCompte()
+// Algorithme : Aucun
+//
+{
+    cout<<"\nQue voulez-vous faire ?"<<endl;
+
+    cout<<"	1) Accepter un compte.\n";
+    cout<<"	2) Refuser un compte.\n";
+    cout<<"	3) Retour au menu principal.\n";
+    return SaisirChoix(3);
+} //----- Fin de AfficherMenuValidationCompte
+
+void Affichage::AfficherValiderCompte(vector<UtilisateurProfessionnel *> &comptesAttente)
+// Algorithme : Vient récupérer le numéro du compte à valider et appel la méthode associé à cet élément
+//
+{
+    int idSaisie;
+    cout<<"Veuillez saisir le numéro (dans la liste) du compte à valider : ";
+    cin>>idSaisie;
+
+    if(idSaisie > 0 && idSaisie <= comptesAttente.size())
+    {
+        comptesAttente[idSaisie-1]->setCompteValide(true);
+        cout << "\nLe compte (" << idSaisie <<") à bien été valider ! " << endl;
+    }
+    else
+    {
+        cout << "\nERREUR ! Le compte saisie n'existe pas dans la liste ! " << endl;
+    }
+
+    cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+    //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    cin.ignore();
+
+} // ---- Fin de AfficherValiderCompte
+
+void Affichage::AfficherRefuserCompte(vector<UtilisateurProfessionnel *> &comptesAttente)
+// Algorithme : Vient récupérer le numéro du compte à refuser et appel la méthode associé à cet élément
+//
+{
+    int idSaisie;
+    cout<<"Veuillez saisir le numéro (dans la liste) du compte à refuser : ";
+    cin>>idSaisie;
+
+    if(idSaisie > 0 && idSaisie <= comptesAttente.size())
+    {
+        comptesAttente[idSaisie-1]->setCompteValide(false);
+        cout << "\nLe compte (" << idSaisie <<") à bien été refuser ! " << endl;
+    }
+    else
+    {
+        cout << "\nERREUR ! Le compte saisie n'existe pas dans la liste ! " << endl;
+    }
+
+    cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+    //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    cin.ignore();
+} // ---- Fin de AfficherValiderCompte
 
 //------------------------------------------------- Surcharge d'opérateurs
 

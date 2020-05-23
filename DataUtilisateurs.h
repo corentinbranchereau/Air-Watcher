@@ -72,15 +72,16 @@ public:
 
     bool VerifierUnCompte(string mail,bool validation);
 	// Mode d'emploi :
-	//
+	// Vérifie ou non le compte dont l'identifiant est passé en paramètre.
+	// Renvoi true si tout s'est bien passé, false sinon
 	// Contrat :
-	//
+	// Aucun
 
     vector<UtilisateurProfessionnel*> ObtenirComptesEnAttente();
 	// Mode d'emploi :
-	//
+	// Renvoi la liste des comptes en attente d'une validation par un admin
 	// Contrat :
-	//
+	// Aucun
 
     bool GererCompte(string mail, string nom, string prenom, string mdp);
 	// Mode d'emploi :

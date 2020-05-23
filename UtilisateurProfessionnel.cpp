@@ -42,6 +42,12 @@ bool UtilisateurProfessionnel::GetCompteValide()
 	return this->compteValide;
 } //----- Fin de GetCompteValide
 
+void UtilisateurProfessionnel::setCompteValide(bool compteValide)
+// Algorithme : Aucun
+{
+    this->compteValide = compteValide;
+} // ----- Fin de setCompteValide
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 UtilisateurProfessionnel & UtilisateurProfessionnel::operator = (const UtilisateurProfessionnel & unUtilisateurProfessionnel)

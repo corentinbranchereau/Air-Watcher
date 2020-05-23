@@ -281,6 +281,25 @@ public:
     // Pour choisir un nettoyeur pour son rayon d'action
     // Contrat : Aucun
 
+    void AfficherComptesEnAttente(vector<UtilisateurProfessionnel*> & comptesAttente, bool fin);
+    // Mode d'emploi : Permet d'afficher les différents comptes en attente
+    // Mettre le boolean fin à true permet de revenir directement au menu d'action
+    // Contrat : Aucun
+
+    int AfficherMenuValidationCompte();
+    // Mode d'emploi : Permet d'afficher le choix lors de la validation ou du refus d'un compte en attente
+    // Renvoi le choix réalisé entre 1 et 3
+    // Contrat : Aucun
+
+    void AfficherValiderCompte(vector<UtilisateurProfessionnel*> & comptesAttente);
+    // Mode d'emploi : Permet d'afficher les différents choix
+    // pour valider un compte en attente
+    // Contrat : Aucun
+
+    void AfficherRefuserCompte(vector<UtilisateurProfessionnel*> & comptesAttente);
+    // Mode d'emploi : Permet d'afficher les différents choix
+    // pour refuser un compte en attente
+    // Contrat : Aucun
 
     PointGeographique SaisirPosition();
     // Mode d'emploi : Permet la saisie d'un point géographique

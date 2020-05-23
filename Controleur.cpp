@@ -98,12 +98,25 @@ void menuAction()
             {
                 case 1 : {
                     //Afficher la liste des comptes en attente
-                    affichage.PreparationConsole("Consultation des comptes en attente - A FAIRE");
+                    affichage.PreparationConsole("Consultation des comptes en attente");
+                    vector<UtilisateurProfessionnel*> comptesAttente = donneesUtilisateurs.ObtenirComptesEnAttente();
+                    affichage.AfficherComptesEnAttente(comptesAttente,true);
+
                 } break;
 
                 case 2 : {
                     //Valider/refuser la création d'un compte
-                    affichage.PreparationConsole("Validation ou refus de création d'un compte - A FAIRE");
+                    affichage.PreparationConsole("Validation ou refus de création d'un compte");
+                    vector<UtilisateurProfessionnel*> comptesAttente = donneesUtilisateurs.ObtenirComptesEnAttente();
+                    affichage.AfficherComptesEnAttente(comptesAttente,false);
+                    int choixFait = affichage.AfficherMenuValidationCompte();
+                    if(choixFait == 1) //Valider un compte
+                    {
+                        affichage.AfficherValiderCompte(comptesAttente);
+                    } else if(choixFait == 2){ //Refuser un compte
+                        affichage.AfficherRefuserCompte(comptesAttente);
+                    }
+
                 } break;
 
                 case 3 : {

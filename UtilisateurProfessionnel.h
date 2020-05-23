@@ -41,6 +41,12 @@ public:
 	// Contrat : Aucun
 	//
 
+	void setCompteValide(bool compteValide);
+	// Mode d'emploi : simple setter
+	//
+	// Contrat :
+	// Aucun
+
 //------------------------------------------------- Surcharge d'opérateurs
 	UtilisateurProfessionnel & operator = (const UtilisateurProfessionnel & unUtilisateurProfessionnel);
 	// Mode d'emploi : Opérateur qui copie l'attribut 'compteValide' ainsi que les attributs
