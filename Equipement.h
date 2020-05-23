@@ -36,6 +36,8 @@ public:
 	//
 	string getID();
 
+	void setID(string unId);
+
 	int getIDInt();
 
 	string getDescription();

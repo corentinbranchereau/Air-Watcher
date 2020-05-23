@@ -46,6 +46,10 @@ using namespace std;
 		return  stoi(idS);
 	}
 
+	void Equipement:: setID(string unId)
+	{
+		this->id=unId;
+	}
 
 	string Equipement::getDescription()
 	{

@@ -104,6 +104,7 @@ bool DataNettoyeurs::ChargerNettoyeurs(string fichierNettoyeurs)
 
 			PointGeographique pGeo(longitude,latitude);
 
+			cout << "nettoyeur ajouté :" << "actif: " <<false <<"rayon: " <<0.0 << "heure debut:" << horoDebut << "heure fin: " << horoFin << "id: " << idNettoyeur << "coo" << longitude << " " << latitude << endl;
 			NettoyeurAir* nettoyeur = new NettoyeurAir(false,0.0,horoDebut,horoFin,string(idNettoyeur),"",pGeo);
 
 			this->nettoyeurs.insert(make_pair(string(idNettoyeur),nettoyeur));
@@ -130,11 +131,17 @@ bool DataNettoyeurs::SauvegarderNettoyeurs(string fichierNettoyeurs)
 		unordered_map<string,NettoyeurAir*>::const_iterator it;
 		for(it=nettoyeurs.begin();it!=nettoyeurs.end();it++)
 		{
+			cout << it->first << ";" 
+				 << it->second->getPosition().getLatitude() << ";"
+				 << it->second->getPosition().getLongitude() << ";;" 
+				 << it->second->getDebutActivite() << ";" 
+				 << it->second->getFinActivite() << '\n';
+			
 			file << it->first << ";" 
 				 << it->second->getPosition().getLatitude() << ";"
 				 << it->second->getPosition().getLongitude() << ";;" 
 				 << it->second->getDebutActivite() << ";" 
-				 << it->second->getFinActivite() << endl;
+				 << it->second->getFinActivite() << ";" << '\n';
 		}
 	}
 	return true;
@@ -142,10 +149,22 @@ bool DataNettoyeurs::SauvegarderNettoyeurs(string fichierNettoyeurs)
 
 
 bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur, CompagnieFournisseur & fournisseur)
-// Algorithme :
-//
+// Algorithme : tant que l'id du nettoyeur est null ou présent dans la map, on change son id en "Cleaner" + le nombre de cleaner dans la map  (ex: Cleaner4)
+// On vient ensuite ajouter le cleaner à la liste des cleaners, et a la liste du fournisseur
 {
+	string newId=nettoyeur.getID();
+	int nb=0;
+	unordered_map<string,NettoyeurAir*>::const_iterator got = nettoyeurs.find (newId);
+	while(got!=nettoyeurs.end() || newId=="") //tant que l'id existe dans la map, ou est défini sur null, on cherche un nouvel id
+	{
+		newId="Cleaner"+to_string(nettoyeurs.size()+nb);
+		got = nettoyeurs.find (newId);
+		nb++;
+		
+	}	
+	nettoyeur.setID(newId);
 	fournisseur.addNettoyeur(& nettoyeur);
+	cout << "id ajouté" << nettoyeur.getID()<<endl;
 	return (nettoyeurs.insert(make_pair(nettoyeur.getID(),&nettoyeur))).second;
 } //----- Fin de AjouterNettoyeurm
 
@@ -153,16 +172,17 @@ bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur, CompagnieFournis
 
 bool DataNettoyeurs::SupprimerNettoyeur(string idNettoyeur,CompagnieFournisseur & fournisseur)
 // Algorithme :
-// On va supprimer 
+// On vérifie que le cleaner à supprimer existe, et on vient ensuite le supprimer de la map, puis de la liste des fournissueur, ou la mémoire est libérée
 {
 	unordered_map<string,NettoyeurAir*>::const_iterator got = nettoyeurs.find (idNettoyeur);
-	int nbElemDeleted=nettoyeurs.erase(idNettoyeur);
-	fournisseur.deleteNettoyeur(got->second);
-	if(nbElemDeleted==0){
-		return false;
-	}
-	else{
+	if(got!=nettoyeurs.end())
+	{
+		nettoyeurs.erase(idNettoyeur);
+		fournisseur.deleteNettoyeur(got->second);
 		return true;
+	}	
+	else{
+		return false;
 	}
 } //----- Fin de SupprimerNettoyeur
 
