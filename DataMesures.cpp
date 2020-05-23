@@ -1205,6 +1205,17 @@ DataMesures::~DataMesures ()
 #ifdef MAP
 	cout << "Appel au destructeur de <DataMesures>" << endl;
 #endif
+  vector<Mesure*>::iterator itM;
+  for(itM=mesures.begin();itM!=mesures.end();itM++)
+  {
+    delete(*itM);
+  }
+  
+  unordered_map<string,TypeAttribut*>:: iterator it;
+  for(it=typeAttributs.begin();it!=typeAttributs.end();it++)
+  {
+    delete(it->second);
+  }
 } //----- Fin de ~DataMesures
 
 

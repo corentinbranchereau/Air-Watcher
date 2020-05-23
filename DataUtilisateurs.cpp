@@ -396,15 +396,18 @@ DataUtilisateurs::~DataUtilisateurs ()
 	cout << "Appel au destructeur de <DataUtilisateurs>" << endl;
 #endif
 	// on libère tous les utilisateurs en parcourant 'utilisateurs' avec un itérateur
+	unordered_map<string,CompagnieFournisseur*>::iterator itF;
+	for(itF=CompagniesFournisseurs.begin(); itF!=CompagniesFournisseurs.end();++itF)
+	{
+        delete (itF->second);
+	}
+
 	vector<Utilisateur*>::iterator it;
 	for(it=utilisateurs.begin(); it!=utilisateurs.end();++it)
 	{
 		delete (*it);
 	}
 
-	unordered_map<string,CompagnieFournisseur*>::iterator itF;
-	for(itF=CompagniesFournisseurs.begin(); itF!=CompagniesFournisseurs.end();++it)
-        delete (itF->second);
 
 } //----- Fin de ~DataUtilisateurs
 

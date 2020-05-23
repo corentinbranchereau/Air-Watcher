@@ -98,7 +98,7 @@ public:
 	// Contrat :
 	//
 
-	virtual ~DataCapteurs ();
+	~DataCapteurs ();
 	// Mode d'emploi :
 	//
 	// Contrat :

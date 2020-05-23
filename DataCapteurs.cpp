@@ -223,6 +223,11 @@ DataCapteurs::~DataCapteurs ()
 #ifdef MAP
 	cout << "Appel au destructeur de <DataCapteurs>" << endl;
 #endif
+    unordered_map<string,Capteur*>::iterator it;
+    for(it=mapIDCapteurs.begin();it!=mapIDCapteurs.end();it++)
+    {
+        delete(it->second);
+    }
 } //----- Fin de ~DataCapteurs
 
 

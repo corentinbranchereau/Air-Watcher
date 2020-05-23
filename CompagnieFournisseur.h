@@ -79,7 +79,7 @@ public:
 
 	virtual ~CompagnieFournisseur ();
 	// Mode d'emploi :
-	//
+	// Pas de destruction, les nettoyeurs sont détruits dans DataNettoyeurs
 	// Contrat :
 	//
 

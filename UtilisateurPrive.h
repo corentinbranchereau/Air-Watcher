@@ -83,7 +83,7 @@ public:
 
 	virtual ~UtilisateurPrive ();
 	// Mode d'emploi : Destructeur qui ne fait rien de particulier
-	//
+	//  Mesures Utilisateur supprimées dans data mesure 
 	// Contrat : Aucun
 	//
 

@@ -359,6 +359,12 @@ DataNettoyeurs::~DataNettoyeurs ()
 #ifdef MAP
 	cout << "Appel au destructeur de <DataNettoyeurs>" << endl;
 #endif
+unordered_map<string,NettoyeurAir*>::const_iterator it;
+for(it=nettoyeurs.begin();it!=nettoyeurs.end();it++)
+{
+	delete(it->second);
+}
+nettoyeurs.clear();
 } //----- Fin de ~DataNettoyeurs
 
 

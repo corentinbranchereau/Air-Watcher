@@ -64,7 +64,7 @@ public:
 
 	virtual ~EmployeFournisseur ();
 	// Mode d'emploi :
-	//
+	// compagie supprimée dans DataUtilisateurs
 	// Contrat :
 	//
 

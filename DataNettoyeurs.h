@@ -132,7 +132,7 @@ public:
 	// Contrat : Aucun
 	//
 
-	virtual ~DataNettoyeurs ();
+	~DataNettoyeurs ();
 	// Mode d'emploi : Ne fait rien de particulier
 	//
 	// Contrat : Aucun

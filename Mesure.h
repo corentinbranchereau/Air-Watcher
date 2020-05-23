@@ -97,7 +97,7 @@ public:
 
 	virtual ~Mesure ();
 	// Mode d'emploi :
-	//
+	// typeAttribut sera détruit dans DataMesures
 	// Contrat :
 	//
 

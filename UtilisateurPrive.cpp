@@ -98,11 +98,17 @@ UtilisateurPrive::UtilisateurPrive (string idPrive, string mdpPrive, string nomP
 
 UtilisateurPrive::~UtilisateurPrive ()
 // Algorithme : Aucun
-//
+// doit être supprimé dans DataMesures
 {
 #ifdef MAP
 	cout << "Appel au destructeur de <UtilisateurPrive>" << endl;
 #endif
+/*
+	vector<MesureUtilisateur*>::iterator it;
+		for(it=donneesEntrees.begin(); it!=donneesEntrees.end();++it)
+		{
+			delete (*it);
+		}*/
 } //----- Fin de ~UtilisateurPrive
 
 

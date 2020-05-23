@@ -52,8 +52,8 @@ void CompagnieFournisseur::deleteNettoyeur(NettoyeurAir * nettoyeurAir)
 	if ( it != nettoyeurs.end() )
 	{
 		nettoyeurs.erase(it);
+		delete(nettoyeurAir);
 	}
-	delete(nettoyeurAir);
 }// ------ Fin de deleteNettoyeur
 
 vector<NettoyeurAir *> & CompagnieFournisseur::getNettoyeurs()

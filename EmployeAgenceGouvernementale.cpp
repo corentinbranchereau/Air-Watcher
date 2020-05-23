@@ -74,6 +74,7 @@ EmployeAgenceGouvernementale::~EmployeAgenceGouvernementale ()
 #ifdef MAP
 	cout << "Appel au destructeur de <EmployeAgenceGouvernementale>" << endl;
 #endif
+	delete(agence);
 } //----- Fin de ~EmployeAgenceGouvernementale
 
 
