@@ -256,12 +256,12 @@ public:
     // Renvoi le choix réalisé entre 1 et 3
     // Contrat : Aucun
 
-    void AfficherSupprimerNettoyeur();
+    void AfficherSupprimerNettoyeur(DataNettoyeurs & dataNettoyeurs, CompagnieFournisseur & compagnieFournisseur);
     // Mode d'emploi : Permet d'afficher les différents choix
     // Pour supprimer un nettoyeur
     // Contrat : Aucun
 
-    void AfficherAjouterNettoyeur();
+    void AfficherAjouterNettoyeur(DataNettoyeurs & dataNettoyeurs, CompagnieFournisseur & compagnieFournisseur, PointGeographique & p);
     // Mode d'emploi : Permet d'afficher les différents choix
     // Pour ajouter un nettoyeur
     // Contrat : Aucun

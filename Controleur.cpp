@@ -289,14 +289,16 @@ void menuAction()
                 {
                     case 1 : {
                         //Ajouter ou supprimer un nettoyeur d'air
-                        affichage.PreparationConsole("Ajout ou suppression d'un nettoyeur d'air - A FAIRE");
+                        affichage.PreparationConsole("Ajout ou suppression d'un nettoyeur d'air");
                         int choixFait = affichage.AfficherMenuAjoutSuppressionNettoyeur();
                         if(choixFait == 1) //Ajouter un nettoyeur
                         {
+                            affichage.AfficherNettoyeursCompagnie(uFournisseur->GetCompagnie()->getNettoyeurs(),true, true,false);
                             PointGeographique p = affichage.SaisirPosition();
-                            affichage.AfficherAjouterNettoyeur();
+                            affichage.AfficherAjouterNettoyeur(donneesNettoyeurs,*uFournisseur->GetCompagnie(),p);
                         } else if(choixFait == 2){ //Supprimer un nettoyeur
-                            affichage.AfficherSupprimerNettoyeur();
+                            affichage.AfficherNettoyeursCompagnie(uFournisseur->GetCompagnie()->getNettoyeurs(),true, true,false);
+                            affichage.AfficherSupprimerNettoyeur(donneesNettoyeurs,*uFournisseur->GetCompagnie());
                         }
                     } break;
 
@@ -322,7 +324,7 @@ void menuAction()
 
                     case 4 : {
                         //Obtenir le rayon d'action d'un nettoyeur d'air
-                        affichage.PreparationConsole("Obtenir le rayon d'action d'un nettoyeur d'air - A FAIRE");
+                        affichage.PreparationConsole("Obtenir le rayon d'action d'un nettoyeur d'air");
                         affichage.AfficherNettoyeursCompagnie(uFournisseur->GetCompagnie()->getNettoyeurs(),true, true,false);
                         NettoyeurAir* nettoyeur=affichage.AfficherSaisieRayonNettoyeur(donneesNettoyeurs,uFournisseur->GetCompagnie()->getNettoyeurs());
                         if(nettoyeur!=0)

@@ -408,10 +408,10 @@ Zone Affichage::SaisirZone()
 //
 {
 	cout<<"Définissez votre zone  : "<<endl;
-	cout<<"Quelle longitude ? ";
-	double longitude=SaisirDouble(-100,100);
 	cout<<"Quelle latitude ? ";
 	double latitude=SaisirDouble(-100,100);
+    cout<<"Quelle longitude ? ";
+    double longitude=SaisirDouble(-100,100);
 	cout<<"Quel rayon de zone (km)? ";
 	double rayon =SaisirDouble(0.000001,numeric_limits<double>::max());
 
@@ -683,7 +683,7 @@ void Affichage::AfficherNettoyeursCompagnie(vector<NettoyeurAir *> & nettoyeurs,
     }
     cout<<"  === "<<"Fin de la liste"<<" ==="<<"\n\n";
 
-    if(actif && inactif && fin==true)
+    if(actif && inactif && fin)
     {
         cout << "\nAppuyez sur 'Entrée' pour revenir au " << Souligner("menu d'action");
         //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
@@ -746,10 +746,21 @@ int Affichage::AfficherMenuActiverDesactiverNettoyeur()
     return SaisirChoix(3);
 } //----- Fin de AfficherMenuAjoutSuppressionNettoyeur
 
-void Affichage::AfficherAjouterNettoyeur()
+void Affichage::AfficherAjouterNettoyeur(DataNettoyeurs & dataNettoyeurs, CompagnieFournisseur & compagnieFournisseur, PointGeographique & p)
 // Algorithme : Aucun
 //
 {
+
+    Horodatage debut(-1,-1,-1,-1,-1,-1);
+    Horodatage fin(-1,-1,-1,-1,-1,-1);
+    NettoyeurAir* newNettoyeur = new NettoyeurAir(false,0.0,debut,fin,"","",p);
+
+    bool res = dataNettoyeurs.AjouterNettoyeur(*newNettoyeur,compagnieFournisseur);
+
+    if(res)
+        cout << "\nLe nettoyeur position [" << p.getLatitude() << "," << p.getLongitude() << "] à bien été ajouté !" <<endl;
+    else
+        cout << "\nERREUR ! Le nettoyeur position [" << p.getLatitude() << "," << p.getLongitude() << "] n'à pas pu être ajouté !" <<endl;
 
     cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
     //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
@@ -759,11 +770,20 @@ void Affichage::AfficherAjouterNettoyeur()
     cin.ignore();
 } // ---- Fin de AfficherAjoutNettoyeur
 
-void Affichage::AfficherSupprimerNettoyeur()
+void Affichage::AfficherSupprimerNettoyeur(DataNettoyeurs & dataNettoyeurs, CompagnieFournisseur & compagnieFournisseur)
 // Algorithme : Aucun
 //
 {
+    string idSaisie;
+    cout<<"Veuillez saisir l'ID du nettoyeur que vous voulez supprimer : ";
+    cin>>idSaisie;
 
+    bool res = dataNettoyeurs.SupprimerNettoyeur(idSaisie,compagnieFournisseur);
+
+    if(res)
+        cout << "\nLe nettoyeur d'ID " << idSaisie << " à bien été supprimé !" <<endl;
+    else
+        cout << "\nERREUR ! Le nettoyeur d'ID " << idSaisie << " n'à pas pu être supprimé !" <<endl;
 
     cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
     //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
@@ -855,10 +875,10 @@ PointGeographique Affichage::SaisirPosition()
 //
 {
     cout<<"Définissez la position  : "<<endl;
-    cout<<"Quelle longitude ? ";
-    double longitude=SaisirDouble(-100,100);
     cout<<"Quelle latitude ? ";
     double latitude=SaisirDouble(-100,100);
+    cout<<"Quelle longitude ? ";
+    double longitude=SaisirDouble(-100,100);
 
     PointGeographique p(longitude,latitude);
 
