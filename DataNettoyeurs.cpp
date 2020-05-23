@@ -103,8 +103,7 @@ bool DataNettoyeurs::ChargerNettoyeurs(string fichierNettoyeurs)
 			Horodatage horoFin(anneeFin,moisFin,jourFin,heureFin,minuteFin,secondeFin);
 
 			PointGeographique pGeo(longitude,latitude);
-
-			cout << "nettoyeur ajouté :" << "actif: " <<false <<"rayon: " <<0.0 << "heure debut:" << horoDebut << "heure fin: " << horoFin << "id: " << idNettoyeur << "coo" << longitude << " " << latitude << endl;
+			
 			NettoyeurAir* nettoyeur = new NettoyeurAir(false,0.0,horoDebut,horoFin,string(idNettoyeur),"",pGeo);
 
 			this->nettoyeurs.insert(make_pair(string(idNettoyeur),nettoyeur));
@@ -164,7 +163,6 @@ bool DataNettoyeurs::AjouterNettoyeur(NettoyeurAir & nettoyeur, CompagnieFournis
 	}	
 	nettoyeur.setID(newId);
 	fournisseur.addNettoyeur(& nettoyeur);
-	cout << "id ajouté" << nettoyeur.getID()<<endl;
 	return (nettoyeurs.insert(make_pair(nettoyeur.getID(),&nettoyeur))).second;
 } //----- Fin de AjouterNettoyeurm
 
