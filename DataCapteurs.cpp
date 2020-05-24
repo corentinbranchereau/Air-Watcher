@@ -199,7 +199,7 @@ bool DataCapteurs::SauvegarderCapteursPrives(string fichierCapteurs, string fich
     return true;
 }//----- Fin de SauvegarderCapteursPrives
 
-bool DataCapteurs::AjouterCapteur(Capteur & capteur,string idUtilisateurPrive, string fichierCapteurs, string fichierUtilisateurs)
+bool DataCapteurs::AjouterCapteur(Capteur & capteur,string idUtilisateurPrive)
 // Algorithme :
 //
 {
@@ -219,7 +219,7 @@ bool DataCapteurs::AjouterCapteur(Capteur & capteur,string idUtilisateurPrive, s
 } //----- Fin de AjouterCapteur
 
 
-bool DataCapteurs::ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description,string fichierCapteurs)
+bool DataCapteurs::ModifierCapteur(string idCapteur, double longitude, double latitude, string etat, string description)
 // Algorithme :
 //
 {

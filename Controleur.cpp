@@ -426,62 +426,10 @@ void affichageCapteursSimilaires(vector<vector<Capteur*>> groupescapteurs)
 
 int main(void)
 {    
+
     if(chargementDonnees("./Data/cleaners.csv","./Data/providers.csv","./Data/users.csv","./Data/measurements.csv","./Data/attributes.csv","./Data/sensors.csv","./Data/ownUsers.csv","./Data/labels.csv"))
     {
-        //donneesMesures.LabeliserDonneesUtilisateur("Data/labels.csv",donneesCapteurs.GetCapteurs());
-        //vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
-        //affichageCapteursSimilaires(capteursSim);
-
-       /* double longitude1=1.333333;
-	    double  latitude1=45.333333;
-	    double longitude2=3.2;
-	    double latitude2=45.2;
-
-        
-        Horodatage h(2019,1,4,12,0,0);
-
-        Horodatage h2(2019,1,20,12,0,0);
-
-        TypeAttribut* type=new TypeAttribut("O3","µg/m3","concentration d'ozone");
-
-        Mesure* m=new Mesure(type,400,"Sensor0",h);
-
-        vector<Mesure*> listM=donneesMesures.GetMesures();
-        unordered_map<string,Capteur*> mapL=donneesCapteurs.GetCapteurs();
-        bool result=donneesMesures.LabelliserUneDonnee(listM,m,mapL);
-
-        //double rayon=donneesNettoyeurs.ObtenirRayonActionNettoyeur("Cleaner0",donneesMesures,listM,mapL,0.2,0.1,500);
-        PointGeographique p(-1,45.3);
-        Zone z(100,p);
-        Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(h,h2,z,listM,mapL);
-        
-        for(int a=1;a<moyennesMesure[0][0].getValeurAttribut()+1;a++)
-        {
-            for(int p=0;p<4;p++)
-            {
-            cout<<"MOYENNE  ="<< moyennesMesure[a][p].getValeurAttribut()<<endl;
-            }
-            cout<<"-----------------------------"<<endl;
-        }
-        //cout<<"Rayon="<<rayon<<endl;
-
-
-            /*____TEST DATA NETTOYEURS______*/
-            
-        /*
-             DataNettoyeurs* d=new DataNettoyeurs();
-        cout << "chargement des données: " <<endl << d->ChargerNettoyeurs("Data/cleaners (copie).csv");
-        Horodatage debut(2010,2,3,4,5,6);
-        Horodatage fin(2020,2,3,4,5,6);
-        PointGeographique pGeo(0,0);
-        string s=(string)"nettoyeur test";
-        CompagnieFournisseur f("1");
-        NettoyeurAir* n=new NettoyeurAir(true,100, debut,fin,"Cleaner1",s, pGeo);
-        cout << "ajout du nettoyeur :" << d->AjouterNettoyeur(*n,f)<< endl;
-        cout << "sauvegarde des données: " <<endl << d->SauvegarderNettoyeurs("Data/cleaners (copie).csv");    
-        */         
-        
-
+       
         while(true)
         {
             if(statutConnexion=="déconnecté")
@@ -530,5 +478,77 @@ int main(void)
             }
         }
     }
+
     return 0;
 }
+
+// ___________ MAIN DE TESTS ___________ //
+
+/* int main(void){
+
+            donneesMesures.LabeliserDonneesUtilisateur("Data/labels.csv",donneesCapteurs.GetCapteurs());
+            vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
+            affichageCapteursSimilaires(capteursSim);
+
+            double longitude1=1.333333;
+            double  latitude1=45.333333;
+            double longitude2=3.2;
+            double latitude2=45.2;
+
+            
+            Horodatage h(2019,1,4,12,0,0);
+
+            Horodatage h2(2019,1,20,12,0,0);
+
+            TypeAttribut* type=new TypeAttribut("O3","µg/m3","concentration d'ozone");
+
+            Mesure* m=new Mesure(type,400,"Sensor0",h);
+
+            vector<Mesure*> listM=donneesMesures.GetMesures();
+            unordered_map<string,Capteur*> mapL=donneesCapteurs.GetCapteurs();
+            bool result=donneesMesures.LabelliserUneDonnee(listM,m,mapL);
+
+            //double rayon=donneesNettoyeurs.ObtenirRayonActionNettoyeur("Cleaner0",donneesMesures,listM,mapL,0.2,0.1,500);
+            PointGeographique p(-1,45.3);
+            Zone z(100,p);
+            Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(h,h2,z,listM,mapL);
+            
+            for(int a=1;a<moyennesMesure[0][0].getValeurAttribut()+1;a++)
+            {
+                for(int p=0;p<4;p++)
+                {
+                cout<<"MOYENNE  ="<< moyennesMesure[a][p].getValeurAttribut()<<endl;
+                }
+                cout<<"-----------------------------"<<endl;
+            }
+            //cout<<"Rayon="<<rayon<<endl;
+
+
+        // ____TEST DATA NETTOYEURS______
+            
+             DataNettoyeurs* d=new DataNettoyeurs();
+            cout << "chargement des données: " <<endl << d->ChargerNettoyeurs("Data/cleaners (copie).csv");
+            Horodatage debut(2010,2,3,4,5,6);
+            Horodatage fin(2020,2,3,4,5,6);
+            PointGeographique pGeo(0,0);
+            string s=(string)"nettoyeur test";
+            CompagnieFournisseur f("1");
+            NettoyeurAir* n=new NettoyeurAir(true,100, debut,fin,"Cleaner1",s, pGeo);
+            cout << "ajout du nettoyeur :" << d->AjouterNettoyeur(*n,f)<< endl;
+            cout << "sauvegarde des données: " <<endl << d->SauvegarderNettoyeurs("Data/cleaners (copie).csv");   
+
+
+
+        // ______TEST DATA CAPTEURS ______
+
+            DataCapteurs* d=new DataCapteurs();
+            cout << d->ChargerCapteurs("Data/sensors (copie).csv") <<endl;
+            cout << d->ChargerCapteursPrives("Data/users (copie).csv","Data/ownUsers (copie).csv") <<endl;
+            PointGeographique p(20,20);
+            Capteur* c=new Capteur("","",p);
+            cout <<d->AjouterCapteur(*c,"User2");
+            cout << d->ModifierCapteur("Sensor2",10,10,"usé","");
+            cout << d->SauvegarderCapteursPrives("Data/sensors (copie).csv","Data/users (copie).csv") <<endl; 
+                    
+        
+}*/
