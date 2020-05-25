@@ -188,7 +188,7 @@ void menuAction()
                     ajouts.push_back(affichage.SaisirValeur("S02"));
                     ajouts.push_back(affichage.SaisirValeur("PM10"));
 
-                    donneesMesures.EntrerDonnees("Data/sensors.csv",ajouts,date,p,*uPrive,donneesCapteurs.GetMapCapteurUtilisateur(),donneesCapteurs.GetCapteurs());
+                    donneesMesures.EntrerDonnees("Data/users.csv","Data/sensors.csv",ajouts,date,p,*uPrive,donneesCapteurs.GetMapCapteurUtilisateur(),donneesCapteurs.GetCapteurs());
                     donneesMesures.SauvegarderMesuresAjoutees("Data/measurements.csv");
 
                     affichage.AfficherConfirmation("DONNES BIEN PRISES EN COMPTE");

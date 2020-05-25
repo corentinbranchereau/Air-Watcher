@@ -108,7 +108,7 @@ public:
 	// Contrat : aucun
 	//
 
-    Capteur* EntrerDonnees(string fichierCapteurs, vector<double>& valeurs,Horodatage& date, PointGeographique& p,UtilisateurPrive & utilisateur,unordered_map<string, string> & mapCapteurUtilisateur,unordered_map<string,Capteur*>& mapIDCapteurs);
+    Capteur* EntrerDonnees(string fichierUsers,string fichierCapteurs, vector<double>& valeurs,Horodatage& date, PointGeographique& p,UtilisateurPrive & utilisateur,unordered_map<string, string> & mapCapteurUtilisateur,unordered_map<string,Capteur*>& mapIDCapteurs);
 	// Mode d'emploi : permet d'entrer de nouvelles données 
 	//
 	// Contrat : aucun

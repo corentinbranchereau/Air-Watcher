@@ -479,8 +479,11 @@ void Affichage::AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure)
 	AfficherInformationsCompte();
 	cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
 
+	bool passe=false;
+
 	for(int i = 1; i<moyennesMesure[0]->getValeurAttribut()+1; i++)
     {
+		passe=true;
 		Mesure* m=moyennesMesure[i];
 		Horodatage date=m->getdateMesure();
 		cout<<"**********************"<<endl;
@@ -495,6 +498,11 @@ void Affichage::AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure)
 		cout<<"**********************"<<endl;
     }
 
+	if(passe==false)
+	{	cout<<"**********************"<<endl;
+		cout<<"\n"<<Souligner("Pas de valeurs présentes correspondantes")<<endl;
+		cout<<"**********************"<<endl;
+	}
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
 	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
 	cin.clear();
@@ -511,10 +519,10 @@ void Affichage::AfficherQualitePeriodePrecise(map<Horodatage,int> mapDatesIndice
 	AfficherTitre();
 	AfficherInformationsCompte();
 	//cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
-
+	bool passe=false;
 	for(auto it=mapDatesIndices.begin(); it!=mapDatesIndices.end(); it++)
     {
-
+		passe=true;
 		Horodatage date=it->first;
 		int indiceAtmo=it->second;
 		cout<<"**********************"<<endl;
@@ -526,6 +534,12 @@ void Affichage::AfficherQualitePeriodePrecise(map<Horodatage,int> mapDatesIndice
 
 		cout<<"**********************"<<endl;
     }
+
+	if(passe==false)
+	{	cout<<"**********************"<<endl;
+		cout<<"\n"<<Souligner("Pas de valeurs présentes correspondantes")<<endl;
+		cout<<"**********************"<<endl;
+	}
 
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
 	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels

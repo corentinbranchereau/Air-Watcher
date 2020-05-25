@@ -787,7 +787,7 @@ bool DataMesures::CapteurNouveau(string idUser,unordered_map<string, string> & m
 
 }//----- Fin de CapteurNouveau
 
-Capteur* DataMesures::EntrerDonnees(string fichierCapteurs,vector<double>& valeurs,Horodatage& date,PointGeographique& p, UtilisateurPrive & utilisateur,unordered_map<string, string> & mapCapteurUtilisateur,unordered_map<string,Capteur*>& mapIDCapteurs)
+Capteur* DataMesures::EntrerDonnees(string fichierUsers,string fichierCapteurs,vector<double>& valeurs,Horodatage& date,PointGeographique& p, UtilisateurPrive & utilisateur,unordered_map<string, string> & mapCapteurUtilisateur,unordered_map<string,Capteur*>& mapIDCapteurs)
 // Algorithme : regarde si l'utilisateur a un capteur associé, sinon on crée son capteur puis on inscrit la mesure dans le fichier des mesures
 //
 {
@@ -833,10 +833,21 @@ Capteur* DataMesures::EntrerDonnees(string fichierCapteurs,vector<double>& valeu
     {
     fileCapteurs<<idCapteurNouveau<<";"<<p.getLatitude()<<";"<<p.getLongitude()<<";\n";
     }
+
     else
     {
-      cout<<"Erreur lors de l'écriture du nouveau capteur"<<endl;
+      cerr<<"Erreur lors de l'écriture du nouveau capteur dans le fichier des capteurs"<<endl;
       
+    }
+
+    ofstream fileUsers(fichierUsers,ios::app);
+    if(fileUsers)
+    {
+      fileUsers<<utilisateur.GetIdentifiant()<<";"<<idCapteurNouveau<<";\n";
+    }
+    else
+    {
+      cerr<<"Erreur lors de l'écriture du nouveau capteur dans le fichier des utilisateurs"<<endl;
     }
 
   }
@@ -1288,7 +1299,7 @@ bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure
     minimum=valeurEstime;
   }
 
-  if((abs(valeurEstime-(*m).getValeurAttribut())/(minimum))>2)
+  if((abs(valeurEstime-(*m).getValeurAttribut())/(minimum))>0.5)
   {
     //on compare l'indicateur de fiabilité avec une valeur arbitraire (2)
     
