@@ -14,6 +14,7 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <set>
+#include <string.h>
 //------------------------------------------------------ Include personnel
 #include "DataCapteurs.h"
 
@@ -68,12 +69,15 @@ bool DataCapteurs::ChargerCapteurs(string fichierCapteurs)
       fic.getline(longitude,50,';');
 	  fic.getline(pb,10,'\n');
 
-
+    if(strcmp(id,"")!=0)
+    {
 	  PointGeographique p(atof(longitude),atof(latitude));
 
       Capteur* capteur=new Capteur((string)id,"",p);
 
       mapIDCapteurs.insert(make_pair((string)id,capteur));
+
+    }
    
 	  //capteurs.push_back(capteur);
 

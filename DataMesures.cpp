@@ -19,7 +19,7 @@ using namespace std;
 #include <algorithm>
 #include <math.h>
 #include<map>
-
+#include<string.h>
 
 //------------------------------------------------------------- Constantes
 
@@ -92,60 +92,63 @@ bool DataMesures::ChargerMesures(string fichierMesures, unordered_map<string, st
       int minuteS=(date[14]-'0')*10+(date[15]-'0');
       int secondeS=(date[17]-'0')*10+(date[18]-'0');
 
+      if(strcmp(sensorID,"")!=0)
+      {
 
-      if((string)sensorID==idCapteurIni)
-      {
-        ++nbMesuresCapteur;//nb mesures par capteur
-      }
-      else
-      {
-        if((string(sensorID)).size()>1)
+        if((string)sensorID==idCapteurIni)
         {
-        nbMesuresAttributs.push_back(nbMesuresCapteur);
-        nbMesuresCapteur=1;
-
-        idCapteurIni=(string)sensorID;
+          ++nbMesuresCapteur;//nb mesures par capteur
         }
-        //nouveau capteur : on réinitialise le nb de Mesures
-      }
-      
-      Horodatage horo(anneeS,moisS,jourS,heureS,minuteS,secondeS);//creation de la date
-      
-      double value=stod((string)valeur);
-    
-      TypeAttribut* type=typeAttributs[(string)attributID];
-
-      //on crée la mesure (en vérifiant si l'id Capteur correspond à un id Utilisateur ou non pour créer soit une Mesure soit une MesureUtilisateur)
-      Mesure* mesure;
-      unordered_map<string,string>::iterator itCapteurUtilisateur;
-      itCapteurUtilisateur = mapCapteurUtilisateur.find(sensorID);
-
-      if(itCapteurUtilisateur!=mapCapteurUtilisateur.end()) // id trouvé dans la map
-      {
-        // c'est une mesure utilisateur
-        mesure = new MesureUtilisateur(type,value,string(sensorID),horo);
-
-        // on l'insère également dans les données entrées de l'utilisateur correspondant
-        vector<Utilisateur*>::iterator itUtilisateur;
-        for(itUtilisateur=utilisateurs.begin();itUtilisateur<utilisateurs.end();++itUtilisateur)
+        else
         {
-          if((*itUtilisateur)->GetIdentifiant()==itCapteurUtilisateur->second) // l'identifiant de l'utilisateur est le même que celui trouvé pour la mesure
+          if((string(sensorID)).size()>1)
           {
-            UtilisateurPrive * uPrive = dynamic_cast<UtilisateurPrive*>(*itUtilisateur);
-            MesureUtilisateur * mesureUtilisateur = dynamic_cast<MesureUtilisateur*>(mesure);
-            uPrive->EntrerDonnee(mesureUtilisateur);
+          nbMesuresAttributs.push_back(nbMesuresCapteur);
+          nbMesuresCapteur=1;
+
+          idCapteurIni=(string)sensorID;
+          }
+          //nouveau capteur : on réinitialise le nb de Mesures
+        }
+        
+        Horodatage horo(anneeS,moisS,jourS,heureS,minuteS,secondeS);//creation de la date
+        
+        double value=stod((string)valeur);
+      
+        TypeAttribut* type=typeAttributs[(string)attributID];
+
+        //on crée la mesure (en vérifiant si l'id Capteur correspond à un id Utilisateur ou non pour créer soit une Mesure soit une MesureUtilisateur)
+        Mesure* mesure;
+        unordered_map<string,string>::iterator itCapteurUtilisateur;
+        itCapteurUtilisateur = mapCapteurUtilisateur.find(sensorID);
+
+        if(itCapteurUtilisateur!=mapCapteurUtilisateur.end()) // id trouvé dans la map
+        {
+          // c'est une mesure utilisateur
+          mesure = new MesureUtilisateur(type,value,string(sensorID),horo);
+
+          // on l'insère également dans les données entrées de l'utilisateur correspondant
+          vector<Utilisateur*>::iterator itUtilisateur;
+          for(itUtilisateur=utilisateurs.begin();itUtilisateur<utilisateurs.end();++itUtilisateur)
+          {
+            if((*itUtilisateur)->GetIdentifiant()==itCapteurUtilisateur->second) // l'identifiant de l'utilisateur est le même que celui trouvé pour la mesure
+            {
+              UtilisateurPrive * uPrive = dynamic_cast<UtilisateurPrive*>(*itUtilisateur);
+              MesureUtilisateur * mesureUtilisateur = dynamic_cast<MesureUtilisateur*>(mesure);
+              uPrive->EntrerDonnee(mesureUtilisateur);
+            }
           }
         }
-      }
-      else
-      {
-        // c'est une simple mesure
-        mesure = new Mesure(type,value,string(sensorID),horo);
-      }
-      
-      mesures.push_back(mesure);//ajout de la mesure
-      
-      }
+        else
+        {
+          // c'est une simple mesure
+          mesure = new Mesure(type,value,string(sensorID),horo);
+        }
+        
+        mesures.push_back(mesure);//ajout de la mesure
+        
+        }
+    }
 
       return true;
 
@@ -828,7 +831,7 @@ Capteur* DataMesures::EntrerDonnees(string fichierCapteurs,vector<double>& valeu
     ofstream fileCapteurs(fichierCapteurs,ios::app);
     if(fileCapteurs)
     {
-    fileCapteurs<<idCapteurNouveau<<";"<<p.getLatitude()<<";"<<p.getLongitude()<<";";
+    fileCapteurs<<idCapteurNouveau<<";"<<p.getLatitude()<<";"<<p.getLongitude()<<";\n";
     }
     else
     {
