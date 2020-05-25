@@ -64,6 +64,7 @@ bool DataMesures::ChargerMesures(string fichierMesures, unordered_map<string, st
       if (fic.eof())
       {
           //fin de lecture du fichier
+          nbMesuresAttributs.push_back(nbMesuresCapteur);
           break;
       }
 
@@ -98,9 +99,13 @@ bool DataMesures::ChargerMesures(string fichierMesures, unordered_map<string, st
       }
       else
       {
+        if((string(sensorID)).size()>1)
+        {
         nbMesuresAttributs.push_back(nbMesuresCapteur);
-        nbMesuresCapteur=0;
+        nbMesuresCapteur=1;
+
         idCapteurIni=(string)sensorID;
+        }
         //nouveau capteur : on réinitialise le nb de Mesures
       }
       
@@ -241,6 +246,90 @@ bool DataMesures::ChargerLabels(string fichierLabel, unordered_map<string, strin
   }
   return true;
 } //----- Fin de ChargerLabels
+
+bool DataMesures::SauvegarderMesuresAjoutees(string fichierMesure)
+// Algorithme : renvoie faux si problème d'ouverture sinon réécrit toutes les mesures dans le fichier puis renvoie true
+
+{
+
+  ofstream fileMesure(fichierMesure,ios::trunc);
+
+  if(!fileMesure.is_open())
+	{
+		cerr<<"Erreur lors de la sauvegarde des mesures"<<endl;
+		return false;
+	}
+  else
+  {
+    for(int i=0;i<mesures.size();i++)
+    {
+      Horodatage date=mesures[i]->getdateMesure();
+      string idCapteur=mesures[i]->getIdCapteur();
+      string type=(mesures[i]->getTypeMesure())->getIdAttribut();
+      double valeur=mesures[i]->getValeurAttribut();
+
+      string mois;
+      string jour;
+      string heure;
+      string minute;
+      string seconde;
+
+      string suffixe="0";
+
+      if(date.GetMois()<10)
+      {
+        mois="0"+to_string(date.GetMois());
+      }
+      else
+      {
+        mois=to_string(date.GetMois());
+      }
+
+      if(date.GetJour()<10)
+      {
+        jour="0"+(to_string(date.GetJour()));
+      }
+      else
+      {
+        jour=to_string(date.GetJour());
+      }
+      if(date.GetHeure()<10)
+      {
+        heure="0"+to_string(date.GetHeure());
+      }
+      else
+      {
+        heure=to_string(date.GetHeure());
+      }
+      if(date.GetMinute()<10)
+      {
+        minute="0"+to_string(date.GetMinute());
+      }
+      else
+      {
+        minute=to_string(date.GetMinute());
+      }
+
+      if(date.GetSeconde()<10)
+      {
+        seconde="0"+to_string(date.GetSeconde());
+      }
+      else
+      {
+        seconde=to_string(date.GetSeconde());
+      }
+      
+   
+      fileMesure<<date.GetAnnee()<<"-"<<mois<<"-"<<jour<<" "<<heure<<":"<<minute<<":"<<seconde<<";"<<idCapteur<<";"<<type<<";"<<valeur<<";\n";
+   
+    }
+  
+  }
+  return true;
+} //----- Fin de SauvegarderMesuresAjoutees
+
+
+
 
 vector<Mesure*> DataMesures:: ObtenirMesuresFiables()
 // Algorithme : parcours toutes les mesures et renvoie uniquement les mesuresUtilisateurs avec le label fiable et les mesures des capteurs fixes
@@ -680,7 +769,22 @@ vector<Mesure*>&  DataMesures::ObtenirDonneesBrutes()
 
 } //----- Fin de ObtenirDonneesBrutes
 
-bool DataMesures::EntrerDonnees(string fichierCapteurs,string fichierMesures,string idAttribut, double valeur,Horodatage& date,PointGeographique& p, UtilisateurPrive & utilisateur,unordered_map<string, string> & mapCapteurUtilisateur,unordered_map<string,Capteur*>& mapIDCapteurs)
+bool DataMesures::CapteurNouveau(string idUser,unordered_map<string, string> & mapCapteurUtilisateur)
+//ALgorithme : renvoie true si on a besoin d'un nouveau capteur pour l'utilisateur
+{
+    for(auto it=mapCapteurUtilisateur.begin();it!=mapCapteurUtilisateur.end();it++)
+  {
+    if(it->second==idUser)
+    {
+      return false;
+    }
+  }
+
+  return true;
+
+}//----- Fin de CapteurNouveau
+
+Capteur* DataMesures::EntrerDonnees(string fichierCapteurs,vector<double>& valeurs,Horodatage& date,PointGeographique& p, UtilisateurPrive & utilisateur,unordered_map<string, string> & mapCapteurUtilisateur,unordered_map<string,Capteur*>& mapIDCapteurs)
 // Algorithme : regarde si l'utilisateur a un capteur associé, sinon on crée son capteur puis on inscrit la mesure dans le fichier des mesures
 //
 {
@@ -688,11 +792,15 @@ bool DataMesures::EntrerDonnees(string fichierCapteurs,string fichierMesures,str
   string idUser=utilisateur.GetIdentifiant();
   string idCapteurNouveau="";
 
+  Capteur* capteurNouveau;
+
+  //vérifie si l'utilisateur a déjà un capteur
   for(auto it=mapCapteurUtilisateur.begin();it!=mapCapteurUtilisateur.end();it++)
   {
     if(it->second==idUser)
     {
       idCapteurNouveau=it->first;
+      capteurNouveau=mapIDCapteurs[idCapteurNouveau];
       break;
     }
   }
@@ -701,6 +809,7 @@ bool DataMesures::EntrerDonnees(string fichierCapteurs,string fichierMesures,str
 
   if(idCapteurNouveau=="")
   {
+    //pas de capteur attribué : on le créee
     for(auto it=mapIDCapteurs.begin();it!=mapIDCapteurs.end();it++)
     {
      if((*(it->second)).getIDInt()>idMax)
@@ -712,30 +821,106 @@ bool DataMesures::EntrerDonnees(string fichierCapteurs,string fichierMesures,str
     idCapteurNouveau="Sensor";
     idCapteurNouveau.append(to_string(idMax+1));
 
-    Capteur* capteurNouveau=new Capteur(idCapteurNouveau,"",p);
+    capteurNouveau=new Capteur(idCapteurNouveau,"",p);
     mapCapteurUtilisateur.insert({idCapteurNouveau,idUser});
     mapIDCapteurs.insert({idCapteurNouveau,capteurNouveau});
 
-    //ofstream fileCapteurs(fichierCapteurs,ios::app);
-    //fileCapteurs<<
+    ofstream fileCapteurs(fichierCapteurs,ios::app);
+    if(fileCapteurs)
+    {
+    fileCapteurs<<idCapteurNouveau<<";"<<p.getLatitude()<<";"<<p.getLongitude()<<";";
+    }
+    else
+    {
+      cout<<"Erreur lors de l'écriture du nouveau capteur"<<endl;
+      
+    }
 
   }
-  TypeAttribut* type =(typeAttributs.find(idAttribut))->second;
-  //type valeur string date
-  MesureUtilisateur* nouvelleMesure=new MesureUtilisateur(type,valeur,idCapteurNouveau,date);
-  mesures.push_back(nouvelleMesure);
+
   if(idMax==0)
   {
-
+    //capteur déjà existant
 		string idS=idCapteurNouveau.substr(6,idCapteurNouveau.length());
-    nbMesuresAttributs[stoi(idS)]+=1;
+    
+    int nbMesure=0;
+
+    for(int i=0;i<nbMesuresAttributs.size();i++)
+      {
+        //on compte le nombre de mesures à sauter pour le capteur1
+
+        nbMesure+=nbMesuresAttributs[i];
+
+        if(std::stoi(idS)==i)
+        { 
+          break;
+        }
+       
+      }
+
+    //ajout des mesures au bon endroit dans la liste
+    vector<Mesure*>::iterator it;
+    it=mesures.begin();
+    TypeAttribut* typeO3 =(typeAttributs.find("O3"))->second;
+    MesureUtilisateur* nouvelleMesureO3=new MesureUtilisateur(typeO3,valeurs[0],idCapteurNouveau,date);
+
+    mesures.insert(it+nbMesure,nouvelleMesureO3);
+    
+
+    TypeAttribut* typeSO2 =(typeAttributs.find("SO2"))->second;
+    MesureUtilisateur* nouvelleMesureSO2=new MesureUtilisateur(typeSO2,valeurs[1],idCapteurNouveau,date);
+    mesures.insert(it+nbMesure+1,nouvelleMesureSO2);
+
+
+    TypeAttribut* typeNO2 =(typeAttributs.find("NO2"))->second;
+    MesureUtilisateur* nouvelleMesureNO2=new MesureUtilisateur(typeNO2,valeurs[2],idCapteurNouveau,date);
+    mesures.insert(it+nbMesure+2,nouvelleMesureNO2);
+
+
+    TypeAttribut* typePM10 =(typeAttributs.find("PM10"))->second;
+    MesureUtilisateur* nouvelleMesurePM10=new MesureUtilisateur(typePM10,valeurs[3],idCapteurNouveau,date);
+    mesures.insert(it+nbMesure+3,nouvelleMesurePM10);
+
+    nbMesuresAttributs[std::stoi(idS)]+=4;
+
+
   }
   else
   {
-    nbMesuresAttributs.push_back(1);
+    //capteur nouveau
+
+    //ajout des mesures à la fin 
+    TypeAttribut* typeO3 =(typeAttributs.find("O3"))->second;
+    MesureUtilisateur* nouvelleMesureO3=new MesureUtilisateur(typeO3,valeurs[0],idCapteurNouveau,date);
+    mesures.push_back(nouvelleMesureO3);
+
+
+    TypeAttribut* typeSO2 =(typeAttributs.find("SO2"))->second;
+    MesureUtilisateur* nouvelleMesureSO2=new MesureUtilisateur(typeSO2,valeurs[1],idCapteurNouveau,date);
+    mesures.push_back(nouvelleMesureSO2);
+
+
+    TypeAttribut* typeNO2 =(typeAttributs.find("NO2"))->second;
+    MesureUtilisateur* nouvelleMesureNO2=new MesureUtilisateur(typeNO2,valeurs[2],idCapteurNouveau,date);
+    mesures.push_back(nouvelleMesureNO2);
+
+
+    TypeAttribut* typePM10 =(typeAttributs.find("PM10"))->second;
+    MesureUtilisateur* nouvelleMesurePM10=new MesureUtilisateur(typePM10,valeurs[3],idCapteurNouveau,date);
+    mesures.push_back(nouvelleMesurePM10);
+
+
+    nbMesuresAttributs.push_back(4);
+
+   /* ofstream fileMesures(fichierMesures,ios::app);
+    fileMesures<<date.GetAnnee()<<"-"<<date.GetMois()<<"-"<<date.GetJour()<<" "<<date.GetHeure()<<":"<<date.GetMinute()<<":"<<date.GetSeconde()<<";"<<idCapteurNouveau<<";"<<"O3"<<";"<<valeurs[0]<<";\n";
+    fileMesures<<date.GetAnnee()<<"-"<<date.GetMois()<<"-"<<date.GetJour()<<" "<<date.GetHeure()<<":"<<date.GetMinute()<<":"<<date.GetSeconde()<<";"<<idCapteurNouveau<<";"<<"NO2"<<";"<<valeurs[1]<<";\n";
+    fileMesures<<date.GetAnnee()<<"-"<<date.GetMois()<<"-"<<date.GetJour()<<" "<<date.GetHeure()<<":"<<date.GetMinute()<<":"<<date.GetSeconde()<<";"<<idCapteurNouveau<<";"<<"SO2"<<";"<<valeurs[2]<<";\n";
+    fileMesures<<date.GetAnnee()<<"-"<<date.GetMois()<<"-"<<date.GetJour()<<" "<<date.GetHeure()<<":"<<date.GetMinute()<<":"<<date.GetSeconde()<<";"<<idCapteurNouveau<<";"<<"PM10"<<";"<<valeurs[3]<<";\n";
+  */
   }
   
-
+  return capteurNouveau;
 } //----- Fin de EntrerDonnees
 
 vector<vector<Capteur*>> DataMesures::IdentifierCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, int nbClassesMin)

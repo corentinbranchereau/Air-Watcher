@@ -422,6 +422,17 @@ Zone Affichage::SaisirZone()
 
 } //----- Fin de SaisirZone
 
+double Affichage::SaisirValeur(string attribut)
+// Algorithme : Aucun
+//
+{
+	cout<<"Saisissez la valeur pour la mesure de type : "<<attribut<<endl;
+    double valeur=SaisirDouble(numeric_limits<double>::min(),numeric_limits<double>::max());
+	return valeur;
+
+
+}//----- Fin de SaisirValeur
+
 void Affichage::DefinirUtilisateur(Utilisateur* utilisateur, string type)
 // Algorithme : Aucun
 //
@@ -546,6 +557,29 @@ void Affichage::AfficherApresLabel()
 
 	cin.ignore();
 } //----- Fin de AfficherCapteursSimilaires
+
+void Affichage::AfficherConfirmation(string message)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	//cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
+
+		cout<<"**********************"<<endl;
+
+		cout<<message<< " : OK "<<endl;
+	
+		cout<<"**********************"<<endl;
+    
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
+} //----- Fin de AfficherConfirmation
 
 void Affichage::AfficherDonnesUtilisateurPrive(Horodatage debut, Horodatage fin)
 // Algorithme : Aucun

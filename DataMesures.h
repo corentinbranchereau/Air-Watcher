@@ -68,6 +68,12 @@ public:
 	// Contrat : Aucun
 	//
 
+	bool SauvegarderMesuresAjoutees(string fichierMesures);
+	// Mode d'emploi : écrit dans le fichier des mesures toutes les mesures notamment celles ajoutées
+	//
+	// Contrat : Aucun
+	//
+
     Mesure* ConsulterMoyenneDonneesDatePrecise(Horodatage & date,Zone& zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
 	// Mode d'emploi :renvoie les 4 mesures moyennées sur le jour demandé ou un pointeur nul si pas de mesures pour le calcul
 	// Contrat : nécessite que ConsulterMoyenneDonneesPeriodePrecise soit implémenté
@@ -96,8 +102,16 @@ public:
 	//
 	// Contrat : aucun
 	//
+	bool CapteurNouveau(string idUser,unordered_map<string, string> & mapCapteurUtilisateur);
+	// Mode d'emploi : renvoie true si besoin d'un nouveau capteur pour l'utilisateur
+	//
+	// Contrat : aucun
+	//
 
-    bool EntrerDonnees(string fichierCapteurs,string fichierMesures,string idAttribut, double valeur,Horodatage& date, PointGeographique& p,UtilisateurPrive & utilisateur,unordered_map<string, string> & mapCapteurUtilisateur,unordered_map<string,Capteur*>& mapIDCapteurs);
+    Capteur* EntrerDonnees(string fichierCapteurs, vector<double>& valeurs,Horodatage& date, PointGeographique& p,UtilisateurPrive & utilisateur,unordered_map<string, string> & mapCapteurUtilisateur,unordered_map<string,Capteur*>& mapIDCapteurs);
+	// Mode d'emploi : permet d'entrer de nouvelles données 
+	//
+	// Contrat : aucun
 	
 	bool LabelliserUneDonnee(vector<Mesure*>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
 	// Mode d'emploi : renvoie true si la mesure à vérifier est non aberrante, false sinon
@@ -111,6 +125,12 @@ public:
 	//
 
     void LabeliserDonneesUtilisateur(string fichierLabel,unordered_map<string,Capteur*>& mapCapteurs);
+	// Mode d'emploi : écrit dans le fichier des labels les labels des mesures non labellisées
+	//
+	// Contrat : aucun
+	//
+
+	void SauvegarderMesures(string fichierMesures);
 	// Mode d'emploi : écrit dans le fichier des labels les labels des mesures non labellisées
 	//
 	// Contrat : aucun

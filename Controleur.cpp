@@ -173,7 +173,26 @@ void menuAction()
 
                 case 2: {
                     // entrer une donnée
-                    affichage.PreparationConsole("Entrée d'une nouvelle donnée - A FAIRE");
+                    affichage.PreparationConsole("Entrée d'une nouvelle donnée");
+                    Horodatage date= affichage.SaisirDate();
+
+                    PointGeographique p(0,0);
+
+                    if(donneesMesures.CapteurNouveau(uPrive->GetIdentifiant(),donneesCapteurs.GetMapCapteurUtilisateur())==true)
+                    {
+                        p=affichage.SaisirPosition();
+                    }
+                    vector<double> ajouts;
+                    ajouts.push_back(affichage.SaisirValeur("O3"));
+                    ajouts.push_back(affichage.SaisirValeur("N02"));
+                    ajouts.push_back(affichage.SaisirValeur("S02"));
+                    ajouts.push_back(affichage.SaisirValeur("PM10"));
+
+                    donneesMesures.EntrerDonnees("Data/sensors.csv",ajouts,date,p,*uPrive,donneesCapteurs.GetMapCapteurUtilisateur(),donneesCapteurs.GetCapteurs());
+                    donneesMesures.SauvegarderMesuresAjoutees("Data/measurements.csv");
+
+                    affichage.AfficherConfirmation("DONNES BIEN PRISES EN COMPTE");
+
                 } break;
 
                 case 3: {
@@ -199,7 +218,7 @@ void menuAction()
 
             affichage.AffichageFinConnexion("réussite");
 
-            vector<Mesure*>listMesureBonnes;
+            
 
             while(choix!=9) // 9 = Déconnexion pour un employé d'agence
             {
@@ -239,7 +258,7 @@ void menuAction()
                         Horodatage debut=affichage.SaisirDate("début");
                         Horodatage fin=affichage.SaisirDate("fin");
                         Zone zone=affichage.SaisirZone();
-                        listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
+                        vector<Mesure*>listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
                     } break;

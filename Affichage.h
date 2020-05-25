@@ -305,6 +305,18 @@ public:
     // Mode d'emploi : Permet la saisie d'un point géographique
     // Renvoi le point géographique
     // Contrat : Aucun
+
+
+    double SaisirValeur(string attribut);
+    // Mode d'emploi : Permet la saisie d'une valeur pour un atribut
+    // Renvoi la valeur
+    // Contrat : Aucun
+
+	void AfficherConfirmation(string message);
+	 // Mode d'emploi : Permet d'afficher un message puis de revenir au menu
+    // Renvoi la valeur
+    // Contrat : Aucun
+
 //------------------------------------------------- Surcharge d'opérateurs
 	Affichage & operator = (const Affichage & unAffichage);
 	// Mode d'emploi : Ne fait rien en particulier
