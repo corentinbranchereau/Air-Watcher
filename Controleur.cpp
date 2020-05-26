@@ -224,7 +224,7 @@ void menuAction()
 
             
 
-            while(choix!=9) // 9 = Déconnexion pour un employé d'agence
+            while(choix!=10) // 10 = Déconnexion pour un employé d'agence
             {
                 choix = affichage.AfficherMenuActionAgenceGouv();
 
