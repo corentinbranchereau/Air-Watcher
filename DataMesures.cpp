@@ -476,10 +476,10 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
   int numDate=0;
 
   //nb de mesures prises en compte
-  int nPM10;
-  int nSO2;
-  int nNO2;
-  int nO3;
+  double nPM10;
+  double nSO2;
+  double nNO2;
+  double nO3;
 
   for(auto it=datesRencontrees.begin();it!=datesRencontrees.end();it++)
   {
@@ -492,10 +492,10 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
     nO3=0;
  
     //tableau des moyennes
-    moyenneValeurs[numDate][0]=0;
-    moyenneValeurs[numDate][1]=0;
-    moyenneValeurs[numDate][2]=0;
-    moyenneValeurs[numDate][3]=0;
+    moyenneValeurs[numDate-1][0]=0;
+    moyenneValeurs[numDate-1][1]=0;
+    moyenneValeurs[numDate-1][2]=0;
+    moyenneValeurs[numDate-1][3]=0;
     
     for(int i=0;i<(it->second).size();i++)
     {
