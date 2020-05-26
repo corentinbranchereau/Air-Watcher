@@ -193,7 +193,7 @@ public:
 	// Contrat : Aucun
 	//
 
-	void AfficherCapteursSimilaires(vector<vector<Capteur*>> & res);
+	void AfficherClusterCapteursSimilaires(vector<vector<Capteur*>> & res);
 	// Mode d'emploi : Affiche le résultat du regroupement des capteurs en
 	// groupes ayant un comportement similaire
 	//
@@ -233,7 +233,7 @@ public:
 	// Contrat : Aucun
 	//
 
-	void AfficherRayonAction(double rayon, double rayonMax,string idNettoyeur);
+	void AfficherRayonAction(vector<double>& res, double rayonMax,string idNettoyeur);
 	// Mode d'emploi : Affiche le rayon du nettoyeur, le rayonMax permet de connaitre si une valeur de retour spéciale a eu lieu avec rayon>rayonMax
 	// 
 	//
@@ -306,7 +306,6 @@ public:
     // Renvoi le point géographique
     // Contrat : Aucun
 
-
     double SaisirValeur(string attribut);
     // Mode d'emploi : Permet la saisie d'une valeur pour un atribut
     // Renvoi la valeur
@@ -315,6 +314,18 @@ public:
 	void AfficherConfirmation(string message);
 	 // Mode d'emploi : Permet d'afficher un message puis de revenir au menu
     // Renvoi la valeur
+    // Contrat : Aucun
+
+	void AfficherMessage(string message);
+	// Mode d'emploi : Permet d'afficher un message 
+
+    // Contrat : Aucun
+
+
+
+    void AfficherSaisirIdCapteur(unordered_map<string,Capteur*> & mapCapteur, DataMesures & donneesMesures);
+    // Mode d'emploi : Permet de saisir un id capteur et epsilon pour analyser les capteurs similaires
+    // Affiche les capteurs similaires
     // Contrat : Aucun
 
 //------------------------------------------------- Surcharge d'opérateurs

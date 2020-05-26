@@ -22,6 +22,7 @@
 #include <vector>
 #include <unordered_map>
 #include <map>
+#include <set>
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -118,7 +119,13 @@ public:
 	// Contrat : nécessite une liste de mesures fiables
 	//
 
-    vector<vector<Capteur*>> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
+    vector<Capteur*> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, string id_ref_capt, double epsilon);
+    // Mode d'emploi : Renvoi les capteurs similaires à celui passé en paramètre
+    //
+    // Contrat : Aucun
+    //
+
+    vector<vector<Capteur*>> IdentifierClusterCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
 	// Mode d'emploi : renvoi les capteurs similaires à partir d'une liste de capteurs et du nombre de classes minimum
 	//
 	// Contrat : aucun

@@ -228,7 +228,7 @@ NettoyeurAir* DataNettoyeurs::VerifierAppartenanceNettoyeur(string idNettoyeur,v
 }
 //----- Fin de VérifierAppartenanceNettoyeur
 
-double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesures & dataM,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs,double precision,double epsilon, double rayonMax)
+vector<double> DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesures & dataM,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs,double precision,double epsilon, double rayonMax)
 // Algorithme : recherche dichotomique du rayon d'action du nettoyeur avec son ID en paramètre  à partir des mesures enregistrées
 //Epsilon définit le degré d'efficacité demandé au cleaner ( entre 0 et 1 ). La précison du rayon est spécifiée aussi.
 {
@@ -241,6 +241,22 @@ double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesur
 
 	double rayon=0;
 
+
+	double indicateurO3=0;
+
+	double indicateurSO2=0;
+
+	double indicateurNO2=0;
+
+	double indicateurPM10=0;
+
+	vector<double> resultat;
+
+	for(int p=0;p<6;p++)
+	{
+		resultat.push_back(0);
+	}
+
 	while(abs(rayonMaxT-rayonMinT)/2>precision)//tant que la précision du rayon n'est pas atteinte
 	{
 		rayon=(rayonMaxT+rayonMinT)/2;
@@ -249,45 +265,105 @@ double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesur
 		double moyenneAvant=0;
 		double moyenneApres=0;
 
-		map<Horodatage,int> qualiteAirAvant=dataM.ConsulterQualitePeriodePrecise(debut.enleverJour(3),debut,zone,listMesuresBonnes,mapCapteurs);
-		//tableau des indices atmos journaliers sur les 3 jours avant que le cleaner fonctionne
+		Mesure** qualiteAirAvant=dataM.ConsulterMoyenneDonneesPeriodePrecise(debut.enleverJour(3),debut.enleverJour(1),zone,listMesuresBonnes,mapCapteurs);
+		//tableau des moyennes journaliers sur les 3 jours avant que le cleaner fonctionne
 
-		map<Horodatage,int> qualiteAirApres=dataM.ConsulterQualitePeriodePrecise(fin,fin.ajouterJour(2),zone,listMesuresBonnes,mapCapteurs);
-		//tableau des indices atmos journaliers sur les 2 jours après que le cleaner a fonctionné
+		Mesure** qualiteAirApres=dataM.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesuresBonnes,mapCapteurs);
+		//tableau des moyenenes journaliers sur les 2 jours après que le cleaner a fonctionné
 
-		double indicateur=0;
+	
+		double moyenne03avant=0;
+		double moyenne03apres=0;
 
-		if(qualiteAirAvant.size()>0 && qualiteAirApres.size()>0)
+		double moyenneSO2avant=0;
+		double moyenneSO2apres=0;
+
+		double moyenneNO2avant=0;
+		double moyenneNO2apres=0;
+
+		double moyennePM10avant=0;
+		double moyennePM10apres=0;
+
+		int nbJoursAvant=qualiteAirAvant[0][0].getValeurAttribut();
+
+		int nbJoursApres=qualiteAirApres[0][0].getValeurAttribut();
+
+		int compteurOk=0;
+
+
+		if(nbJoursAvant>0 && nbJoursApres>0)
 		{
-
-			for(auto it=qualiteAirAvant.begin();it!=qualiteAirAvant.end();it++)
+			for(int i=1;i<nbJoursAvant+1;i++)
 			{
-				moyenneAvant+=it->second;
-
-			}
-			moyenneAvant/=qualiteAirAvant.size();
-
-			for(auto it=qualiteAirApres.begin();it!=qualiteAirApres.end();it++)
-			{
-				moyenneApres+=it->second;
-
+				moyenne03avant+=qualiteAirAvant[i][0].getValeurAttribut();
+				moyenneSO2avant+=qualiteAirAvant[i][1].getValeurAttribut();
+				moyenneNO2avant+=qualiteAirAvant[i][2].getValeurAttribut();
+				moyennePM10avant+=qualiteAirAvant[i][3].getValeurAttribut();
 			}
 
-			moyenneApres/=qualiteAirApres.size();
+			moyenne03avant/=nbJoursAvant;
+			moyenneSO2avant/=nbJoursAvant;
+			moyenneNO2avant/=nbJoursAvant;
+			moyennePM10avant/=nbJoursAvant;
 
-			indicateur=(moyenneAvant-moyenneApres)/moyenneAvant;
+
+			for(int i=1;i<nbJoursApres+1;i++)
+			{
+				moyenne03apres+=qualiteAirApres[i][0].getValeurAttribut();
+				moyenneSO2apres+=qualiteAirApres[i][1].getValeurAttribut();
+				moyenneNO2apres+=qualiteAirApres[i][2].getValeurAttribut();
+				moyennePM10apres+=qualiteAirApres[i][3].getValeurAttribut();
+			}
+
+			moyenne03apres/=nbJoursApres;
+			moyenneSO2apres/=nbJoursApres;
+			moyenneNO2apres/=nbJoursApres;
+			moyennePM10apres/=nbJoursApres;
+
+			indicateurO3=(moyenne03avant-moyenne03apres)/moyenne03apres;
+
+			indicateurSO2=(moyenneSO2avant-moyenneSO2apres)/moyenneSO2apres;
+
+			indicateurNO2=(moyenneNO2avant-moyenneNO2apres)/moyenneNO2apres;
+
+			indicateurPM10=(moyennePM10avant-moyennePM10apres)/moyennePM10apres;
+
+
+			if(indicateurO3>epsilon)
+			{
+				compteurOk++;
+			}
+
+			if(indicateurNO2>epsilon)
+			{
+				compteurOk++;
+			}
+
+			if(indicateurSO2>epsilon)
+			{
+				compteurOk++;
+			}
+
+			if(indicateurPM10>epsilon)
+			{
+				compteurOk++;
+			}				
 
 		}
-
 
 		else
 		{	//si on a pas de mesure on arrête la recherche et on renvoie une valeur spéciale our signifier le manque de valeurs
-		
-			return rayon+rayonMax*2;
+			resultat[0]=rayon+rayonMax*2;
+			resultat[1]=indicateurO3;
+			resultat[2]=indicateurSO2;
+			resultat[3]=indicateurNO2;
+			resultat[4]=indicateurPM10;
+
+			return resultat;
 		}
 		
 		//MAJ des bornes du rayon en fonction de l'indicateur
-		if(indicateur>epsilon)
+		if(compteurOk>=4)
 		{
 			rayonMinT=rayon;
 		}
@@ -299,7 +375,13 @@ double DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, DataMesur
 			
 	}
 
-	return rayon;
+	resultat[0]=rayon;
+	resultat[1]=indicateurO3;
+	resultat[2]=indicateurSO2;
+	resultat[3]=indicateurNO2;
+	resultat[4]=indicateurPM10;
+
+	return resultat;
 
 
 } //----- Fin de ObtenirRayonActionNettoyeur

@@ -498,10 +498,10 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
   int numDate=0;
 
   //nb de mesures prises en compte
-  int nPM10;
-  int nSO2;
-  int nNO2;
-  int nO3;
+  double nPM10;
+  double nSO2;
+  double nNO2;
+  double nO3;
 
   for(auto it=datesRencontrees.begin();it!=datesRencontrees.end();it++)
   {
@@ -514,10 +514,10 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
     nO3=0;
  
     //tableau des moyennes
-    moyenneValeurs[numDate][0]=0;
-    moyenneValeurs[numDate][1]=0;
-    moyenneValeurs[numDate][2]=0;
-    moyenneValeurs[numDate][3]=0;
+    moyenneValeurs[numDate-1][0]=0;
+    moyenneValeurs[numDate-1][1]=0;
+    moyenneValeurs[numDate-1][2]=0;
+    moyenneValeurs[numDate-1][3]=0;
     
     for(int i=0;i<(it->second).size();i++)
     {
@@ -959,7 +959,94 @@ Capteur* DataMesures::EntrerDonnees(string fichierUsers,string fichierCapteurs,v
   return capteurNouveau;
 } //----- Fin de EntrerDonnees
 
-vector<vector<Capteur*>> DataMesures::IdentifierCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, int nbClassesMin)
+vector<Capteur*> DataMesures::IdentifierCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, string id_ref_capt, double epsilon)
+//Algorithme : Permet d'identifier l'ensemble des capteurs ayant des valeurs proches du capteurChoisi avec un
+// écart relatif epsilon donné entre chacune de ses valeurs
+{
+    vector<Capteur*> list_capteur_similaire;
+    Capteur *ref_capt = mapCapteur[id_ref_capt];
+    int nb_mesures_ref_capt = nbMesuresAttributs[ref_capt->getIDInt()];
+    vector<Mesure*>::iterator mesure_ref_begin = mesures.begin();
+    vector<Mesure*>::iterator mesure_ref_end;
+
+    cout << "Capteur choisi : " << id_ref_capt << " - id_int : " << ref_capt->getIDInt() << " - nb_mesure : " << nb_mesures_ref_capt << endl << endl;
+
+    //Récupération de l'emplacement des mesures de notre capteur de référence
+    for(int i = 0; i<ref_capt->getIDInt();i++)
+    {
+        mesure_ref_begin+=nbMesuresAttributs[i];
+    }
+
+    //comme un pointeur de fin, pointe sur la suivante à ne pas regarder.
+    mesure_ref_end = mesure_ref_begin + nb_mesures_ref_capt;
+
+    cout << "Premier mesure du sensor - type : " << (*mesure_ref_begin)->getTypeMesure()->getIdAttribut() << " - valeur :" << (*mesure_ref_begin)->getValeurAttribut() << " - date : " << (*mesure_ref_begin)->getdateMesure().GetJour() << "/" <<  (*mesure_ref_begin)->getdateMesure().GetMois() << endl << endl;
+    cout << "Dernière mesure du sensor - type : " << (*mesure_ref_end)->getTypeMesure()->getIdAttribut() << " - valeur :" << (*mesure_ref_end)->getValeurAttribut() << " - date : " << (*mesure_ref_end)->getdateMesure().GetJour() << "/" <<  (*mesure_ref_end)->getdateMesure().GetMois() << endl << endl;
+
+    //Pour chacun des capteurs différent de notre capteur choisi
+    //Pour chaque jour
+    //Pour chaque type de mesure
+    //En faire un écart relatif et le sommer
+    //En faire un écart relatif moyen sur le nb de valeurs/4
+    //Vérifier si la moyenne de ses 4 écarts-types moyen est < epsilon --> si oui l'ajouter au set
+
+    for(unordered_map<string,Capteur*>::iterator it = mapCapteur.begin() ; it != mapCapteur.end() ; ++it )
+    {
+        Capteur * to_study = it->second;
+        vector<Mesure*>::iterator mesure_study_begin = mesures.begin();
+
+        if(to_study->getIDInt()==ref_capt->getIDInt())
+            continue;
+
+        double ecart_relatif_total[] = {0, 0, 0, 0};
+
+        //Récupération de l'emplacement des mesures de notre capteur à étudier
+        for(int i = 0; i<to_study->getIDInt();i++)
+        {
+            mesure_study_begin+=nbMesuresAttributs[i];
+        }
+
+        int nb_valeurs_mini = ( (nb_mesures_ref_capt < nbMesuresAttributs[to_study->getIDInt()]) ? (nb_mesures_ref_capt) : (nbMesuresAttributs[to_study->getIDInt()]) );
+
+        //Sommer les écarts types pour chaque type de mesure
+        for(int i = 0; i< nb_valeurs_mini; ++i)
+        {
+
+            //Etude de 03
+            ecart_relatif_total[0] += abs(((*(mesure_ref_begin+i))->getValeurAttribut() - (*(mesure_study_begin+i))->getValeurAttribut()))/(*(mesure_study_begin+i))->getValeurAttribut();
+
+            ++i;
+            //Etude de NO2
+            ecart_relatif_total[1] += abs(((*(mesure_ref_begin+i))->getValeurAttribut() - (*(mesure_study_begin+i))->getValeurAttribut()))/(*(mesure_study_begin+i))->getValeurAttribut();
+
+            ++i;
+            //Etude de SO2
+            ecart_relatif_total[2] += abs(((*(mesure_ref_begin+i))->getValeurAttribut() - (*(mesure_study_begin+i))->getValeurAttribut()))/(*(mesure_study_begin+i))->getValeurAttribut();
+
+            ++i;
+            //Etude de PM10
+            ecart_relatif_total[3] += abs(((*(mesure_ref_begin+i))->getValeurAttribut() - (*(mesure_study_begin+i))->getValeurAttribut()))/(*(mesure_study_begin+i))->getValeurAttribut();
+        }
+
+        //En faire un écart type moyen pour chaque type de mesure
+        for(int i = 0; i<4; ++i)
+        {
+            ecart_relatif_total[i] /= nb_valeurs_mini;
+        }
+
+        double ecart_relatif_moyen_final = ecart_relatif_total[0]+ecart_relatif_total[1]+ecart_relatif_total[2]+ecart_relatif_total[3];
+        ecart_relatif_moyen_final /= 4;
+
+        //cout << "Ecart relatif total moyen sensor " << (*it).second->getID() << " : " << ecart_relatif_moyen_final << endl << endl;
+
+        if(ecart_relatif_moyen_final < epsilon)
+            list_capteur_similaire.push_back(to_study);
+    }
+
+    return list_capteur_similaire;
+} // Fin de IdentifierCapteursSimilaires
+
+vector<vector<Capteur*>> DataMesures::IdentifierClusterCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, int nbClassesMin)
 // Algorithme : méthode qui regroupe les capteurs similaires
 //
 {
