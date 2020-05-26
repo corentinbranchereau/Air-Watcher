@@ -58,6 +58,12 @@ public:
 	// Contrat : Aucun
 	//
 
+	void AjouterPoint(int nb);
+	// Mode d'emploi : Ajoute 'nb' points à l'utilisateur
+	//
+	// Contrat : Aucun
+	//
+
 //------------------------------------------------- Surcharge d'opérateurs
 	UtilisateurPrive & operator = (const UtilisateurPrive & unUtilisateurPrive);
 	// Mode d'emploi : Opérateur qui effectue une copie de tous les attributs,

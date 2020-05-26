@@ -168,6 +168,10 @@ void menuAction()
                     affichage.PreparationConsole("Consultation de vos données entrées");
                     Horodatage debut = affichage.SaisirDate("début");
                     Horodatage fin = affichage.SaisirDate("fin");
+                    while(!(fin>=debut)) {
+                        cout<<"\n/ ! \\ Veuillez saisir une date de fin supérieure ou égale à la date de début ! / ! \\"<<endl;
+                        fin = affichage.SaisirDate("fin");
+                    }
                     affichage.AfficherDonnesUtilisateurPrive(debut,fin);
                 } break;
 
@@ -249,6 +253,10 @@ void menuAction()
                         affichage.PreparationConsole("Consultation des données brutes de l'application");
                         Horodatage debut=affichage.SaisirDate("début");
                         Horodatage fin=affichage.SaisirDate("fin");
+                        while(!(fin>=debut)) {
+                            cout<<"\n/ ! \\ Veuillez saisir une date de fin supérieure ou égale à la date de début ! / ! \\"<<endl;
+                            fin = affichage.SaisirDate("fin");
+                        }
                         affichage.AfficherDonneesBrutes(debut,fin,donneesMesures.GetMesures());
                     } break;
 
@@ -257,8 +265,12 @@ void menuAction()
                         affichage.PreparationConsole("Consultation des moyennes journalières des données sur une période et une zone choisie");
                         Horodatage debut=affichage.SaisirDate("début");
                         Horodatage fin=affichage.SaisirDate("fin");
+                        while(!(fin>=debut)) {
+                            cout<<"\n/ ! \\ Veuillez saisir une date de fin supérieure ou égale à la date de début ! / ! \\"<<endl;
+                            fin = affichage.SaisirDate("fin");
+                        }
                         Zone zone=affichage.SaisirZone();
-                        vector<Mesure*>listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
+                        vector<Mesure*>listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
                     } break;
@@ -269,8 +281,12 @@ void menuAction()
                         affichage.PreparationConsole("Consultation des indices ATMO journaliers sur une période et une zone choisie");
                         Horodatage debut=affichage.SaisirDate("début");
                         Horodatage fin=affichage.SaisirDate("fin");
+                        while(!(fin>=debut)) {
+                            cout<<"\n/ ! \\ Veuillez saisir une date de fin supérieure ou égale à la date de début ! / ! \\"<<endl;
+                            fin = affichage.SaisirDate("fin");
+                        }
                         Zone zone=affichage.SaisirZone();
-                        vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables();
+                        vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
                         map<Horodatage,int> moyennesIndices=donneesMesures.ConsulterQualitePeriodePrecise(debut,fin,zone,listMesureBonnesQualite,donneesCapteurs.GetCapteurs());
                         affichage.AfficherQualitePeriodePrecise(moyennesIndices);
                     } break;
@@ -278,7 +294,7 @@ void menuAction()
                     case 7: {
                         // labelliser données
                         affichage.PreparationConsole("Labellisation des données des utilisateurs privés");
-                        donneesMesures.LabeliserDonneesUtilisateur("Data/labels.csv",donneesCapteurs.GetCapteurs());
+                        donneesMesures.LabeliserDonneesUtilisateur("Data/labels.csv",donneesCapteurs.GetCapteurs(),donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
                         affichage.AfficherApresLabel();
                     } break;
 
@@ -361,7 +377,7 @@ void menuAction()
                         NettoyeurAir* nettoyeur=affichage.AfficherSaisieRayonNettoyeur(donneesNettoyeurs,uFournisseur->GetCompagnie()->getNettoyeurs());
                         if(nettoyeur!=0)
                         {
-                            vector<Mesure*> listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
+                            vector<Mesure*> listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
                             double rayonMax=1000;
                             double rayon=donneesNettoyeurs.ObtenirRayonActionNettoyeur(nettoyeur->getID(),donneesMesures,listMesureBonnes,donneesCapteurs.GetCapteurs(),1,0.4,rayonMax);
                             affichage.AfficherRayonAction(rayon,rayonMax,nettoyeur->getID());
@@ -374,6 +390,10 @@ void menuAction()
                         affichage.PreparationConsole("Consultation des données brutes de l'application");
                         Horodatage debut=affichage.SaisirDate("début");
                         Horodatage fin=affichage.SaisirDate("fin");
+                        while(!(fin>=debut)) {
+                            cout<<"\n/ ! \\ Veuillez saisir une date de fin supérieure ou égale à la date de début ! / ! \\"<<endl;
+                            fin = affichage.SaisirDate("fin");
+                        }
                         affichage.AfficherDonneesBrutes(debut,fin,donneesMesures.GetMesures());
                     } break;
 
@@ -382,8 +402,12 @@ void menuAction()
                         affichage.PreparationConsole("Consultation des moyennes journalières des données sur une période et une zone choisie");
                         Horodatage debut=affichage.SaisirDate("début");
                         Horodatage fin=affichage.SaisirDate("fin");
+                        while(!(fin>=debut)) {
+                            cout<<"\n/ ! \\ Veuillez saisir une date de fin supérieure ou égale à la date de début ! / ! \\"<<endl;
+                            fin = affichage.SaisirDate("fin");
+                        }
                         Zone zone=affichage.SaisirZone();
-                        listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
+                        listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
                     } break;
@@ -393,8 +417,12 @@ void menuAction()
                         affichage.PreparationConsole("Consultation des indices ATMO journaliers sur une période et une zone choisie");
                         Horodatage debut=affichage.SaisirDate("début");
                         Horodatage fin=affichage.SaisirDate("fin");
+                        while(!(fin>=debut)) {
+                            cout<<"\n/ ! \\ Veuillez saisir une date de fin supérieure ou égale à la date de début ! / ! \\"<<endl;
+                            fin = affichage.SaisirDate("fin");
+                        }
                         Zone zone=affichage.SaisirZone();
-                        vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables();
+                        vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
                         map<Horodatage,int> moyennesIndices=donneesMesures.ConsulterQualitePeriodePrecise(debut,fin,zone,listMesureBonnesQualite,donneesCapteurs.GetCapteurs());
                         affichage.AfficherQualitePeriodePrecise(moyennesIndices);
                     } break;
@@ -444,11 +472,30 @@ void affichageCapteursSimilaires(vector<vector<Capteur*>> groupescapteurs)
 
 
 int main(void)
-{    
-
+{   
     if(chargementDonnees("./Data/cleaners.csv","./Data/providers.csv","./Data/users.csv","./Data/measurements.csv","./Data/attributes.csv","./Data/sensors.csv","./Data/ownUsers.csv","./Data/labels.csv"))
-    {
-       
+    {   
+        /*
+        unordered_map<string,Capteur*>::iterator it;
+        double distMin=100000;
+        string capMin = "";
+        for(it=donneesCapteurs.GetCapteurs().begin();it!=donneesCapteurs.GetCapteurs().end();++it) {
+            double longCap = (*it).second->getPosition().getLongitude();
+            double latCap = (*it).second->getPosition().getLatitude();
+
+            double distance=acos(sin(M_PI/180*46.666667)*sin(M_PI/180*latCap)+cos(M_PI/180*46.666667)*cos(M_PI/180*latCap)*cos(M_PI/180*(longCap-3.666667)))*6371;
+            cout<<"ID CAPTEUR : "<<(*it).second->getID()<<"  -  DISTANCE : "<<distance<<endl;
+
+            if(distMin>distance) {
+                distMin = distance;
+                capMin = (*it).second->getID();
+            }
+        }
+
+        cout<<"DIST MIN : "<<distMin<<"   -    ID MIN : "<<capMin<<endl;
+        return 0;
+        */
+
         while(true)
         {
             if(statutConnexion=="déconnecté")

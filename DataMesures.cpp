@@ -20,6 +20,7 @@ using namespace std;
 #include <math.h>
 #include<map>
 #include<string.h>
+#include <set>
 
 //------------------------------------------------------------- Constantes
 
@@ -334,10 +335,12 @@ bool DataMesures::SauvegarderMesuresAjoutees(string fichierMesure)
 
 
 
-vector<Mesure*> DataMesures:: ObtenirMesuresFiables()
+vector<Mesure*> DataMesures:: ObtenirMesuresFiables(unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs)
 // Algorithme : parcours toutes les mesures et renvoie uniquement les mesuresUtilisateurs avec le label fiable et les mesures des capteurs fixes
 //
 {
+  set<string> utilisateursDejaIncremente; // set pour retenir les utilisateurs dont on a déjà augmenter le nb de points
+
   vector<Mesure*> listMesuresFiables;
   for(int i=0;i<mesures.size();i++)
   {
@@ -345,7 +348,7 @@ vector<Mesure*> DataMesures:: ObtenirMesuresFiables()
 
     if(m==nullptr)
     {
-      //ce n'est pas une mesure utilisateur elle est donctoujours fiable
+      //ce n'est pas une mesure utilisateur elle est donc toujours fiable
       listMesuresFiables.push_back(mesures[i]);
 
     }
@@ -353,11 +356,30 @@ vector<Mesure*> DataMesures:: ObtenirMesuresFiables()
     {
      if((*m).GetLabel()=="fiable")
      {
-       listMesuresFiables.push_back(mesures[i]);
-       //si la mesure utilisateur on peut l'utiliser
+        listMesuresFiables.push_back(mesures[i]);
+        //si la mesure utilisateur on peut l'utiliser
+
+        // on ajoute l'id à la liste des utilisateurs à incrémenter (nb de points)
+        string idUser = mapCapteurPrive.find(mesures[i]->getIdCapteur())->second;
+        utilisateursDejaIncremente.insert(idUser);
      }
-    } 
+    }
     
+  }
+
+  // on ajoute les points aux utilisateurs
+  vector<Utilisateur*>::iterator it;
+  for(it=utilisateurs.begin();it!=utilisateurs.end();++it)
+  {
+    if(utilisateursDejaIncremente.find((*it)->GetIdentifiant())!=utilisateursDejaIncremente.end())
+    {
+      UtilisateurPrive* uPrive = dynamic_cast<UtilisateurPrive*>((*it));
+
+      if(uPrive!=nullptr) // normalement toujours non nul
+      {
+        uPrive->AjouterPoint(1);
+      }
+    }
   }
 
   return listMesuresFiables;
@@ -1309,12 +1331,12 @@ bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure
 
 }
 
-void DataMesures::LabeliserDonneesUtilisateur(string fichierLabel, unordered_map<string,Capteur*>& mapCapteurs)
+void DataMesures::LabeliserDonneesUtilisateur(string fichierLabel, unordered_map<string,Capteur*>& mapCapteurs, unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs)
 // Algorithme : parcourt les mesures non labellisées et calcule leur label grâce à LabelliserUnedonnee puis les écrit dans le fichier des labels
 //
 {
   vector<Mesure*> mesuresNonLabellisees=this->ObtenirMesuresNonLabelisees();
-  vector<Mesure*> mesuresFiables=this->ObtenirMesuresFiables();
+  vector<Mesure*> mesuresFiables=this->ObtenirMesuresFiables(mapCapteurPrive,utilisateurs);
   ofstream fileLabel(fichierLabel,ios::app);
 
    if(!fileLabel.is_open())

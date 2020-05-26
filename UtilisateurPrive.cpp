@@ -56,6 +56,13 @@ void UtilisateurPrive::EntrerDonnee(MesureUtilisateur* nouvelleDonnee)
 	this->donneesEntrees.push_back(nouvelleDonnee);
 } //----- Fin de EntrerDonnee
 
+void UtilisateurPrive::AjouterPoint(int nb)
+// Algorithme : Aucun
+//
+{
+	this->nbPoints += nb;
+} //----- Fin de AjouterPoint
+
 //------------------------------------------------- Surcharge d'opérateurs
 
 UtilisateurPrive & UtilisateurPrive::operator = (const UtilisateurPrive & unUtilisateurPrive)
