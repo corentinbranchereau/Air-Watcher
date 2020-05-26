@@ -22,6 +22,7 @@
 #include <vector>
 #include <unordered_map>
 #include <map>
+#include <set>
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -117,6 +118,12 @@ public:
 	// Mode d'emploi : renvoie true si la mesure à vérifier est non aberrante, false sinon
 	// Contrat : nécessite une liste de mesures fiables
 	//
+
+    vector<Capteur*> IdentifierCapteursSimilaires2(unordered_map<string,Capteur*> & mapCapteur, string id_ref_capt, double epsilon);
+    // Mode d'emploi : Renvoi les capteurs similaires à celui passé en paramètre
+    //
+    // Contrat : Aucun
+    //
 
     vector<vector<Capteur*>> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
 	// Mode d'emploi : renvoi les capteurs similaires à partir d'une liste de capteurs et du nombre de classes minimum

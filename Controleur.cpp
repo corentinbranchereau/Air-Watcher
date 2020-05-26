@@ -137,6 +137,7 @@ void menuAction()
                 case 6 : {
                     //Modifier son compte
                     affichage.PreparationConsole("Modification de son compte - A FAIRE");
+                    donneesMesures.IdentifierCapteursSimilaires2(donneesCapteurs.GetCapteurs(),"Sensor1",1.0);
                 } break;
 
                 case 7 : {
