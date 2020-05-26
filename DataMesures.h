@@ -119,13 +119,13 @@ public:
 	// Contrat : nécessite une liste de mesures fiables
 	//
 
-    vector<Capteur*> IdentifierCapteursSimilaires2(unordered_map<string,Capteur*> & mapCapteur, string id_ref_capt, double epsilon);
+    vector<Capteur*> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, string id_ref_capt, double epsilon);
     // Mode d'emploi : Renvoi les capteurs similaires à celui passé en paramètre
     //
     // Contrat : Aucun
     //
 
-    vector<vector<Capteur*>> IdentifierCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
+    vector<vector<Capteur*>> IdentifierClusterCapteursSimilaires(unordered_map<string,Capteur*> &  listCapteur,int nbClassesMin);
 	// Mode d'emploi : renvoi les capteurs similaires à partir d'une liste de capteurs et du nombre de classes minimum
 	//
 	// Contrat : aucun

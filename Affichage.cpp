@@ -330,8 +330,9 @@ int Affichage::AfficherMenuActionAgenceGouv()
 	cout<<"	5) Obtenir la moyenne des données brutes d'une zone (circulaire).\n";
 	cout<<"	6) Obtenir la qualité d'air moyenne d'une zone (circulaire).\n";
 	cout<<"	7) Labelliser les données des utilisateurs privés.\n";
-	cout<<"\n	8) Modifier mon compte.\n";
-	cout<<"	9) Me déconnecter.\n";
+    cout<<"	8) Identifier les clusters de capteurs ayant un comportement similaire.\n";
+	cout<<"\n	9) Modifier mon compte.\n";
+	cout<<"	10) Me déconnecter.\n";
 	return SaisirChoix(9);
 } //----- Fin de AfficherMenuActionAgenceGouv
 
@@ -441,7 +442,7 @@ void Affichage::DefinirUtilisateur(Utilisateur* utilisateur, string type)
 	this->typeCompte = type;
 } //----- Fin de SetUtilisateurConnecte
 
-void Affichage::AfficherCapteursSimilaires(vector<vector<Capteur*>> & res)
+void Affichage::AfficherClusterCapteursSimilaires(vector<vector<Capteur*>> & res)
 // Algorithme : Aucun
 //
 {
@@ -468,7 +469,7 @@ void Affichage::AfficherCapteursSimilaires(vector<vector<Capteur*>> & res)
 	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 
 	cin.ignore();
-} //----- Fin de AfficherCapteursSimilaires
+} //----- Fin de AfficherClusterCapteursSimilaires
 
 void Affichage::AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure)
 // Algorithme : Aucun
@@ -1042,6 +1043,37 @@ void Affichage::AfficherRefuserCompte(vector<UtilisateurProfessionnel *> &compte
     cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
     cin.ignore();
 } // ---- Fin de AfficherValiderCompte
+
+void Affichage::AfficherSaisirIdCapteur(unordered_map<string,Capteur*> & mapCapteur, DataMesures & donneesMesures)
+// Algorithme : Vient récupérer le capteur choisi
+{
+    cout<<"Veuillez saisir le numéro du capteur de référence pour identifier les capteurs similaires : ";
+    int idSaisie = SaisirChoix(mapCapteur.size());
+
+    cout<<"Veuillez saisir l'écart relatif acceptable entre 0.03 (très précis) et 0.1 (acceptable) : ";
+    double epsilon = SaisirDouble(0.03,0.1);
+
+    vector<Capteur*> capteurs_similaires = donneesMesures.IdentifierCapteursSimilaires(mapCapteur,"Sensor"+to_string(idSaisie),epsilon);
+
+    cout << "\n Les capteurs similaires au Sensor" << idSaisie << " avec un écart relatif inférieur à " << epsilon << " sont : " << endl << endl;
+
+    for(int i = 0; i<capteurs_similaires.size(); ++i)
+    {
+        cout << capteurs_similaires[i]->getID() << endl;
+    }
+
+    if(capteurs_similaires.empty())
+    {
+        cout << "Aucun capteur similaire ! " << endl;
+    }
+
+    cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+    //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    cin.ignore();
+
+} // ---- Fin de AfficherSaisirIdCapteur
 
 //------------------------------------------------- Surcharge d'opérateurs
 

@@ -937,7 +937,7 @@ Capteur* DataMesures::EntrerDonnees(string fichierUsers,string fichierCapteurs,v
   return capteurNouveau;
 } //----- Fin de EntrerDonnees
 
-vector<Capteur*> DataMesures::IdentifierCapteursSimilaires2(unordered_map<string,Capteur*> & mapCapteur, string id_ref_capt, double epsilon)
+vector<Capteur*> DataMesures::IdentifierCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, string id_ref_capt, double epsilon)
 //Algorithme : Permet d'identifier l'ensemble des capteurs ayant des valeurs proches du capteurChoisi avec un
 // écart relatif epsilon donné entre chacune de ses valeurs
 {
@@ -1024,7 +1024,7 @@ vector<Capteur*> DataMesures::IdentifierCapteursSimilaires2(unordered_map<string
     return list_capteur_similaire;
 } // Fin de IdentifierCapteursSimilaires
 
-vector<vector<Capteur*>> DataMesures::IdentifierCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, int nbClassesMin)
+vector<vector<Capteur*>> DataMesures::IdentifierClusterCapteursSimilaires(unordered_map<string,Capteur*> & mapCapteur, int nbClassesMin)
 // Algorithme : méthode qui regroupe les capteurs similaires
 //
 {

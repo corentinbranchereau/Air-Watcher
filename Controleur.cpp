@@ -137,7 +137,6 @@ void menuAction()
                 case 6 : {
                     //Modifier son compte
                     affichage.PreparationConsole("Modification de son compte - A FAIRE");
-                    donneesMesures.IdentifierCapteursSimilaires2(donneesCapteurs.GetCapteurs(),"Sensor1",1.0);
                 } break;
 
                 case 7 : {
@@ -240,9 +239,7 @@ void menuAction()
                     case 3: {
                         // capteurs similaires
                         affichage.PreparationConsole("Consultation des capteurs similaires");
-                        int nbClassesMini = affichage.CapteursSimilairesNbClassesMini(donneesCapteurs.GetCapteurs().size());
-                        vector<vector<Capteur*>> resultatCapteurSimilaire = donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),nbClassesMini);
-                        affichage.AfficherCapteursSimilaires(resultatCapteurSimilaire);
+                        affichage.AfficherSaisirIdCapteur(donneesCapteurs.GetCapteurs(),donneesMesures);
                     } break;
 
                     case 4: {
@@ -284,11 +281,19 @@ void menuAction()
                     } break;
 
                     case 8: {
+                        // cluster capteurs similaires
+                        affichage.PreparationConsole("Consultation des clusters de capteurs similaires");
+                        int nbClassesMini = affichage.CapteursSimilairesNbClassesMini(donneesCapteurs.GetCapteurs().size());
+                        vector<vector<Capteur*>> resultatCapteurSimilaire = donneesMesures.IdentifierClusterCapteursSimilaires(donneesCapteurs.GetCapteurs(),nbClassesMini);
+                        affichage.AfficherClusterCapteursSimilaires(resultatCapteurSimilaire);
+                    } break;
+
+                    case 9: {
                         // modifier compte
                         affichage.PreparationConsole("Modification de son compte - A FAIRE");
                     } break;
 
-                    case 9: {
+                    case 10: {
                         // déconnexion
                     } break;
                 }
@@ -423,26 +428,6 @@ void menuAction()
     affichage.DefinirUtilisateur(nullptr,"");
     utilisateurConnecte = nullptr;
 }
-
-
-void affichageCapteursSimilaires(vector<vector<Capteur*>> groupescapteurs)
-//affiche les groupes de capteurs similaires
-{
-    for(int i=0;i<groupescapteurs.size();i++)
-    {
-        cout<<"CLASSE N° ";
-        cout<<i+1;
-        cout<<endl;
-
-        for(int j=0;j<groupescapteurs[i].size();j++)
-        {
-            cout<<"CAPTEUR ID = ";
-            cout<<(*(groupescapteurs[i][j])).getID();
-            cout<<endl;
-        }
-    }
-}
-
 
 int main(void)
 {    
