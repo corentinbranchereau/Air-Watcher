@@ -333,7 +333,7 @@ int Affichage::AfficherMenuActionAgenceGouv()
     cout<<"	8) Identifier les clusters de capteurs ayant un comportement similaire.\n";
 	cout<<"\n	9) Modifier mon compte.\n";
 	cout<<"	10) Me déconnecter.\n";
-	return SaisirChoix(9);
+	return SaisirChoix(10);
 } //----- Fin de AfficherMenuActionAgenceGouv
 
 int Affichage::AfficherMenuActionAdmin()
@@ -380,7 +380,7 @@ Horodatage Affichage::SaisirDate(string type)
 {	
 	if(type=="")
 	{
-		cout<<"Quelle date voulez vous ? : "<<endl;
+		cout<<"Quelle date voulez vous ? : \n"<<endl;
 	}
 	else if(type=="début")
 	{
@@ -408,13 +408,13 @@ Zone Affichage::SaisirZone()
 // Algorithme : Aucun
 //
 {
-	cout<<"Définissez votre zone  : "<<endl;
+	cout<<"Définissez votre zone  : \n"<<endl;
 	cout<<"Quelle latitude ? ";
-	double latitude=SaisirDouble(-100,100);
+	double latitude = SaisirDouble(-100,100);
     cout<<"Quelle longitude ? ";
-    double longitude=SaisirDouble(-100,100);
+    double longitude = SaisirDouble(-100,100);
 	cout<<"Quel rayon de zone (km)? ";
-	double rayon =SaisirDouble(0.000001,numeric_limits<double>::max());
+	double rayon = SaisirDouble(0.000001,numeric_limits<double>::max());
 
 	PointGeographique p(longitude,latitude);
 	Zone zone(rayon,p);
@@ -614,6 +614,7 @@ void Affichage::AfficherDonnesUtilisateurPrive(Horodatage debut, Horodatage fin)
 	cout<<"\n\n  "<<Souligner("Consultation de vos données entrées")<<"\n\n";
 
 	UtilisateurPrive * uPrive = dynamic_cast<UtilisateurPrive*>(this->utilisateurConnecte);
+	bool donneesAffichees = false;
 	
 	// /!\ on considère que les données sont pas groupe de 4 (une pour chaque attribut) /!\
 
@@ -626,6 +627,7 @@ void Affichage::AfficherDonnesUtilisateurPrive(Horodatage debut, Horodatage fin)
 
 		if(apresDebut && avantFin)
 		{
+			donneesAffichees = true;
 			cout<<" "<<Souligner("Jour")<<" : "<<(*it)->getdateMesure().GetJour()<<"/"<<(*it)->getdateMesure().GetMois()<<"/"<<(*it)->getdateMesure().GetAnnee()<<endl;
 
 			for(int n=0;n<4;n++)
@@ -638,6 +640,9 @@ void Affichage::AfficherDonnesUtilisateurPrive(Horodatage debut, Horodatage fin)
 			}
 			cout<<"\n";
 		}
+	}
+	if(!donneesAffichees) {
+		cout<<"Il n'y a aucune donnée à afficher sur cette période."<<endl;
 	}
 
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
