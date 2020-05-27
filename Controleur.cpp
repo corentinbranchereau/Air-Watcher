@@ -259,6 +259,14 @@ void menuAction()
                         vector<Mesure*>listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
+
+                        int nbMesures=moyennesMesure[0][0].getValeurAttribut();
+                        for(int i=0;i<nbMesures+1;i++)
+                        {
+                            delete moyennesMesure[i];
+                        }
+                        
+                        delete [] moyennesMesure; 
                     } break;
 
                     case 6: {
@@ -371,8 +379,8 @@ void menuAction()
                         if(nettoyeur!=0)
                         {
                             vector<Mesure*> listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
-                            double rayonMax=10000;
-                            vector<double>res=donneesNettoyeurs.ObtenirRayonActionNettoyeur(nettoyeur->getID(),donneesMesures,listMesureBonnes,donneesCapteurs.GetCapteurs(),1,epsilon/100.0,rayonMax);
+                            double rayonMax=1000;
+                            vector<double>res=donneesNettoyeurs.ObtenirRayonActionNettoyeur(nettoyeur->getID(),donneesMesures,listMesureBonnes,donneesCapteurs.GetCapteurs(),2,epsilon/100.0,rayonMax);
                             affichage.AfficherRayonAction(res,rayonMax,nettoyeur->getID());
                             
                         }
@@ -396,6 +404,14 @@ void menuAction()
                         listMesureBonnes=donneesMesures.ObtenirMesuresFiables();
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
+                        
+                        int nbMesures=moyennesMesure[0][0].getValeurAttribut();
+                        for(int i=0;i<nbMesures+1;i++)
+                        {
+                            delete moyennesMesure[i];
+                        }
+
+                        delete [] moyennesMesure; 
                     } break;
 
                     case 7 : {

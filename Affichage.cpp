@@ -769,10 +769,10 @@ void Affichage:: AfficherRayonAction(vector<double>& res, double rayonMax, strin
 		cout<<" \n Il manquait des mesures plus proches du nettoyeur pour être plus précis"<<endl;
 	}
 
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour O3 : " << res[1]*100<<endl;
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour NO2 : " << res[2]*100<<endl;
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour SO2 : " << res[3]*100<<endl;
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour PM10 : " << res[4]*100<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour O3 : " << res[1]*100<< "%"<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour NO2 : " << res[2]*100<< "%"<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour SO2 : " << res[3]*100<< "%"<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour PM10 : " << res[4]*100<< "%"<<endl;
 
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
 	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
