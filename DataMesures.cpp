@@ -1163,7 +1163,7 @@ vector<vector<Capteur*>> DataMesures::IdentifierClusterCapteursSimilaires(unorde
       {
         //on conserve uniquement le groupe de classes dont la pente est la plus faible
         maxPente=eval2-evalIni;
-        resultats=listClasses[a+1];
+        resultats=listClasses[a];
 
       }
       evalIni=eval2;

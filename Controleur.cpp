@@ -389,11 +389,12 @@ void menuAction()
                         affichage.PreparationConsole("Obtenir le rayon d'action d'un nettoyeur d'air");
                         affichage.AfficherNettoyeursCompagnie(uFournisseur->GetCompagnie()->getNettoyeurs(),true, true,false);
                         NettoyeurAir* nettoyeur=affichage.AfficherSaisieRayonNettoyeur(donneesNettoyeurs,uFournisseur->GetCompagnie()->getNettoyeurs());
-                        affichage.AfficherMessage("Veuillez saisir un pourcentage d'amélioration minimum de la qualité de l'air (entre 0 et 100)");
-                        double epsilon=affichage.SaisirDouble(0,100);
+                     
 
                         if(nettoyeur!=0)
                         {
+                            affichage.AfficherMessage("Veuillez saisir un pourcentage d'amélioration minimum de la qualité de l'air (entre 0 et 100)");
+                            double epsilon=affichage.SaisirDouble(0,100);
                             vector<Mesure*> listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
                             double rayonMax=1000;
                             vector<double>res=donneesNettoyeurs.ObtenirRayonActionNettoyeur(nettoyeur->getID(),donneesMesures,listMesureBonnes,donneesCapteurs.GetCapteurs(),2,epsilon/100.0,rayonMax);
@@ -595,7 +596,9 @@ int main(void)
             //cout<<"Rayon="<<rayon<<endl;
 
 
-        // ____TEST DATA NETTOYEURS______
+        // ____TEST DAT
+        
+        A NETTOYEURS______
             
              DataNettoyeurs* d=new DataNettoyeurs();
             cout << "chargement des données: " <<endl << d->ChargerNettoyeurs("Data/cleaners (copie).csv");
