@@ -622,10 +622,7 @@ void Affichage::AfficherDonnesUtilisateurPrive(Horodatage debut, Horodatage fin)
 	for(it=uPrive->ConsulterDonneesEntrees().begin();it<uPrive->ConsulterDonneesEntrees().end();++it)
 	{
 		// on affiche la mesure uniquement si elle est dans l'intervalle de temps donné
-		bool apresDebut = ((*it)->getdateMesure().GetJour()>=debut.GetJour()) && ((*it)->getdateMesure().GetMois()>=debut.GetMois()) && ((*it)->getdateMesure().GetAnnee()>=debut.GetAnnee());
-		bool avantFin = ((*it)->getdateMesure().GetJour()<=fin.GetJour()) && ((*it)->getdateMesure().GetMois()<=fin.GetMois()) && ((*it)->getdateMesure().GetAnnee()<=fin.GetAnnee());
-
-		if(apresDebut && avantFin)
+		if((*it)->getdateMesure()>=debut && fin>=(*it)->getdateMesure())
 		{
 			donneesAffichees = true;
 			cout<<" "<<Souligner("Jour")<<" : "<<(*it)->getdateMesure().GetJour()<<"/"<<(*it)->getdateMesure().GetMois()<<"/"<<(*it)->getdateMesure().GetAnnee()<<endl;
@@ -668,10 +665,8 @@ void Affichage::AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<M
 	for(it=mesures.begin();it<mesures.end();++it)
 	{
 		// on affiche la mesure uniquement si elle est dans l'intervalle de temps donné
-		bool apresDebut = ((*it)->getdateMesure().GetJour()>=debut.GetJour()) && ((*it)->getdateMesure().GetMois()>=debut.GetMois()) && ((*it)->getdateMesure().GetAnnee()>=debut.GetAnnee());
-		bool avantFin = ((*it)->getdateMesure().GetJour()<=fin.GetJour()) && ((*it)->getdateMesure().GetMois()<=fin.GetMois()) && ((*it)->getdateMesure().GetAnnee()<=fin.GetAnnee());
-
-		if(apresDebut && avantFin)
+		
+		if((*it)->getdateMesure()>=debut && fin>=(*it)->getdateMesure())
 		{
 			cout<<" "<<Souligner("Jour")<<" : "<<(*it)->getdateMesure().GetJour()<<"/"<<(*it)->getdateMesure().GetMois()<<"/"<<(*it)->getdateMesure().GetAnnee()<<endl;
 
