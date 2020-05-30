@@ -131,7 +131,7 @@ public:
 	// Contrat : aucun
 	//
 
-    void LabeliserDonneesUtilisateur(string fichierLabel,unordered_map<string,Capteur*>& mapCapteurs, unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs);
+    void LabeliserDonneesUtilisateur(string fichierLabel,unordered_map<string,Capteur*>& mapCapteurs, unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs, string fichierUtilisateurs);
 	// Mode d'emploi : écrit dans le fichier des labels les labels des mesures non labellisées
 	//
 	// Contrat : aucun
@@ -156,8 +156,9 @@ public:
 	// Contrat : aucun
 	//
 
-	vector<Mesure*> ObtenirMesuresFiables(unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs);
-	// Mode d'emploi : renvoie sous forme d'un vecteur toutes les mesures fiables
+	vector<Mesure*> ObtenirMesuresFiables(unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs, string fichierUtilisateur);
+	// Mode d'emploi : renvoie sous forme d'un vecteur toutes les mesures fiables. Ajoute en même temps les points aux utilisateurs
+	// dont on prend les données
 	//
 	// Contrat : aucun
 	//

@@ -20,10 +20,19 @@ DataMesures donneesMesures;
 DataCapteurs donneesCapteurs;
 DataNettoyeurs donneesNettoyeurs;
 
+string cheminFichierUtilisateursPerso = "./Data/ownUsers.csv";
+string cheminFichierAttributs = "./Data/attributes.csv";
+string cheminFichierLabels = "./Data/labels.csv";
+string cheminFichierMesures = "./Data/measurements.csv";
+string cheminFichierNettoyeurs = "./Data/cleaners.csv";
+string cheminFichierFournisseurs = "./Data/providers.csv";
+string cheminFichierCapteurs = "./Data/sensors.csv";
+string cheminFichierUtilisateurs = "./Data/users.csv";
+
 Utilisateur* utilisateurConnecte = nullptr;
 string statutConnexion="déconnecté"; // variable qui va permettre de dire si un compte est connecté et son type
 
-bool chargementDonnees(string cheminFichierNettoyeurs, string cheminFichierFournisseurs, string cheminFichierUtilisateurs, string cheminFichierMesures, string cheminFichierAttributs, string cheminFichierCapteurs, string cheminFichierUtilisateursPerso, string cheminFichierLabel)
+bool chargementDonnees()
 // Cette méthode charge les données dans chaque objet Data
 // et renvoie true si tous c'est bien passé. Si il y a eu une
 // erreur à un endroit, renvoie false;
@@ -64,7 +73,7 @@ bool chargementDonnees(string cheminFichierNettoyeurs, string cheminFichierFourn
     ret = ret && donneesMesures.ChargerMesures(cheminFichierMesures,donneesCapteurs.GetMapCapteurUtilisateur(),donneesUtilisateurs.GetUtilisateurs());
     if(ret){cout<<"Mesures OK\n";}
     //Fichiers labels
-    ret = ret && donneesMesures.ChargerLabels(cheminFichierLabel,donneesCapteurs.GetMapCapteurUtilisateur());
+    ret = ret && donneesMesures.ChargerLabels(cheminFichierLabels,donneesCapteurs.GetMapCapteurUtilisateur());
     if(ret){cout<<"Labels OK\n";}
     return (ret);
 }
@@ -192,8 +201,8 @@ void menuAction()
                     ajouts.push_back(affichage.SaisirValeur("S02"));
                     ajouts.push_back(affichage.SaisirValeur("PM10"));
 
-                    donneesMesures.EntrerDonnees("Data/users.csv","Data/sensors.csv",ajouts,date,p,*uPrive,donneesCapteurs.GetMapCapteurUtilisateur(),donneesCapteurs.GetCapteurs());
-                    donneesMesures.SauvegarderMesuresAjoutees("Data/measurements.csv");
+                    donneesMesures.EntrerDonnees(cheminFichierUtilisateurs,cheminFichierCapteurs,ajouts,date,p,*uPrive,donneesCapteurs.GetMapCapteurUtilisateur(),donneesCapteurs.GetCapteurs());
+                    donneesMesures.SauvegarderMesuresAjoutees(cheminFichierMesures);
 
                     affichage.AfficherConfirmation("DONNES BIEN PRISES EN COMPTE");
 
@@ -268,7 +277,7 @@ void menuAction()
                             fin = affichage.SaisirDate("fin");
                         }
                         Zone zone=affichage.SaisirZone();
-                        vector<Mesure*>listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
+                        vector<Mesure*>listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
                     } break;
@@ -284,7 +293,7 @@ void menuAction()
                             fin = affichage.SaisirDate("fin");
                         }
                         Zone zone=affichage.SaisirZone();
-                        vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
+                        vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         map<Horodatage,int> moyennesIndices=donneesMesures.ConsulterQualitePeriodePrecise(debut,fin,zone,listMesureBonnesQualite,donneesCapteurs.GetCapteurs());
                         affichage.AfficherQualitePeriodePrecise(moyennesIndices);
                     } break;
@@ -292,7 +301,7 @@ void menuAction()
                     case 7: {
                         // labelliser données
                         affichage.PreparationConsole("Labellisation des données des utilisateurs privés");
-                        donneesMesures.LabeliserDonneesUtilisateur("Data/labels.csv",donneesCapteurs.GetCapteurs(),donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
+                        donneesMesures.LabeliserDonneesUtilisateur(cheminFichierLabels,donneesCapteurs.GetCapteurs(),donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         affichage.AfficherApresLabel();
                     } break;
 
@@ -386,7 +395,7 @@ void menuAction()
 
                         if(nettoyeur!=0)
                         {
-                            vector<Mesure*> listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
+                            vector<Mesure*> listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                             double rayonMax=10000;
                             vector<double>res=donneesNettoyeurs.ObtenirRayonActionNettoyeur(nettoyeur->getID(),donneesMesures,listMesureBonnes,donneesCapteurs.GetCapteurs(),1,epsilon/100.0,rayonMax);
                             affichage.AfficherRayonAction(res,rayonMax,nettoyeur->getID());
@@ -416,7 +425,7 @@ void menuAction()
                             fin = affichage.SaisirDate("fin");
                         }
                         Zone zone=affichage.SaisirZone();
-                        listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
+                        listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
                     } break;
@@ -431,7 +440,7 @@ void menuAction()
                             fin = affichage.SaisirDate("fin");
                         }
                         Zone zone=affichage.SaisirZone();
-                        vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs());
+                        vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         map<Horodatage,int> moyennesIndices=donneesMesures.ConsulterQualitePeriodePrecise(debut,fin,zone,listMesureBonnesQualite,donneesCapteurs.GetCapteurs());
                         affichage.AfficherQualitePeriodePrecise(moyennesIndices);
                     } break;
@@ -462,7 +471,7 @@ void menuAction()
 
 int main(void)
 {   
-    if(chargementDonnees("./Data/cleaners.csv","./Data/providers.csv","./Data/users.csv","./Data/measurements.csv","./Data/attributes.csv","./Data/sensors.csv","./Data/ownUsers.csv","./Data/labels.csv"))
+    if(chargementDonnees())
     {   
         /*
         unordered_map<string,Capteur*>::iterator it;

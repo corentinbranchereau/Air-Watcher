@@ -335,7 +335,7 @@ bool DataMesures::SauvegarderMesuresAjoutees(string fichierMesure)
 
 
 
-vector<Mesure*> DataMesures:: ObtenirMesuresFiables(unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs)
+vector<Mesure*> DataMesures:: ObtenirMesuresFiables(unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs, string fichierUtilisateurPerso)
 // Algorithme : parcours toutes les mesures et renvoie uniquement les mesuresUtilisateurs avec le label fiable et les mesures des capteurs fixes
 //
 {
@@ -380,6 +380,59 @@ vector<Mesure*> DataMesures:: ObtenirMesuresFiables(unordered_map<string, string
         uPrive->AjouterPoint(1);
       }
     }
+  }
+
+  // on écrit dans le fichier pour l'actualiser
+  fstream fileUtilisateur(fichierUtilisateurPerso);
+  
+  if(!fileUtilisateur.is_open())
+  {
+    cerr<<"Erreur lors de l'écriture des points. Aucune écriture n'a donc été faite"<<endl;
+  }
+  else
+  {
+    char ligne[600];
+    while(fileUtilisateur)
+    {
+      fileUtilisateur.getline(ligne,600,'\n');
+
+      if(!fileUtilisateur) // on vérifie si on a atteint la fin du fichier
+      { 
+        break;
+      }
+      int tailleLigne = strlen(ligne);
+      char * token = strtok(ligne,";"); // on split la ligne grâce aux ';'
+      if(strcmp(token,"privé")==0) // type de compte privé
+      {
+        //on regarde si l'identifiant fait partie de ceux où on ajouté un point
+        token = strtok(NULL,";"); // on récupère l'identifiant de la ligne lue
+        if(utilisateursDejaIncremente.find(token)!=utilisateursDejaIncremente.end())
+        {
+          // on construit la ligne progressivement en prenant les infos de celle qui a été lue
+          string ligneEcriture = "privé;"+string(token)+";";
+
+          int i;
+          for(i=0; i<4; ++i) // on ajoute toutes les infos sauf le nb de points à la fin
+          {
+            token = strtok(NULL,";");
+            ligneEcriture += string(token)+";";
+          }
+
+          token = strtok(NULL,";");
+          int nbPointsUtilisateur = atoi(token) + 1; // on a rajouté 1 point
+
+          ligneEcriture += to_string(nbPointsUtilisateur)+"\n";
+
+          // on se positionne au début de la ligne qui avait été lue
+          fileUtilisateur.seekg(-tailleLigne-1, ios::cur); // -1 à cause du \n
+          fileUtilisateur<<ligneEcriture;
+
+          // on reprend la ligne pour éviter de la relire à l'itération d'après
+          //fileUtilisateur.getline(ligne,600,'\n');
+        }
+      }
+    }
+    
   }
 
   return listMesuresFiables;
@@ -1418,15 +1471,15 @@ bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure
 
 }
 
-void DataMesures::LabeliserDonneesUtilisateur(string fichierLabel, unordered_map<string,Capteur*>& mapCapteurs, unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs)
+void DataMesures::LabeliserDonneesUtilisateur(string fichierLabel, unordered_map<string,Capteur*>& mapCapteurs, unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs, string fichierUtilisateurPerso)
 // Algorithme : parcourt les mesures non labellisées et calcule leur label grâce à LabelliserUnedonnee puis les écrit dans le fichier des labels
 //
 {
   vector<Mesure*> mesuresNonLabellisees=this->ObtenirMesuresNonLabelisees();
-  vector<Mesure*> mesuresFiables=this->ObtenirMesuresFiables(mapCapteurPrive,utilisateurs);
+  vector<Mesure*> mesuresFiables=this->ObtenirMesuresFiables(mapCapteurPrive,utilisateurs,fichierUtilisateurPerso);
   ofstream fileLabel(fichierLabel,ios::app);
 
-   if(!fileLabel.is_open())
+  if(!fileLabel.is_open())
 	{
 		cerr<<"Erreur lors de l'écriture des  labels"<<endl;
 		
