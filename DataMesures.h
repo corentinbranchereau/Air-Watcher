@@ -114,8 +114,8 @@ public:
 	//
 	// Contrat : aucun
 	
-	bool LabelliserUneDonnee(vector<Mesure*>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
-	// Mode d'emploi : renvoie true si la mesure à vérifier est non aberrante, false sinon
+	int LabelliserUneDonnee(vector<Mesure*>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
+	// Mode d'emploi : renvoie 1 si la mesure à vérifier est non aberrante, 0 sinon. Si on ne peut pas décider, renvoie 0
 	// Contrat : nécessite une liste de mesures fiables
 	//
 

@@ -1216,7 +1216,7 @@ vector<vector<Capteur*>> DataMesures::IdentifierClusterCapteursSimilaires(unorde
       {
         //on conserve uniquement le groupe de classes dont la pente est la plus faible
         maxPente=eval2-evalIni;
-        resultats=listClasses[a+1];
+        resultats=listClasses[a];
 
       }
       evalIni=eval2;
@@ -1415,7 +1415,7 @@ double DataMesures::evalClasses(vector<vector<Capteur*>> &classI)
 
 }//----- Fin de evalClasses
 
-bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure*& m, unordered_map<string,Capteur*>& mapCapteurs)
+int DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure*& m, unordered_map<string,Capteur*>& mapCapteurs)
 {
 
   vector<Mesure> MesuresBonnesTris;
@@ -1437,37 +1437,46 @@ bool DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure
 
   double moyenne=0;
   double denominateur=0;
-  for(int i=0;i<MesuresBonnesTris.size();i++)
+  if(MesuresBonnesTris.size()>0)
   {
-    PointGeographique p2=(*mapCapteurs[(MesuresBonnesTris[i]).getIdCapteur()]).getPosition();
-    double latitude2=p2.getLatitude();
-    double longitude2=p2.getLongitude();
+    for(int i=0;i<MesuresBonnesTris.size();i++)
+    {
+      PointGeographique p2=(*mapCapteurs[(MesuresBonnesTris[i]).getIdCapteur()]).getPosition();
+      double latitude2=p2.getLatitude();
+      double longitude2=p2.getLongitude();
 
-    double distance=acos(sin(M_PI/180*latitude1)*sin(M_PI/180*latitude2)+cos(M_PI/180*latitude1)*cos(M_PI/180*latitude2)*cos(M_PI/180*(longitude2-longitude1)))*6371;
-    //calcul de la distance entre le point à vérifier et le point où se trouve la mesure fiable
+      double distance=acos(sin(M_PI/180*latitude1)*sin(M_PI/180*latitude2)+cos(M_PI/180*latitude1)*cos(M_PI/180*latitude2)*cos(M_PI/180*(longitude2-longitude1)))*6371;
+      //calcul de la distance entre le point à vérifier et le point où se trouve la mesure fiable
 
-    moyenne+=(1/(distance+0.1)*MesuresBonnesTris[i].getValeurAttribut());
+      moyenne+=(1/(distance+0.1)*MesuresBonnesTris[i].getValeurAttribut());
 
-    //on pondère le poids de la mesure fiable par sa distane par rapport au point à vérifier
-    denominateur+=1/(distance+0.1);
+      //on pondère le poids de la mesure fiable par sa distane par rapport au point à vérifier
+      denominateur+=1/(distance+0.1);
+    }
+
+    double valeurEstime=moyenne/denominateur;
+
+    double minimum=(*m).getValeurAttribut();
+
+    if(minimum>valeurEstime)
+    {
+      minimum=valeurEstime;
+    }
+
+    if((abs(valeurEstime-(*m).getValeurAttribut())/(minimum))>0.5)
+    {
+      //on compare l'indicateur de fiabilité avec une valeur arbitraire (2)
+      
+      return -1;//valeur aberrante
+    }
   }
 
-  double valeurEstime=moyenne/denominateur;
-
-  double minimum=(*m).getValeurAttribut();
-
-  if(minimum>valeurEstime)
+  else
   {
-    minimum=valeurEstime;
+    return 0;
   }
-
-  if((abs(valeurEstime-(*m).getValeurAttribut())/(minimum))>0.5)
-  {
-    //on compare l'indicateur de fiabilité avec une valeur arbitraire (2)
-    
-    return false;//valeur aberrante
-  }
-  return true;//valeur OK
+  
+  return 1;//valeur OK
 
 }
 
@@ -1489,20 +1498,33 @@ void DataMesures::LabeliserDonneesUtilisateur(string fichierLabel, unordered_map
   {
     for(int i=0;i<mesuresNonLabellisees.size();i++)
     {
-      bool res=this->LabelliserUneDonnee(mesuresFiables,mesuresNonLabellisees[i],mapCapteurs);
-      string label="non fiable";
-      Mesure* m=mesuresNonLabellisees[i];
+      int res=this->LabelliserUneDonnee(mesuresFiables,mesuresNonLabellisees[i],mapCapteurs);
+      string label;
+      MesureUtilisateur* m=dynamic_cast<MesureUtilisateur*>(mesuresNonLabellisees[i]);
 
-
-      string idMesure = to_string((m)->getdateMesure().GetAnnee())+to_string((m)->getdateMesure().GetMois())+to_string((m)->getdateMesure().GetJour())+to_string((m)->getdateMesure().GetHeure())+to_string((m)->getdateMesure().GetMinute())+to_string((m)->getdateMesure().GetSeconde())+(m)->getIdCapteur()+(m)->getTypeMesure()->getIdAttribut();
-      if(res==true)
+      if(m!=nullptr)
       {
-        //mesure fiable
-        label="fiable";
+        string idMesure = to_string((m)->getdateMesure().GetAnnee())+to_string((m)->getdateMesure().GetMois())+to_string((m)->getdateMesure().GetJour())+to_string((m)->getdateMesure().GetHeure())+to_string((m)->getdateMesure().GetMinute())+to_string((m)->getdateMesure().GetSeconde())+(m)->getIdCapteur()+(m)->getTypeMesure()->getIdAttribut();
+        if(res==1)
+        {
+          //mesure fiable
+          label="fiable";
+          fileLabel<<idMesure<<";"<<label<<"\n";
+          m->SetLabel(label);
+
+        }
+
+        if(res==-1)
+        {
+          //mesure non fiable
+          label="non fiable";
+          fileLabel<<idMesure<<";"<<label<<"\n";
+          m->SetLabel(label);
+        }
+
+      
       }
-      fileLabel<<idMesure<<";"<<label<<"\n";
-
-
+      
     }
 
   }

@@ -280,6 +280,14 @@ void menuAction()
                         vector<Mesure*>listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
+
+                        int nbMesures=moyennesMesure[0][0].getValeurAttribut();
+                        for(int i=0;i<nbMesures+1;i++)
+                        {
+                            delete moyennesMesure[i];
+                        }
+                        
+                        delete [] moyennesMesure; 
                     } break;
 
                     case 6: {
@@ -390,14 +398,15 @@ void menuAction()
                         affichage.PreparationConsole("Obtenir le rayon d'action d'un nettoyeur d'air");
                         affichage.AfficherNettoyeursCompagnie(uFournisseur->GetCompagnie()->getNettoyeurs(),true, true,false);
                         NettoyeurAir* nettoyeur=affichage.AfficherSaisieRayonNettoyeur(donneesNettoyeurs,uFournisseur->GetCompagnie()->getNettoyeurs());
-                        affichage.AfficherMessage("Veuillez saisir un pourcentage d'amélioration minimum de la qualité de l'air (entre 0 et 100)");
-                        double epsilon=affichage.SaisirDouble(0,100);
+                     
 
                         if(nettoyeur!=0)
                         {
+                            affichage.AfficherMessage("Veuillez saisir un pourcentage d'amélioration minimum de la qualité de l'air (entre 0 et 100)");
+                            double epsilon=affichage.SaisirDouble(0,100);
                             vector<Mesure*> listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
-                            double rayonMax=10000;
-                            vector<double>res=donneesNettoyeurs.ObtenirRayonActionNettoyeur(nettoyeur->getID(),donneesMesures,listMesureBonnes,donneesCapteurs.GetCapteurs(),1,epsilon/100.0,rayonMax);
+                            double rayonMax=1000;
+                            vector<double>res=donneesNettoyeurs.ObtenirRayonActionNettoyeur(nettoyeur->getID(),donneesMesures,listMesureBonnes,donneesCapteurs.GetCapteurs(),2,epsilon/100.0,rayonMax);
                             affichage.AfficherRayonAction(res,rayonMax,nettoyeur->getID());
                         }
 
@@ -428,6 +437,14 @@ void menuAction()
                         listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
+                        
+                        int nbMesures=moyennesMesure[0][0].getValeurAttribut();
+                        for(int i=0;i<nbMesures+1;i++)
+                        {
+                            delete moyennesMesure[i];
+                        }
+
+                        delete [] moyennesMesure; 
                     } break;
 
                     case 7 : {
@@ -588,7 +605,9 @@ int main(void)
             //cout<<"Rayon="<<rayon<<endl;
 
 
-        // ____TEST DATA NETTOYEURS______
+        // ____TEST DAT
+        
+        A NETTOYEURS______
             
              DataNettoyeurs* d=new DataNettoyeurs();
             cout << "chargement des données: " <<endl << d->ChargerNettoyeurs("Data/cleaners (copie).csv");

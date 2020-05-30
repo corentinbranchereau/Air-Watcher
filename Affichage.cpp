@@ -622,10 +622,7 @@ void Affichage::AfficherDonnesUtilisateurPrive(Horodatage debut, Horodatage fin)
 	for(it=uPrive->ConsulterDonneesEntrees().begin();it<uPrive->ConsulterDonneesEntrees().end();++it)
 	{
 		// on affiche la mesure uniquement si elle est dans l'intervalle de temps donné
-		bool apresDebut = ((*it)->getdateMesure().GetJour()>=debut.GetJour()) && ((*it)->getdateMesure().GetMois()>=debut.GetMois()) && ((*it)->getdateMesure().GetAnnee()>=debut.GetAnnee());
-		bool avantFin = ((*it)->getdateMesure().GetJour()<=fin.GetJour()) && ((*it)->getdateMesure().GetMois()<=fin.GetMois()) && ((*it)->getdateMesure().GetAnnee()<=fin.GetAnnee());
-
-		if(apresDebut && avantFin)
+		if((*it)->getdateMesure()>=debut && fin>=(*it)->getdateMesure())
 		{
 			donneesAffichees = true;
 			cout<<" "<<Souligner("Jour")<<" : "<<(*it)->getdateMesure().GetJour()<<"/"<<(*it)->getdateMesure().GetMois()<<"/"<<(*it)->getdateMesure().GetAnnee()<<endl;
@@ -668,10 +665,8 @@ void Affichage::AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<M
 	for(it=mesures.begin();it<mesures.end();++it)
 	{
 		// on affiche la mesure uniquement si elle est dans l'intervalle de temps donné
-		bool apresDebut = ((*it)->getdateMesure().GetJour()>=debut.GetJour()) && ((*it)->getdateMesure().GetMois()>=debut.GetMois()) && ((*it)->getdateMesure().GetAnnee()>=debut.GetAnnee());
-		bool avantFin = ((*it)->getdateMesure().GetJour()<=fin.GetJour()) && ((*it)->getdateMesure().GetMois()<=fin.GetMois()) && ((*it)->getdateMesure().GetAnnee()<=fin.GetAnnee());
-
-		if(apresDebut && avantFin)
+		
+		if((*it)->getdateMesure()>=debut && fin>=(*it)->getdateMesure())
 		{
 			cout<<" "<<Souligner("Jour")<<" : "<<(*it)->getdateMesure().GetJour()<<"/"<<(*it)->getdateMesure().GetMois()<<"/"<<(*it)->getdateMesure().GetAnnee()<<endl;
 
@@ -774,10 +769,10 @@ void Affichage:: AfficherRayonAction(vector<double>& res, double rayonMax, strin
 		cout<<" \n Il manquait des mesures plus proches du nettoyeur pour être plus précis"<<endl;
 	}
 
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour O3 : " << res[1]*100<<endl;
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour NO2 : " << res[2]*100<<endl;
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour SO2 : " << res[3]*100<<endl;
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour PM10 : " << res[4]*100<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour O3 : " << res[1]*100<< "%"<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour NO2 : " << res[2]*100<< "%"<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour SO2 : " << res[3]*100<< "%"<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour PM10 : " << res[4]*100<< "%"<<endl;
 
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
 	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
