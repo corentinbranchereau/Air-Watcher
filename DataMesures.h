@@ -80,10 +80,11 @@ public:
 	// Contrat : nécessite que ConsulterMoyenneDonneesPeriodePrecise soit implémenté
 	//
 
-    Mesure** ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs);
+    Mesure** ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs, Zone * zoneMin = nullptr );
 	// Mode d'emploi : renvoie un tableau 2D avec resultat[numJour][indiceAttribut] qui est une mesure avec pour valeur la valeur pondérée de la journée dans la zone correspondante
 	//Attention le 1 er élement est ficitf, sa valeur contient le nombre de jours c.a.d la taille du tableau-1
-	// Contrat : nécessite une liste de mesures fiables
+	// Note : le dernier paramètre (zoneMin) permet de préciser un zone dans laquelle il ne faut pas chercher. Les moyennes se font donc entre la zone 'zone' et 'zoneMin'
+	// Contrat : nécessite une liste de mesures fiables. Si zoneMin est spécifiée, elle doit être plus petite que 'zone'
 	//
 
 

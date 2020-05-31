@@ -30,7 +30,6 @@ string cheminFichierCapteurs = "./Data/sensors.csv";
 string cheminFichierUtilisateurs = "./Data/users.csv";
 
 Utilisateur* utilisateurConnecte = nullptr;
-string statutConnexion="déconnecté"; // variable qui va permettre de dire si un compte est connecté et son type
 
 bool chargementDonnees()
 // Cette méthode charge les données dans chaque objet Data
@@ -92,7 +91,6 @@ void menuAction()
     if(admin!=nullptr)
     {
         // c'est un admin
-        statutConnexion = "admin";
 
         // on définit l'utilisateur dans l'affichage pour avoir ses infos
         affichage.DefinirUtilisateur(utilisateurConnecte,"Admin");
@@ -159,7 +157,6 @@ void menuAction()
     else if(uPrive!=nullptr)
     {
         // c'est un utilisateur privé
-        statutConnexion = "privé";
 
         // on définit l'utilisateur dans l'affichage pour avoir ses infos
         affichage.DefinirUtilisateur(utilisateurConnecte,"Utilisateur privé");
@@ -224,8 +221,6 @@ void menuAction()
         // c'est un employé de l'agence : on vérifie la validité du compte
         if(uAgence->GetCompteValide())
         {
-            statutConnexion = "agence";
-
             // on définit l'utilisateur dans l'affichage pour avoir ses infos
             affichage.DefinirUtilisateur(utilisateurConnecte,"Agence gouvernementale");
 
@@ -344,8 +339,6 @@ void menuAction()
         // c'est un fournisseur : on vérifie la validité du compte
         if(uFournisseur->GetCompteValide())
         {
-            statutConnexion = "fournisseur";
-
             // on définit l'utilisateur dans l'affichage pour avoir ses infos
             affichage.DefinirUtilisateur(utilisateurConnecte,"Fournisseur");
 
@@ -481,8 +474,6 @@ void menuAction()
         }
 
     }
-
-    statutConnexion = "déconnecté";
     affichage.DefinirUtilisateur(nullptr,"");
     utilisateurConnecte = nullptr;
 }
@@ -491,148 +482,68 @@ int main(void)
 {   
     if(chargementDonnees())
     {   
-        /*
-        unordered_map<string,Capteur*>::iterator it;
-        double distMin=100000;
-        string capMin = "";
-        for(it=donneesCapteurs.GetCapteurs().begin();it!=donneesCapteurs.GetCapteurs().end();++it) {
-            double longCap = (*it).second->getPosition().getLongitude();
-            double latCap = (*it).second->getPosition().getLatitude();
-
-            double distance=acos(sin(M_PI/180*46.666667)*sin(M_PI/180*latCap)+cos(M_PI/180*46.666667)*cos(M_PI/180*latCap)*cos(M_PI/180*(longCap-3.666667)))*6371;
-            cout<<"ID CAPTEUR : "<<(*it).second->getID()<<"  -  DISTANCE : "<<distance<<endl;
-
-            if(distMin>distance) {
-                distMin = distance;
-                capMin = (*it).second->getID();
-            }
-        }
-
-        cout<<"DIST MIN : "<<distMin<<"   -    ID MIN : "<<capMin<<endl;
-        return 0;
-        */
-
         while(true)
         {
-            if(statutConnexion=="déconnecté")
-            {
-                choix = affichage.AfficherMenuPrincipal();
-                switch(choix)
-                {
-                    case 1:
-                        donneesSaisies = affichage.AfficherCreationCompte();
-                        if(donneesUtilisateurs.SeCreerUnComptes(donneesSaisies))
-                        {
-                            // succès inscription
-                            affichage.AfficherFinCreationCompte(true);
-                        }
-                        else
-                        {
-                            // échec inscription
-                            affichage.AfficherFinCreationCompte(false);
-                        }
-
-                        delete[] donneesSaisies;
-                        break;
-
-                    case 2:
-                        donneesSaisies = affichage.AffichageConnexion();
-                        utilisateurConnecte = donneesUtilisateurs.SeConnecter(donneesSaisies[0],donneesSaisies[1]);
-                        if(utilisateurConnecte!=nullptr)
-                        {
-                            // un compte a été trouvé
-                            // on lance la méthode pour les menus d'actions
-                            menuAction();
-                        }
-                        else
-                        {
-                            // aucun compte ne correspond
-                            statutConnexion="déconnecté";
-                            affichage.AffichageFinConnexion("échec");
-                        }
-                        delete[] donneesSaisies;
-                        break;
-
-                    case 3:
-                        return 0;
-                        break;
+            /*
+            unordered_map<string,Capteur*>::iterator it;
+            double distMin=100000;
+            string capMin = "";
+            for(it=donneesCapteurs.GetCapteurs().begin();it!=donneesCapteurs.GetCapteurs().end();++it) {
+                double longCap = (*it).second->getPosition().getLongitude();
+                double latCap = (*it).second->getPosition().getLatitude();
+                double distance=acos(sin(M_PI/180*46.666667)*sin(M_PI/180*latCap)+cos(M_PI/180*46.666667)*cos(M_PI/180*latCap)*cos(M_PI/180*(longCap-3.666667)))*6371;
+                cout<<"ID CAPTEUR : "<<(*it).second->getID()<<"  -  DISTANCE : "<<distance<<endl;
+                if(distMin>distance) {
+                    distMin = distance;
+                    capMin = (*it).second->getID();
                 }
+            }
+            cout<<"DIST MIN : "<<distMin<<"   -    ID MIN : "<<capMin<<endl;
+            return 0;
+            */
+            
+            choix = affichage.AfficherMenuPrincipal();
+            switch(choix)
+            {
+                case 1:
+                    donneesSaisies = affichage.AfficherCreationCompte();
+                    if(donneesUtilisateurs.SeCreerUnComptes(donneesSaisies))
+                    {
+                        // succès inscription
+                        affichage.AfficherFinCreationCompte(true);
+                    }
+                    else
+                    {
+                        // échec inscription
+                        affichage.AfficherFinCreationCompte(false);
+                    }
+
+                    delete[] donneesSaisies;
+                    break;
+
+                case 2:
+                    donneesSaisies = affichage.AffichageConnexion();
+                    utilisateurConnecte = donneesUtilisateurs.SeConnecter(donneesSaisies[0],donneesSaisies[1]);
+                    if(utilisateurConnecte!=nullptr)
+                    {
+                        // un compte a été trouvé
+                        // on lance la méthode pour les menus d'actions
+                        menuAction();
+                    }
+                    else
+                    {
+                        // aucun compte ne correspond
+                        affichage.AffichageFinConnexion("échec");
+                    }
+                    delete[] donneesSaisies;
+                    break;
+
+                case 3:
+                    return 0;
+                    break;
             }
         }
     }
 
     return 0;
 }
-
-// ___________ MAIN DE TESTS ___________ //
-
-/* int main(void){
-
-            donneesMesures.LabeliserDonneesUtilisateur("Data/labels.csv",donneesCapteurs.GetCapteurs());
-            vector<vector<Capteur*>> capteursSim=donneesMesures.IdentifierCapteursSimilaires(donneesCapteurs.GetCapteurs(),2);
-            affichageCapteursSimilaires(capteursSim);
-
-            double longitude1=1.333333;
-            double  latitude1=45.333333;
-            double longitude2=3.2;
-            double latitude2=45.2;
-
-            
-            Horodatage h(2019,1,4,12,0,0);
-
-            Horodatage h2(2019,1,20,12,0,0);
-
-            TypeAttribut* type=new TypeAttribut("O3","µg/m3","concentration d'ozone");
-
-            Mesure* m=new Mesure(type,400,"Sensor0",h);
-
-            vector<Mesure*> listM=donneesMesures.GetMesures();
-            unordered_map<string,Capteur*> mapL=donneesCapteurs.GetCapteurs();
-            bool result=donneesMesures.LabelliserUneDonnee(listM,m,mapL);
-
-            //double rayon=donneesNettoyeurs.ObtenirRayonActionNettoyeur("Cleaner0",donneesMesures,listM,mapL,0.2,0.1,500);
-            PointGeographique p(-1,45.3);
-            Zone z(100,p);
-            Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(h,h2,z,listM,mapL);
-            
-            for(int a=1;a<moyennesMesure[0][0].getValeurAttribut()+1;a++)
-            {
-                for(int p=0;p<4;p++)
-                {
-                cout<<"MOYENNE  ="<< moyennesMesure[a][p].getValeurAttribut()<<endl;
-                }
-                cout<<"-----------------------------"<<endl;
-            }
-            //cout<<"Rayon="<<rayon<<endl;
-
-
-        // ____TEST DAT
-        
-        A NETTOYEURS______
-            
-             DataNettoyeurs* d=new DataNettoyeurs();
-            cout << "chargement des données: " <<endl << d->ChargerNettoyeurs("Data/cleaners (copie).csv");
-            Horodatage debut(2010,2,3,4,5,6);
-            Horodatage fin(2020,2,3,4,5,6);
-            PointGeographique pGeo(0,0);
-            string s=(string)"nettoyeur test";
-            CompagnieFournisseur f("1");
-            NettoyeurAir* n=new NettoyeurAir(true,100, debut,fin,"Cleaner1",s, pGeo);
-            cout << "ajout du nettoyeur :" << d->AjouterNettoyeur(*n,f)<< endl;
-            cout << "sauvegarde des données: " <<endl << d->SauvegarderNettoyeurs("Data/cleaners (copie).csv");   
-
-
-
-        // ______TEST DATA CAPTEURS ______
-
-            DataCapteurs* d=new DataCapteurs();
-            cout << d->ChargerCapteurs("Data/sensors (copie).csv") <<endl;
-            cout << d->ChargerCapteursPrives("Data/users (copie).csv","Data/ownUsers (copie).csv") <<endl;
-            PointGeographique p(20,20);
-            Capteur* c=new Capteur("","",p);
-            cout <<d->AjouterCapteur(*c,"User2");
-            cout << d->ModifierCapteur("Sensor2",10,10,"usé","");
-            cout << d->SauvegarderCapteursPrives("Data/sensors (copie).csv","Data/users (copie).csv") <<endl; 
-                    
-        
-}*/
