@@ -364,6 +364,20 @@ vector<double> DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, D
 
 		if(compteurOk<4 && nbJoursAvant>=1 && nbJoursApres>=1)
 		{
+			for(int j=0;j<nbJoursAvant+1;j++)
+			{
+				delete [] qualiteAirAvant[j];
+			}
+		
+			delete [] qualiteAirAvant; 
+
+			for(int j=0;j<nbJoursApres+1;j++)
+			{
+				delete [] qualiteAirApres[j];
+			}
+		
+			delete [] qualiteAirApres; 
+
 			break;
 		}
 		
@@ -488,6 +502,20 @@ vector<double> DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, D
 			resultat[2]=indicateurSO2;
 			resultat[3]=indicateurNO2;
 			resultat[4]=indicateurPM10;
+
+			for(int j=0;j<nbJoursAvant+1;j++)
+			{
+				delete [] qualiteAirAvant[j];
+			}
+		
+			delete [] qualiteAirAvant; 
+
+			for(int j=0;j<nbJoursApres+1;j++)
+			{
+				delete [] qualiteAirApres[j];
+			}
+		
+			delete [] qualiteAirApres;
 
 			return resultat;
 		}

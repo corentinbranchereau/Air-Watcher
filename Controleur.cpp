@@ -197,8 +197,8 @@ void menuAction()
                     }
                     vector<double> ajouts;
                     ajouts.push_back(affichage.SaisirValeur("O3"));
-                    ajouts.push_back(affichage.SaisirValeur("N02"));
-                    ajouts.push_back(affichage.SaisirValeur("S02"));
+                    ajouts.push_back(affichage.SaisirValeur("NO2"));
+                    ajouts.push_back(affichage.SaisirValeur("SO2"));
                     ajouts.push_back(affichage.SaisirValeur("PM10"));
 
                     donneesMesures.EntrerDonnees(cheminFichierUtilisateurs,cheminFichierCapteurs,ajouts,date,p,*uPrive,donneesCapteurs.GetMapCapteurUtilisateur(),donneesCapteurs.GetCapteurs());
@@ -284,7 +284,7 @@ void menuAction()
                         int nbMesures=moyennesMesure[0][0].getValeurAttribut();
                         for(int i=0;i<nbMesures+1;i++)
                         {
-                            delete moyennesMesure[i];
+                            delete[] moyennesMesure[i];
                         }
                         
                         delete [] moyennesMesure; 
@@ -316,7 +316,7 @@ void menuAction()
                     case 8: {
                         // cluster capteurs similaires
                         affichage.PreparationConsole("Consultation des clusters de capteurs similaires");
-                        int nbClassesMini = affichage.CapteursSimilairesNbClassesMini(donneesCapteurs.GetCapteurs().size());
+                        int nbClassesMini = affichage.ClustersCapteursNbClassesMini(donneesCapteurs.GetCapteurs().size());
                         vector<vector<Capteur*>> resultatCapteurSimilaire = donneesMesures.IdentifierClusterCapteursSimilaires(donneesCapteurs.GetCapteurs(),nbClassesMini);
                         affichage.AfficherClusterCapteursSimilaires(resultatCapteurSimilaire);
                     } break;
@@ -441,7 +441,7 @@ void menuAction()
                         int nbMesures=moyennesMesure[0][0].getValeurAttribut();
                         for(int i=0;i<nbMesures+1;i++)
                         {
-                            delete moyennesMesure[i];
+                            delete[] moyennesMesure[i];
                         }
 
                         delete [] moyennesMesure; 

@@ -354,14 +354,14 @@ int Affichage::AfficherMenuActionAdmin()
 	return SaisirChoix(7);
 } //----- Fin de AfficherMenuActionAdmin
 
-int Affichage::CapteursSimilairesNbClassesMini(int nbClassesMax)
+int Affichage::ClustersCapteursNbClassesMini(int nbClassesMax)
 // Algorithme : Aucun
 //
 {
 	NettoyerConsole();
 	AfficherTitre();
 	AfficherInformationsCompte();
-	cout<<"\n\n  "<<Souligner("Identification des capteurs similaires")<<"\n\n";
+	cout<<"\n\n  "<<Souligner("Identification des clusters de capteurs")<<"\n\n";
 	cout<<"Combien de groupe de capteurs voulez-vous au minimum ? : ";
 	return SaisirChoix(nbClassesMax);
 } //----- Fin de CapteursSimilairesNbClassesMini
@@ -378,6 +378,7 @@ Horodatage Affichage::SaisirDate(string type)
 // Algorithme : Aucun
 //
 {	
+	int heure = 0;
 	if(type=="")
 	{
 		cout<<"Quelle date voulez vous ? : \n"<<endl;
@@ -389,6 +390,7 @@ Horodatage Affichage::SaisirDate(string type)
 	else if(type=="fin")
 	{
 		cout<<"\nQuelle "<<Souligner("date de fin")<<" voulez vous ? : \n"<<endl;
+		heure = 24; // permet de bien gérer la comparaison
 	}
 	
 	cout<<"Quelle année ? ";
@@ -398,7 +400,7 @@ Horodatage Affichage::SaisirDate(string type)
 	cout<<"Quel jour (entre 1 et 31) ?  ";
 	int jour=SaisirChoix(31);
 
-	Horodatage date(annee,mois,jour,0,0,0);
+	Horodatage date(annee,mois,jour,heure,0,0);
 
 	return date;
 
@@ -462,11 +464,11 @@ void Affichage::AfficherClusterCapteursSimilaires(vector<vector<Capteur*>> & res
 	for(int i = 0; i<res.size(); i++)
     {
 		cout<<"**********************"<<endl;
-        cout<<"CLASSE N° "<<(i+1)<<endl;
+        cout<<Souligner("Classe n°")<<" "<<(i+1)<<endl;
 
         for(int j = 0; j<res[i].size(); j++)
         {
-            cout<<"CAPTEUR ID = "<<(*(res[i][j])).getID()<<endl;
+            cout<<"ID Capteur = "<<(*(res[i][j])).getID()<<endl;
         }
 		cout<<"**********************"<<endl;
     }
@@ -486,7 +488,7 @@ void Affichage::AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure)
 	NettoyerConsole();
 	AfficherTitre();
 	AfficherInformationsCompte();
-	cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
+	cout<<"\n\n  "<<Souligner("Résultats des moyennes journalières des mesures")<<"\n\n";
 
 	bool passe=false;
 
@@ -497,12 +499,12 @@ void Affichage::AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure)
 		Horodatage date=m->getdateMesure();
 		cout<<"**********************"<<endl;
        	// cout<<"JOUR n° "<<i<<endl;
-		cout <<"JOUR : "<<date.GetJour()<<"/"<<date.GetMois()<<"/"<<date.GetAnnee()<<endl;
+		cout <<Souligner("Jour")<<" : "<<date.GetJour()<<"/"<<date.GetMois()<<"/"<<date.GetAnnee()<<endl;
 
-		cout<<"MOYENNE O3 : "<<m[0].getValeurAttribut()<<(m[0].getTypeMesure())->getUnite()<<endl;
-		cout<<"MOYENNE SO2 : "<<m[1].getValeurAttribut()<<(m[1].getTypeMesure())->getUnite()<<endl;
-		cout<<"MOYENNE NO2 : "<<m[2].getValeurAttribut()<<(m[2].getTypeMesure())->getUnite()<<endl;
-		cout<<"MOYENNE PM10 : "<<m[3].getValeurAttribut()<<(m[3].getTypeMesure())->getUnite()<<endl;
+		cout<<Souligner("Moyenne O3")<<" : "<<m[0].getValeurAttribut()<<(m[0].getTypeMesure())->getUnite()<<endl;
+		cout<<Souligner("Moyenne SO2")<<" : "<<m[1].getValeurAttribut()<<(m[1].getTypeMesure())->getUnite()<<endl;
+		cout<<Souligner("Moyenne NO2")<<" : "<<m[2].getValeurAttribut()<<(m[2].getTypeMesure())->getUnite()<<endl;
+		cout<<Souligner("Moyenne PM10")<<" : "<<m[3].getValeurAttribut()<<(m[3].getTypeMesure())->getUnite()<<endl;
 
 		cout<<"**********************"<<endl;
     }
@@ -510,7 +512,7 @@ void Affichage::AfficherMoyennesPeriodePrecise(Mesure** moyennesMesure)
 	if(passe==false)
 	{	cout<<"**********************"<<endl;
 		cout<<"\n"<<Souligner("Pas de valeurs présentes correspondantes")<<endl;
-		cout<<"**********************"<<endl;
+		cout<<"\n**********************"<<endl;
 	}
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
 	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
@@ -527,7 +529,7 @@ void Affichage::AfficherQualitePeriodePrecise(map<Horodatage,int> mapDatesIndice
 	NettoyerConsole();
 	AfficherTitre();
 	AfficherInformationsCompte();
-	//cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
+	cout<<"\n\n  "<<Souligner("Résultats des moyennes journalières des qualités d'air")<<"\n\n";
 	bool passe=false;
 	for(auto it=mapDatesIndices.begin(); it!=mapDatesIndices.end(); it++)
     {
@@ -536,9 +538,9 @@ void Affichage::AfficherQualitePeriodePrecise(map<Horodatage,int> mapDatesIndice
 		int indiceAtmo=it->second;
 		cout<<"**********************"<<endl;
        	// cout<<"JOUR n° "<<i<<endl;
-		cout <<"JOUR : "<<date.GetJour()<<"/"<<date.GetMois()<<"/"<<date.GetAnnee()<<endl;
+		cout <<Souligner("Jour")<<" : "<<date.GetJour()<<"/"<<date.GetMois()<<"/"<<date.GetAnnee()<<endl;
 
-		cout<<"INDICE ATMO : "<<indiceAtmo<<endl;
+		cout<<Souligner("Indice ATMO")<<" : "<<indiceAtmo<<endl;
 	
 
 		cout<<"**********************"<<endl;
@@ -547,7 +549,7 @@ void Affichage::AfficherQualitePeriodePrecise(map<Horodatage,int> mapDatesIndice
 	if(passe==false)
 	{	cout<<"**********************"<<endl;
 		cout<<"\n"<<Souligner("Pas de valeurs présentes correspondantes")<<endl;
-		cout<<"**********************"<<endl;
+		cout<<"\n**********************"<<endl;
 	}
 
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
@@ -565,13 +567,13 @@ void Affichage::AfficherApresLabel()
 	NettoyerConsole();
 	AfficherTitre();
 	AfficherInformationsCompte();
-	//cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
+	cout<<"\n\n  "<<Souligner("Labellisation des données des utilisateurs privés")<<"\n\n";
 
 		cout<<"**********************"<<endl;
 
-		cout<<"DONNES FINIES DE LABELLISER : OK "<<endl;
+		cout<<"\nLes données ont été labellisées. "<<endl;
 	
-		cout<<"**********************"<<endl;
+		cout<<"\n**********************"<<endl;
     
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
 	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
@@ -590,11 +592,11 @@ void Affichage::AfficherConfirmation(string message)
 	AfficherInformationsCompte();
 	//cout<<"\n\n  "<<Souligner("Resultats des moyennes journalieres des mesures")<<"\n\n";
 
-		cout<<"**********************"<<endl;
+		cout<<"\n**********************\n"<<endl;
 
 		cout<<message<< " : OK "<<endl;
 	
-		cout<<"**********************"<<endl;
+		cout<<"\n**********************"<<endl;
     
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
 	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
@@ -662,7 +664,7 @@ void Affichage::AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<M
 
 	vector<Mesure*>::iterator it;
 
-	for(it=mesures.begin();it<mesures.end();++it)
+	for(it=mesures.begin();it<mesures.end();it+=4)
 	{
 		// on affiche la mesure uniquement si elle est dans l'intervalle de temps donné
 		
@@ -769,10 +771,10 @@ void Affichage:: AfficherRayonAction(vector<double>& res, double rayonMax, strin
 		cout<<" \n Il manquait des mesures plus proches du nettoyeur pour être plus précis"<<endl;
 	}
 
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour O3 : " << res[1]*100<< "%"<<endl;
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour NO2 : " << res[2]*100<< "%"<<endl;
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour SO2 : " << res[3]*100<< "%"<<endl;
-	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour PM10 : " << res[4]*100<< "%"<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour O3 : " << res[1]*100<< " %"<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour NO2 : " << res[2]*100<< " %"<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour SO2 : " << res[3]*100<< " %"<<endl;
+	cout<< "\n Pourcentage d'amélioration de la qualité de l'air pour PM10 : " << res[4]*100<< " %"<<endl;
 
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
 	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels

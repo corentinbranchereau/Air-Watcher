@@ -14,6 +14,10 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "DataMesures.h"
+#include "UtilisateurPrive.h"
+#include "EmployeAgenceGouvernementale.h"
+#include "EmployeFournisseur.h"
+#include "Admin.h"
 
 #include <limits>
 #include <algorithm>
@@ -367,7 +371,8 @@ vector<Mesure*> DataMesures:: ObtenirMesuresFiables(unordered_map<string, string
     
   }
 
-  // on ajoute les points aux utilisateurs
+  // on ajoute les points aux utilisateurs et on les écrit dans le fichier
+  ofstream fileUtilisateur(fichierUtilisateurPerso);
   vector<Utilisateur*>::iterator it;
   for(it=utilisateurs.begin();it!=utilisateurs.end();++it)
   {
@@ -380,11 +385,61 @@ vector<Mesure*> DataMesures:: ObtenirMesuresFiables(unordered_map<string, string
         uPrive->AjouterPoint(1);
       }
     }
+
+    // construction de la ligne à écrire
+    string ligneEcriture = "";
+
+    // on cherche le type du compte
+    EmployeAgenceGouvernementale* uAgence = dynamic_cast<EmployeAgenceGouvernementale*>((*it));
+    EmployeFournisseur* uFournisseur = dynamic_cast<EmployeFournisseur*>((*it));
+    Admin* uAdmin = dynamic_cast<Admin*>((*it));
+    UtilisateurPrive* uPrive = dynamic_cast<UtilisateurPrive*>((*it));
+
+    if (uAgence!=nullptr)
+    {
+      // agence
+      ligneEcriture+="agence;"+uAgence->GetIdentifiant()+";"+uAgence->GetMdp()+";"+uAgence->GetNom()+";"+uAgence->GetPrenom()+";"+uAgence->GetMail()+";";
+      if(uAgence->GetCompteValide())
+      {
+        ligneEcriture+="valide\n";
+      }
+      else
+      {
+        ligneEcriture+="attente\n";
+      }
+    }
+    else if (uFournisseur!=nullptr)
+    {
+      // fournisseur
+      ligneEcriture+="fournisseur;"+uFournisseur->GetIdentifiant()+";"+uFournisseur->GetMdp()+";"+uFournisseur->GetNom()+";"+uFournisseur->GetPrenom()+";"+uFournisseur->GetMail()+";";
+      if(uFournisseur->GetCompteValide())
+      {
+        ligneEcriture+="valide;";
+      }
+      else
+      {
+        ligneEcriture+="attente;";
+      }
+      ligneEcriture+=uFournisseur->GetCompagnie()->getId()+"\n";
+    }
+    else if (uAdmin!=nullptr)
+    {
+      // admin
+      ligneEcriture+="admin;"+uAdmin->GetIdentifiant()+";"+uAdmin->GetMdp()+";"+uAdmin->GetNom()+";"+uAdmin->GetPrenom()+";"+uAdmin->GetMail()+"\n";
+    }
+    else
+    {
+      // privé
+      ligneEcriture+="privé;"+uPrive->GetIdentifiant()+";"+uPrive->GetMdp()+";"+uPrive->GetNom()+";"+uPrive->GetPrenom()+";"+uPrive->GetMail()+";"+to_string(uPrive->ObtenirPoints())+"\n";
+    }
+
+    fileUtilisateur<<ligneEcriture;
+    
   }
 
+  /*
   // on écrit dans le fichier pour l'actualiser
   fstream fileUtilisateur(fichierUtilisateurPerso);
-  
   if(!fileUtilisateur.is_open())
   {
     cerr<<"Erreur lors de l'écriture des points. Aucune écriture n'a donc été faite"<<endl;
@@ -434,6 +489,7 @@ vector<Mesure*> DataMesures:: ObtenirMesuresFiables(unordered_map<string, string
     }
     
   }
+  */
 
   return listMesuresFiables;
 }
@@ -952,6 +1008,7 @@ Capteur* DataMesures::EntrerDonnees(string fichierUsers,string fichierCapteurs,v
     it=mesures.begin();
     TypeAttribut* typeO3 =(typeAttributs.find("O3"))->second;
     MesureUtilisateur* nouvelleMesureO3=new MesureUtilisateur(typeO3,valeurs[0],idCapteurNouveau,date);
+    utilisateur.EntrerDonnee(nouvelleMesureO3);
 
     mesures.insert(it+nbMesure,nouvelleMesureO3);
     
@@ -959,16 +1016,19 @@ Capteur* DataMesures::EntrerDonnees(string fichierUsers,string fichierCapteurs,v
     TypeAttribut* typeSO2 =(typeAttributs.find("SO2"))->second;
     MesureUtilisateur* nouvelleMesureSO2=new MesureUtilisateur(typeSO2,valeurs[1],idCapteurNouveau,date);
     mesures.insert(it+nbMesure+1,nouvelleMesureSO2);
+    utilisateur.EntrerDonnee(nouvelleMesureSO2);
 
 
     TypeAttribut* typeNO2 =(typeAttributs.find("NO2"))->second;
     MesureUtilisateur* nouvelleMesureNO2=new MesureUtilisateur(typeNO2,valeurs[2],idCapteurNouveau,date);
     mesures.insert(it+nbMesure+2,nouvelleMesureNO2);
+    utilisateur.EntrerDonnee(nouvelleMesureNO2);
 
 
     TypeAttribut* typePM10 =(typeAttributs.find("PM10"))->second;
     MesureUtilisateur* nouvelleMesurePM10=new MesureUtilisateur(typePM10,valeurs[3],idCapteurNouveau,date);
     mesures.insert(it+nbMesure+3,nouvelleMesurePM10);
+    utilisateur.EntrerDonnee(nouvelleMesurePM10);
 
     nbMesuresAttributs[std::stoi(idS)]+=4;
 
@@ -982,21 +1042,25 @@ Capteur* DataMesures::EntrerDonnees(string fichierUsers,string fichierCapteurs,v
     TypeAttribut* typeO3 =(typeAttributs.find("O3"))->second;
     MesureUtilisateur* nouvelleMesureO3=new MesureUtilisateur(typeO3,valeurs[0],idCapteurNouveau,date);
     mesures.push_back(nouvelleMesureO3);
+    utilisateur.EntrerDonnee(nouvelleMesureO3);
 
 
     TypeAttribut* typeSO2 =(typeAttributs.find("SO2"))->second;
     MesureUtilisateur* nouvelleMesureSO2=new MesureUtilisateur(typeSO2,valeurs[1],idCapteurNouveau,date);
     mesures.push_back(nouvelleMesureSO2);
+    utilisateur.EntrerDonnee(nouvelleMesureSO2);
 
 
     TypeAttribut* typeNO2 =(typeAttributs.find("NO2"))->second;
     MesureUtilisateur* nouvelleMesureNO2=new MesureUtilisateur(typeNO2,valeurs[2],idCapteurNouveau,date);
     mesures.push_back(nouvelleMesureNO2);
+    utilisateur.EntrerDonnee(nouvelleMesureNO2);
 
 
     TypeAttribut* typePM10 =(typeAttributs.find("PM10"))->second;
     MesureUtilisateur* nouvelleMesurePM10=new MesureUtilisateur(typePM10,valeurs[3],idCapteurNouveau,date);
     mesures.push_back(nouvelleMesurePM10);
+    utilisateur.EntrerDonnee(nouvelleMesurePM10);
 
 
     nbMesuresAttributs.push_back(4);
@@ -1022,7 +1086,7 @@ vector<Capteur*> DataMesures::IdentifierCapteursSimilaires(unordered_map<string,
     vector<Mesure*>::iterator mesure_ref_begin = mesures.begin();
     vector<Mesure*>::iterator mesure_ref_end;
 
-    cout << "Capteur choisi : " << id_ref_capt << " - id_int : " << ref_capt->getIDInt() << " - nb_mesure : " << nb_mesures_ref_capt << endl << endl;
+    //cout << "Capteur choisi : " << id_ref_capt << " - id_int : " << ref_capt->getIDInt() << " - nb_mesure : " << nb_mesures_ref_capt << endl << endl;
 
     //Récupération de l'emplacement des mesures de notre capteur de référence
     for(int i = 0; i<ref_capt->getIDInt();i++)
@@ -1033,8 +1097,8 @@ vector<Capteur*> DataMesures::IdentifierCapteursSimilaires(unordered_map<string,
     //comme un pointeur de fin, pointe sur la suivante à ne pas regarder.
     mesure_ref_end = mesure_ref_begin + nb_mesures_ref_capt;
 
-    cout << "Premier mesure du sensor - type : " << (*mesure_ref_begin)->getTypeMesure()->getIdAttribut() << " - valeur :" << (*mesure_ref_begin)->getValeurAttribut() << " - date : " << (*mesure_ref_begin)->getdateMesure().GetJour() << "/" <<  (*mesure_ref_begin)->getdateMesure().GetMois() << endl << endl;
-    cout << "Dernière mesure du sensor - type : " << (*mesure_ref_end)->getTypeMesure()->getIdAttribut() << " - valeur :" << (*mesure_ref_end)->getValeurAttribut() << " - date : " << (*mesure_ref_end)->getdateMesure().GetJour() << "/" <<  (*mesure_ref_end)->getdateMesure().GetMois() << endl << endl;
+    //cout << "Premier mesure du sensor - type : " << (*mesure_ref_begin)->getTypeMesure()->getIdAttribut() << " - valeur :" << (*mesure_ref_begin)->getValeurAttribut() << " - date : " << (*mesure_ref_begin)->getdateMesure().GetJour() << "/" <<  (*mesure_ref_begin)->getdateMesure().GetMois() << endl << endl;
+    //cout << "Dernière mesure du sensor - type : " << (*mesure_ref_end)->getTypeMesure()->getIdAttribut() << " - valeur :" << (*mesure_ref_end)->getValeurAttribut() << " - date : " << (*mesure_ref_end)->getdateMesure().GetJour() << "/" <<  (*mesure_ref_end)->getdateMesure().GetMois() << endl << endl;
 
     //Pour chacun des capteurs différent de notre capteur choisi
     //Pour chaque jour
@@ -1118,7 +1182,6 @@ vector<vector<Capteur*>> DataMesures::IdentifierClusterCapteursSimilaires(unorde
 
   vector<vector<Capteur*>> classes;//liste des classes en cours
   vector<vector<Capteur*>> resultats;//liste de tous les groupes de classes rencontrés
-
 
   memoire=(double**)malloc(sizeof(double*)*listCapteur.size());//initialise la mémoire
 
@@ -1222,6 +1285,12 @@ vector<vector<Capteur*>> DataMesures::IdentifierClusterCapteursSimilaires(unorde
       evalIni=eval2;
 
     }
+
+    for(int i=0; i<listCapteur.size(); i++)
+    {
+      free(memoire[i]);
+    }
+    free(memoire);
 
     return resultats;
 
@@ -1411,6 +1480,7 @@ double DataMesures::evalClasses(vector<vector<Capteur*>> &classI)
       }
 
   }
+  free(matDim);
   return maxDiss;
 
 }//----- Fin de evalClasses

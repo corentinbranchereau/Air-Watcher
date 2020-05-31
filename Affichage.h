@@ -151,7 +151,7 @@ public:
 	// Contrat : Aucun
 	//
 
-	int CapteursSimilairesNbClassesMini(int nbClassesMax);
+	int ClustersCapteursNbClassesMini(int nbClassesMax);
 	// Mode d'emploi : Cette méthode va permettre à l'utilisateur de saisir le
 	// nombre minimum de classes qu'il souhaite pour grouper les capteurs (au max
 	// il peut y avoir autant de classes que de capteurs)
