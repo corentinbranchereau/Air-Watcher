@@ -34,9 +34,9 @@ public:
 	// Contrat :
 	//
 
-	Horodatage & enleverJour(int nbJours);
+	Horodatage * enleverJour(int nbJours);
 
-	Horodatage & ajouterJour(int nbJours);
+	Horodatage * ajouterJour(int nbJours);
 	
 	double getTempsSecondes();
 	// Mode d'emploi :

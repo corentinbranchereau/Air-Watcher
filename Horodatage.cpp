@@ -35,13 +35,13 @@ using namespace std;
 //
 //{
 //} //----- Fin de Méthode
-Horodatage& Horodatage::enleverJour(int nbJours)
+Horodatage* Horodatage::enleverJour(int nbJours)
 {
 	Horodatage* res= new Horodatage(*this);
 	if(jour>nbJours)
 	{
 		res->jour-=nbJours;
-		return *res;
+		return res;
 	}
 	if(mois>=2)
 	{
@@ -56,19 +56,19 @@ Horodatage& Horodatage::enleverJour(int nbJours)
 		res->mois=12;
 		res->jour=(31)-(nbJours-jour);
 	}
-	return *res;
+	return res;
 	
 }
 
 
-Horodatage& Horodatage::ajouterJour(int nbJours)
+Horodatage* Horodatage::ajouterJour(int nbJours)
 {
 	Horodatage* res= new Horodatage(*this);
 
 	if(nbJours+jour<30)
 	{
 		res->jour+=nbJours;
-		return *res;
+		return res;
 	}
 	if(mois<=11)
 	{
@@ -83,7 +83,7 @@ Horodatage& Horodatage::ajouterJour(int nbJours)
 		res->mois=1;
 		res->jour=(nbJours+jour)-30;
 	}
-	return *res;
+	return res;
 	
 }
 double Horodatage::getTempsSecondes()

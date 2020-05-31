@@ -273,8 +273,14 @@ vector<double> DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, D
 		double moyenneAvant=0;
 		double moyenneApres=0;
 
-		Mesure** qualiteAirAvant=dataM.ConsulterMoyenneDonneesPeriodePrecise(debut.enleverJour(3),debut.enleverJour(1),zone,listMesuresBonnes,mapCapteurs);
+		Horodatage* debutJM3 = debut.enleverJour(3);
+		Horodatage* debutJM1 = debut.enleverJour(1);
+
+		Mesure** qualiteAirAvant=dataM.ConsulterMoyenneDonneesPeriodePrecise(*debutJM3,*debutJM1,zone,listMesuresBonnes,mapCapteurs);
 		//tableau des moyennes journaliers sur les 3 jours avant que le cleaner fonctionne
+
+		delete debutJM3;
+		delete debutJM1;
 
 		Mesure** qualiteAirApres=dataM.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesuresBonnes,mapCapteurs);
 		//tableau des moyenenes journaliers sur les 2 jours après que le cleaner a fonctionné
@@ -380,7 +386,6 @@ vector<double> DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, D
 
 			break;
 		}
-		
 		for(int j=0;j<nbJoursAvant+1;j++)
 		{
 			delete [] qualiteAirAvant[j];
@@ -409,8 +414,14 @@ vector<double> DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, D
 		double moyenneAvant=0;
 		double moyenneApres=0;
 
-		Mesure** qualiteAirAvant=dataM.ConsulterMoyenneDonneesPeriodePrecise(debut.enleverJour(3),debut.enleverJour(1),zone,listMesuresBonnes,mapCapteurs);
+		Horodatage* debutJM3 = debut.enleverJour(3);
+		Horodatage* debutJM1 = debut.enleverJour(1);
+
+		Mesure** qualiteAirAvant=dataM.ConsulterMoyenneDonneesPeriodePrecise(*debutJM3,*debutJM1,zone,listMesuresBonnes,mapCapteurs);
 		//tableau des moyennes journaliers sur les 3 jours avant que le cleaner fonctionne
+
+		delete debutJM3;
+		delete debutJM1;
 
 		Mesure** qualiteAirApres=dataM.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesuresBonnes,mapCapteurs);
 		//tableau des moyenenes journaliers sur les 2 jours après que le cleaner a fonctionné
@@ -502,7 +513,6 @@ vector<double> DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, D
 			resultat[2]=indicateurSO2;
 			resultat[3]=indicateurNO2;
 			resultat[4]=indicateurPM10;
-
 			for(int j=0;j<nbJoursAvant+1;j++)
 			{
 				delete [] qualiteAirAvant[j];
@@ -530,7 +540,6 @@ vector<double> DataNettoyeurs::ObtenirRayonActionNettoyeur(string idNettoyeur, D
 		{
 			rayonMaxT=rayon;
 		}
-			
 		for(int j=0;j<nbJoursAvant+1;j++)
 		{
 			delete [] qualiteAirAvant[j];

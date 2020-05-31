@@ -235,7 +235,6 @@ public:
 
 	void AfficherRayonAction(vector<double>& res, double rayonMax,string idNettoyeur);
 	// Mode d'emploi : Affiche le rayon du nettoyeur, le rayonMax permet de connaitre si une valeur de retour spéciale a eu lieu avec rayon>rayonMax
-	// 
 	//
 	// Contrat : Aucun
 	//
@@ -308,25 +307,29 @@ public:
 
     double SaisirValeur(string attribut);
     // Mode d'emploi : Permet la saisie d'une valeur pour un atribut
-    // Renvoi la valeur
+    // Renvoit la valeur
     // Contrat : Aucun
 
 	void AfficherConfirmation(string message);
-	 // Mode d'emploi : Permet d'afficher un message puis de revenir au menu
-    // Renvoi la valeur
+	// Mode d'emploi : Permet d'afficher un message puis de revenir au menu
+    // 
     // Contrat : Aucun
 
 	void AfficherMessage(string message);
 	// Mode d'emploi : Permet d'afficher un message 
-
+	//
     // Contrat : Aucun
-
-
 
     void AfficherSaisirIdCapteur(unordered_map<string,Capteur*> & mapCapteur, DataMesures & donneesMesures);
     // Mode d'emploi : Permet de saisir un id capteur et epsilon pour analyser les capteurs similaires
     // Affiche les capteurs similaires
     // Contrat : Aucun
+
+	void AfficherListeCapteur(unordered_map<string,Capteur*> mapCapteurs);
+	// Mode d'emploi : Affiche la liste des capteurs de l'application dans l'ordre
+	// croissant d'ID
+	//
+	// Contrat : Les ID capteurs doivent être de la forme SensorXX avec XX un nombre entier positif
 
 //------------------------------------------------- Surcharge d'opérateurs
 	Affichage & operator = (const Affichage & unAffichage);

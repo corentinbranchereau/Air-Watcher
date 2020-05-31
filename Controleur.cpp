@@ -241,7 +241,7 @@ void menuAction()
                 {
                     case 1: {
                         // liste des capteurs
-                        affichage.PreparationConsole("Consultation de la liste des capteurs - A FAIRE");
+                        affichage.AfficherListeCapteur(donneesCapteurs.GetCapteurs());
                     } break;
 
                     case 2: {
@@ -309,6 +309,7 @@ void menuAction()
                     case 7: {
                         // labelliser données
                         affichage.PreparationConsole("Labellisation des données des utilisateurs privés");
+                        cout<<"Labellisation en cours. Veuillez patienter ..."<<endl;
                         donneesMesures.LabeliserDonneesUtilisateur(cheminFichierLabels,donneesCapteurs.GetCapteurs(),donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         affichage.AfficherApresLabel();
                     } break;

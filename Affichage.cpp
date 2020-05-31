@@ -660,6 +660,8 @@ void Affichage::AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<M
 	AfficherInformationsCompte();
 	cout<<"\n\n  "<<Souligner("Consultation des données brutes de l'application")<<"\n\n";
 
+	bool donneesAffichees = false;
+
 	// /!\ on considère que les données sont pas groupe de 4 (une pour chaque attribut) /!\
 
 	vector<Mesure*>::iterator it;
@@ -670,6 +672,7 @@ void Affichage::AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<M
 		
 		if((*it)->getdateMesure()>=debut && fin>=(*it)->getdateMesure())
 		{
+			donneesAffichees = true;
 			cout<<" "<<Souligner("Jour")<<" : "<<(*it)->getdateMesure().GetJour()<<"/"<<(*it)->getdateMesure().GetMois()<<"/"<<(*it)->getdateMesure().GetAnnee()<<endl;
 
 			for(int n=0;n<4;n++)
@@ -682,6 +685,10 @@ void Affichage::AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<M
 			}
 			cout<<"\n";
 		}
+	}
+
+	if(!donneesAffichees) {
+		cout<<"Il n'y a aucune donnée à afficher sur cette période."<<endl;
 	}
 
 	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
@@ -1020,7 +1027,7 @@ void Affichage::AfficherValiderCompte(vector<UtilisateurProfessionnel *> &compte
     if(idSaisie > 0 && idSaisie <= comptesAttente.size())
     {
         comptesAttente[idSaisie-1]->setCompteValide(true);
-        cout << "\nLe compte (" << idSaisie <<") à bien été valider ! " << endl;
+        cout << "\nLe compte (" << idSaisie <<") a bien été validé ! " << endl;
     }
     else
     {
@@ -1046,7 +1053,7 @@ void Affichage::AfficherRefuserCompte(vector<UtilisateurProfessionnel *> &compte
     if(idSaisie > 0 && idSaisie <= comptesAttente.size())
     {
         comptesAttente[idSaisie-1]->setCompteValide(false);
-        cout << "\nLe compte (" << idSaisie <<") à bien été refuser ! " << endl;
+        cout << "\nLe compte (" << idSaisie <<") a bien été refusé ! " << endl;
     }
     else
     {
@@ -1063,8 +1070,17 @@ void Affichage::AfficherRefuserCompte(vector<UtilisateurProfessionnel *> &compte
 void Affichage::AfficherSaisirIdCapteur(unordered_map<string,Capteur*> & mapCapteur, DataMesures & donneesMesures)
 // Algorithme : Vient récupérer le capteur choisi
 {
-    cout<<"Veuillez saisir le numéro du capteur de référence pour identifier les capteurs similaires : ";
-    int idSaisie = SaisirChoix(mapCapteur.size());
+    cout<<"Veuillez saisir le numéro ("<<Souligner("entre 0 et "+to_string(mapCapteur.size()-1))<<") du capteur de référence pour identifier les capteurs similaires : ";
+
+	int idSaisie = -1;
+	cout<<"Choix : ";
+	while(!(cin>>idSaisie) || idSaisie>mapCapteur.size()-1 || idSaisie<0)
+	{
+		cout<<"Veuillez saisir une option valide.\n";
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+		cout<<"Choix : ";
+	}
 
     cout<<"Veuillez saisir l'écart relatif acceptable entre 0.03 (très précis) et 0.1 (acceptable) : ";
     double epsilon = SaisirDouble(0.03,0.1);
@@ -1090,6 +1106,33 @@ void Affichage::AfficherSaisirIdCapteur(unordered_map<string,Capteur*> & mapCapt
     cin.ignore();
 
 } // ---- Fin de AfficherSaisirIdCapteur
+
+void Affichage::AfficherListeCapteur(unordered_map<string,Capteur*> mapCapteurs)
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	cout<<"\n\n  "<<Souligner("Liste des capteurs de l'application")<<"\n\n";
+
+	int capteurAAfficher;
+	for(capteurAAfficher=0;capteurAAfficher<mapCapteurs.size();capteurAAfficher++)
+	{
+		string idAAfficher = "Sensor"+to_string(capteurAAfficher);
+		Capteur* capteur = mapCapteurs.find(idAAfficher)->second;
+		if(capteur!=nullptr)
+		{
+			cout<<" * "<<Souligner("ID capteur")<<" : "<<capteur->getID()<<" | "<<Souligner("Longitude")<<" : "<<capteur->getPosition().getLongitude()<<" | "<<Souligner("Latitude")<<" : "<<capteur->getPosition().getLatitude()<<endl;
+		}
+	}
+
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+    //on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+    cin.clear();
+    cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    cin.ignore();
+} // ---- Fin de AfficherListeCapteur
 
 //------------------------------------------------- Surcharge d'opérateurs
 
