@@ -320,7 +320,7 @@ public:
 	//
     // Contrat : Aucun
 
-    void AfficherSaisirIdCapteur(unordered_map<string,Capteur*> & mapCapteur, DataMesures & donneesMesures);
+    void AfficherSaisirIdCapteur(unordered_map<string,Capteur*> & mapCapteur, DataMesures & donneesMesures, clock_t& debut, clock_t& fin);
     // Mode d'emploi : Permet de saisir un id capteur et epsilon pour analyser les capteurs similaires
     // Affiche les capteurs similaires
     // Contrat : Aucun
@@ -330,6 +330,18 @@ public:
 	// croissant d'ID
 	//
 	// Contrat : Les ID capteurs doivent être de la forme SensorXX avec XX un nombre entier positif
+
+	void AfficherBenchmark(clock_t debut, clock_t fin, string titre);
+	// Mode d'emploi : Permet d'afficher le temps passé sur une méthode
+	//
+	// Contrat : Aucun
+	//
+
+	bool ChoixActivationBenchmark();
+	// Mode d'emploi : Permet de spécifier si on veut afficher les benchmarks ou non
+	//
+	// Contrat : Aucun
+	//
 
 //------------------------------------------------- Surcharge d'opérateurs
 	Affichage & operator = (const Affichage & unAffichage);

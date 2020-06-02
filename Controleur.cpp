@@ -10,7 +10,8 @@
 #include "DataNettoyeurs.h"
 
 #include <iostream>
-#include "math.h"
+#include <math.h>
+#include <time.h>
 
 Affichage affichage;
 int choix;
@@ -30,6 +31,10 @@ string cheminFichierCapteurs = "./Data/sensors.csv";
 string cheminFichierUtilisateurs = "./Data/users.csv";
 
 Utilisateur* utilisateurConnecte = nullptr;
+
+clock_t debutBench;
+clock_t finBench;
+bool benchmarkActif = false;
 
 bool chargementDonnees()
 // Cette méthode charge les données dans chaque objet Data
@@ -247,7 +252,8 @@ void menuAction()
                     case 3: {
                         // capteurs similaires
                         affichage.PreparationConsole("Consultation des capteurs similaires");
-                        affichage.AfficherSaisirIdCapteur(donneesCapteurs.GetCapteurs(),donneesMesures);
+                        affichage.AfficherSaisirIdCapteur(donneesCapteurs.GetCapteurs(),donneesMesures,debutBench,finBench);
+                        if(benchmarkActif) affichage.AfficherBenchmark(debutBench,finBench,"Consultation des capteurs similaires");
                     } break;
 
                     case 4: {
@@ -272,8 +278,10 @@ void menuAction()
                             fin = affichage.SaisirDate("fin");
                         }
                         Zone zone=affichage.SaisirZone();
+                        debutBench = clock();
                         vector<Mesure*>listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
+                        finBench = clock();
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
 
                         int nbMesures=moyennesMesure[0][0].getValeurAttribut();
@@ -283,10 +291,10 @@ void menuAction()
                         }
                         
                         delete [] moyennesMesure; 
+                        if(benchmarkActif) affichage.AfficherBenchmark(debutBench,finBench,"Consultation des moyennes journalières des données sur une période et une zone choisie");
                     } break;
 
                     case 6: {
-                        
                         // moyenne qualité air d'une zone sur une période
                         affichage.PreparationConsole("Consultation des indices ATMO journaliers sur une période et une zone choisie");
                         Horodatage debut=affichage.SaisirDate("début");
@@ -296,25 +304,34 @@ void menuAction()
                             fin = affichage.SaisirDate("fin");
                         }
                         Zone zone=affichage.SaisirZone();
+                        debutBench = clock();
                         vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         map<Horodatage,int> moyennesIndices=donneesMesures.ConsulterQualitePeriodePrecise(debut,fin,zone,listMesureBonnesQualite,donneesCapteurs.GetCapteurs());
+                        finBench = clock();
                         affichage.AfficherQualitePeriodePrecise(moyennesIndices);
+                        if(benchmarkActif) affichage.AfficherBenchmark(debutBench,finBench,"Consultation des indices ATMO journaliers sur une période et une zone choisie");
                     } break;
 
                     case 7: {
                         // labelliser données
                         affichage.PreparationConsole("Labellisation des données des utilisateurs privés");
                         cout<<"Labellisation en cours. Veuillez patienter ..."<<endl;
+                        debutBench = clock();
                         donneesMesures.LabeliserDonneesUtilisateur(cheminFichierLabels,donneesCapteurs.GetCapteurs(),donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
+                        finBench = clock();
                         affichage.AfficherApresLabel();
+                        if(benchmarkActif) affichage.AfficherBenchmark(debutBench,finBench,"Labellisation des données des utilisateurs privés");
                     } break;
 
                     case 8: {
                         // cluster capteurs similaires
                         affichage.PreparationConsole("Consultation des clusters de capteurs similaires");
                         int nbClassesMini = affichage.ClustersCapteursNbClassesMini(donneesCapteurs.GetCapteurs().size());
+                        debutBench = clock();
                         vector<vector<Capteur*>> resultatCapteurSimilaire = donneesMesures.IdentifierClusterCapteursSimilaires(donneesCapteurs.GetCapteurs(),nbClassesMini);
+                        finBench = clock();
                         affichage.AfficherClusterCapteursSimilaires(resultatCapteurSimilaire);
+                        if(benchmarkActif) affichage.AfficherBenchmark(debutBench,finBench,"Consultation des clusters de capteurs similaires");
                     } break;
 
                     case 9: {
@@ -398,10 +415,13 @@ void menuAction()
                         {
                             affichage.AfficherMessage("Veuillez saisir un pourcentage d'amélioration minimum de la qualité de l'air (entre 0 et 100)");
                             double epsilon=affichage.SaisirDouble(0,100);
+                            debutBench = clock();
                             vector<Mesure*> listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                             double rayonMax=1000;
                             vector<double>res=donneesNettoyeurs.ObtenirRayonActionNettoyeur(nettoyeur->getID(),donneesMesures,listMesureBonnes,donneesCapteurs.GetCapteurs(),2,epsilon/100.0,rayonMax);
+                            finBench = clock();
                             affichage.AfficherRayonAction(res,rayonMax,nettoyeur->getID());
+                            if(benchmarkActif) affichage.AfficherBenchmark(debutBench,finBench,"Obtenir le rayon d'action d'un nettoyeur d'air");
                         }
 
                     } break;
@@ -428,8 +448,10 @@ void menuAction()
                             fin = affichage.SaisirDate("fin");
                         }
                         Zone zone=affichage.SaisirZone();
+                        debutBench = clock();
                         listMesureBonnes=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         Mesure** moyennesMesure=donneesMesures.ConsulterMoyenneDonneesPeriodePrecise(debut,fin,zone,listMesureBonnes,donneesCapteurs.GetCapteurs());
+                        finBench = clock();
                         affichage.AfficherMoyennesPeriodePrecise(moyennesMesure);
                         
                         int nbMesures=moyennesMesure[0][0].getValeurAttribut();
@@ -438,7 +460,8 @@ void menuAction()
                             delete[] moyennesMesure[i];
                         }
 
-                        delete [] moyennesMesure; 
+                        delete [] moyennesMesure;
+                        if(benchmarkActif) affichage.AfficherBenchmark(debutBench,finBench,"Consultation des moyennes journalières des données sur une période et une zone choisie");
                     } break;
 
                     case 7 : {
@@ -451,9 +474,12 @@ void menuAction()
                             fin = affichage.SaisirDate("fin");
                         }
                         Zone zone=affichage.SaisirZone();
+                        debutBench = clock();
                         vector<Mesure*> listMesureBonnesQualite=donneesMesures.ObtenirMesuresFiables(donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         map<Horodatage,int> moyennesIndices=donneesMesures.ConsulterQualitePeriodePrecise(debut,fin,zone,listMesureBonnesQualite,donneesCapteurs.GetCapteurs());
+                        finBench = clock();
                         affichage.AfficherQualitePeriodePrecise(moyennesIndices);
+                        if(benchmarkActif) affichage.AfficherBenchmark(debutBench,finBench,"Consultation des indices ATMO journaliers sur une période et une zone choisie");
                     } break;
 
                     case 8 : {
@@ -482,6 +508,7 @@ int main(void)
 {   
     if(chargementDonnees())
     {   
+        benchmarkActif = affichage.ChoixActivationBenchmark();
         while(true)
         {
             /*

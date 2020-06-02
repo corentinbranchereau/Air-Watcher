@@ -13,6 +13,7 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include <time.h>
 //------------------------------------------------------ Include personnel
 #include "Affichage.h"
 #include "Utilisateur.h"
@@ -1067,7 +1068,7 @@ void Affichage::AfficherRefuserCompte(vector<UtilisateurProfessionnel *> &compte
     cin.ignore();
 } // ---- Fin de AfficherValiderCompte
 
-void Affichage::AfficherSaisirIdCapteur(unordered_map<string,Capteur*> & mapCapteur, DataMesures & donneesMesures)
+void Affichage::AfficherSaisirIdCapteur(unordered_map<string,Capteur*> & mapCapteur, DataMesures & donneesMesures, clock_t& debut, clock_t& fin)
 // Algorithme : Vient récupérer le capteur choisi
 {
     cout<<"Veuillez saisir le numéro ("<<Souligner("entre 0 et "+to_string(mapCapteur.size()-1))<<") du capteur de référence pour identifier les capteurs similaires : ";
@@ -1085,7 +1086,9 @@ void Affichage::AfficherSaisirIdCapteur(unordered_map<string,Capteur*> & mapCapt
     cout<<"Veuillez saisir l'écart relatif acceptable entre 0.03 (très précis) et 0.1 (acceptable) : ";
     double epsilon = SaisirDouble(0.03,0.1);
 
+	debut = clock();
     vector<Capteur*> capteurs_similaires = donneesMesures.IdentifierCapteursSimilaires(mapCapteur,"Sensor"+to_string(idSaisie),epsilon);
+	fin = clock();
 
     cout << "\n Les capteurs similaires au Sensor" << idSaisie << " avec un écart relatif inférieur à " << epsilon << " sont : " << endl << endl;
 
@@ -1133,6 +1136,51 @@ void Affichage::AfficherListeCapteur(unordered_map<string,Capteur*> mapCapteurs)
     cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
     cin.ignore();
 } // ---- Fin de AfficherListeCapteur
+
+void Affichage::AfficherBenchmark(clock_t debut, clock_t fin, string titre)
+// Algorithme : Aucun
+//
+{
+	double tempsPasse = (double) (fin - debut) / CLOCKS_PER_SEC;
+	NettoyerConsole();
+	AfficherTitre();
+	AfficherInformationsCompte();
+	cout<<"\n\n  "<<Souligner("Benchmark : "+titre)<<"\n\n";
+	cout<<" ==> Temps passé = "<<tempsPasse<<" secondes"<<endl;
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+	//cin.clear();
+    //cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    cin.ignore();
+
+} // ---- Fin de AfficherBenchmark
+
+bool Affichage::ChoixActivationBenchmark()
+// Algorithme : Aucun
+//
+{
+	NettoyerConsole();
+	AfficherTitre();
+	cout<<"\n\n\n Voulez-vous activer les benchmarks ? (o/n) : ";
+	char choix=' ';
+	
+	while(!(cin>>choix) || choix==' ' || (choix!='o' && choix!='O' && choix!='n' && choix!='N'))
+	{
+		cout<<"\n Veuillez saisir une option valide.\n";
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+		cout<<"\n Voulez-vous activer les benchmarks (o/n) ? : ";
+	}
+	
+	if(choix=='o' || choix=='O')
+	{
+		return true;
+	}
+	else if(choix=='n' || choix=='N')
+	{
+		return false;
+	}
+	return false;
+} // ---- Fin de AfficherBenchmark
 
 //------------------------------------------------- Surcharge d'opérateurs
 
