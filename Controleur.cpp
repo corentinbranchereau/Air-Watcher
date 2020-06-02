@@ -312,7 +312,54 @@ void menuAction()
                         cout<<"Labellisation en cours. Veuillez patienter ..."<<endl;
                         donneesMesures.LabeliserDonneesUtilisateur(cheminFichierLabels,donneesCapteurs.GetCapteurs(),donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         affichage.AfficherApresLabel();
-                    } break;
+                        UtilisateurPrive* user1=dynamic_cast<UtilisateurPrive*>(donneesUtilisateurs.TrouverUtilisateurParIdentifiant("User0"));
+                        
+                        
+                        int compteurFiable=0;
+                        int compteurNul=0;
+                        for(int i=0;i<user1->ConsulterDonneesEntrees().size();i++)
+                        {
+                            if(user1->ConsulterDonneesEntrees()[i]->GetLabel()=="fiable")
+                            {
+                                compteurFiable++;
+                            }
+                            else
+                            {
+                               compteurNul++; 
+                            }
+                            
+                        }
+                        cout<<"User0"<<endl;
+                        cout<<"Fiable : "<<compteurFiable<<endl;
+                        cout<<" Non Fiable : "<<compteurNul<<endl;
+
+
+                         user1=dynamic_cast<UtilisateurPrive*>(donneesUtilisateurs.TrouverUtilisateurParIdentifiant("User1"));
+                        compteurFiable=0;
+                         compteurNul=0;
+                        for(int i=0;i<user1->ConsulterDonneesEntrees().size();i++)
+                        {
+                            if(user1->ConsulterDonneesEntrees()[i]->GetLabel()=="fiable")
+                            {
+                                compteurFiable++;
+                            }
+                            else
+                            {
+                               compteurNul++; 
+                            }
+                            
+                        }
+
+                        cout<<"User1"<<endl;
+                        cout<<"Fiable : "<<compteurFiable<<endl;
+                        cout<<" Non Fiable : "<<compteurNul<<endl;
+
+                        while(1);
+
+                        
+
+                    } 
+                    break;
 
                     case 8: {
                         // cluster capteurs similaires

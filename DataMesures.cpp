@@ -25,12 +25,14 @@ using namespace std;
 #include<map>
 #include<string.h>
 #include <set>
+#include <map>
 
 //------------------------------------------------------------- Constantes
 
 //---------------------------------------------------- Variables de classe
  double** memoire;
 unordered_map<string,double> memoireClusters;
+
 
 
 //----------------------------------------------------------- Types privés
@@ -1485,25 +1487,52 @@ double DataMesures::evalClasses(vector<vector<Capteur*>> &classI)
 
 }//----- Fin de evalClasses
 
-int DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure*& m, unordered_map<string,Capteur*>& mapCapteurs)
+int DataMesures:: LabelliserUneDonnee(map<Horodatage,int>nbMesuresPardate,set<Mesure*,classcomp> &listMesuresBonnes,Mesure*& m, unordered_map<string,Capteur*>& mapCapteurs)
 {
 
   vector<Mesure> MesuresBonnesTris;
 
-  for(int i=0;i<listMesuresBonnes.size();i++)
+  int avantApresjour;
+  int avantApresMois;
+  int avantApresAnnee;
+
+  for(auto it =listMesuresBonnes.begin();it!=listMesuresBonnes.end();)
   {
     //si le temps correspond et le type de mesure aussi
-    if(abs((*listMesuresBonnes[i]).getdateMesure().getTempsSecondes()-(*m).getdateMesure().getTempsSecondes())<=24*3600 && *((*listMesuresBonnes[i]).getTypeMesure())==*((*m).getTypeMesure()))
+   
+    avantApresMois=(*(*it)).getdateMesure().GetMois()-(*m).getdateMesure().GetMois();
+    avantApresAnnee=(*(*it)).getdateMesure().GetAnnee()-(*m).getdateMesure().GetAnnee();
+    avantApresjour=(*(*it)).getdateMesure().GetJour()-(*m).getdateMesure().GetJour();
+
+    if(avantApresAnnee<0 ||(avantApresAnnee==0 && avantApresMois<0 )||(avantApresAnnee==0 && avantApresMois==0 &&avantApresjour<0))
     {
-      MesuresBonnesTris.push_back(*listMesuresBonnes[i]);
+      int n=(nbMesuresPardate.find((*(*it)).getdateMesure()))->second;
+    
+      advance(it,n);
+
+      continue;
     }
 
+    else
+    {
+      if(avantApresAnnee==0 && avantApresMois==0 &&avantApresjour==0)
+      {
+        MesuresBonnesTris.push_back(*(*it));
+
+      }
+      else
+      {
+        break;
+      }
+      
+    }
+    it++;
+    
   }
 
   PointGeographique p1=(*mapCapteurs[(*m).getIdCapteur()]).getPosition();
   double latitude1=p1.getLatitude();
   double longitude1=p1.getLongitude();
-
 
   double moyenne=0;
   double denominateur=0;
@@ -1518,7 +1547,7 @@ int DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure*
       double distance=acos(sin(M_PI/180*latitude1)*sin(M_PI/180*latitude2)+cos(M_PI/180*latitude1)*cos(M_PI/180*latitude2)*cos(M_PI/180*(longitude2-longitude1)))*6371;
       //calcul de la distance entre le point à vérifier et le point où se trouve la mesure fiable
 
-      moyenne+=(1/(distance+0.1)*MesuresBonnesTris[i].getValeurAttribut());
+      moyenne+=((1/(distance+0.1))*MesuresBonnesTris[i].getValeurAttribut());
 
       //on pondère le poids de la mesure fiable par sa distane par rapport au point à vérifier
       denominateur+=1/(distance+0.1);
@@ -1533,7 +1562,7 @@ int DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure*
       minimum=valeurEstime;
     }
 
-    if((abs(valeurEstime-(*m).getValeurAttribut())/(minimum))>0.5)
+    if((abs(valeurEstime-(*m).getValeurAttribut())/(minimum))>0.3)
     {
       //on compare l'indicateur de fiabilité avec une valeur arbitraire (2)
       
@@ -1550,13 +1579,52 @@ int DataMesures:: LabelliserUneDonnee(vector<Mesure*> &listMesuresBonnes,Mesure*
 
 }
 
+
+/*bool fncomp (Mesure* m1,Mesure* m2) 
+{
+  return );
+}
+*/
+
 void DataMesures::LabeliserDonneesUtilisateur(string fichierLabel, unordered_map<string,Capteur*>& mapCapteurs, unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs, string fichierUtilisateurPerso)
 // Algorithme : parcourt les mesures non labellisées et calcule leur label grâce à LabelliserUnedonnee puis les écrit dans le fichier des labels
 //
 {
+  map<Horodatage,int> nbMesuresPardate;
   vector<Mesure*> mesuresNonLabellisees=this->ObtenirMesuresNonLabelisees();
   vector<Mesure*> mesuresFiables=this->ObtenirMesuresFiables(mapCapteurPrive,utilisateurs,fichierUtilisateurPerso);
   ofstream fileLabel(fichierLabel,ios::app);
+
+  //bool(*fn_pt)(int,int) = fncomp;
+  set<Mesure*,classcomp> mesuresFiablesTriees ;
+
+  for(int i=0;i<mesuresFiables.size();i++)
+  {
+    mesuresFiablesTriees.insert(mesuresFiables[i]);
+  }
+
+  int nbMesuredate=0;
+  Horodatage date1=(*mesuresFiablesTriees.begin())->getdateMesure();
+  //Horodatage date1=(*mesuresFiablesTriees[0]).getdateMesure();
+
+  for(auto it=mesuresFiablesTriees.begin();it!=mesuresFiablesTriees.end();it++)
+  {
+    if((*it)->getdateMesure()==date1)
+    {
+      nbMesuredate++;
+    }
+
+    else
+    {
+      nbMesuresPardate.insert({date1,nbMesuredate});
+      //cout<<date1.GetJour()<<"/"<<date1.GetMois()<<"/"<<date1.GetAnnee()<<":"<<nbMesuredate<<endl;
+      nbMesuredate=1;
+      date1=(*it)->getdateMesure();
+      
+    }
+  }
+  nbMesuresPardate.insert({date1,nbMesuredate});
+
 
   if(!fileLabel.is_open())
 	{
@@ -1568,7 +1636,7 @@ void DataMesures::LabeliserDonneesUtilisateur(string fichierLabel, unordered_map
   {
     for(int i=0;i<mesuresNonLabellisees.size();i++)
     {
-      int res=this->LabelliserUneDonnee(mesuresFiables,mesuresNonLabellisees[i],mapCapteurs);
+      int res=this->LabelliserUneDonnee(nbMesuresPardate,mesuresFiablesTriees,mesuresNonLabellisees[i],mapCapteurs);
       string label;
       MesureUtilisateur* m=dynamic_cast<MesureUtilisateur*>(mesuresNonLabellisees[i]);
 
