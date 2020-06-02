@@ -549,7 +549,7 @@ Mesure* DataMesures::ConsulterMoyenneDonneesDatePrecise(Horodatage & date,Zone& 
 
 } //----- Fin de ConsulterMoyenneDonneesDatePrecise
 
-Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs)
+Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDebut, Horodatage & dateFin, Zone & zone,vector<Mesure*>& listMesuresBonnes,unordered_map<string,Capteur*>& mapCapteurs, Zone* zoneMin)
 // Algorithme : renvoie un tableau 2D de mesures représentant les jours avec la liste des mesures journalière moyennées 
 //nous parcourons toutes les mesures fiables pour ne garder que celles dans la zone et la date correspondante puis on moyenne
 {
@@ -562,7 +562,7 @@ Mesure** DataMesures::ConsulterMoyenneDonneesPeriodePrecise(Horodatage & dateDeb
 
     Horodatage h=(*(listMesuresBonnes[i])).getdateMesure();
     
-    if(zone.VerifierAppartenancePoint(p) && h>=dateDebut && dateFin>=h)
+    if(zone.VerifierAppartenancePoint(p) && h>=dateDebut && dateFin>=h && (zoneMin==nullptr || !zoneMin->VerifierAppartenancePoint(p)))
     {
       //si la mesure est dans la bonne zone etdans le bon intervalle de temps
       h.setheure(0);
@@ -906,9 +906,9 @@ vector<Mesure*>&  DataMesures::ObtenirDonneesBrutes()
 } //----- Fin de ObtenirDonneesBrutes
 
 bool DataMesures::CapteurNouveau(string idUser,unordered_map<string, string> & mapCapteurUtilisateur)
-//ALgorithme : renvoie true si on a besoin d'un nouveau capteur pour l'utilisateur
+//Algorithme : renvoie true si on a besoin d'un nouveau capteur pour l'utilisateur
 {
-    for(auto it=mapCapteurUtilisateur.begin();it!=mapCapteurUtilisateur.end();it++)
+  for(auto it=mapCapteurUtilisateur.begin();it!=mapCapteurUtilisateur.end();it++)
   {
     if(it->second==idUser)
     {
