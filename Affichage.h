@@ -343,6 +343,13 @@ public:
 	// Contrat : Aucun
 	//
 
+	void AfficherStatLabel(vector<Utilisateur*>& utilisateurs);
+	// Mode d'emploi : Affiche pour chaque utilisateur le nombre de mesure fiable, non fiable
+	// ou non labellisée
+	//
+	// Contrat : Aucun
+	//
+
 //------------------------------------------------- Surcharge d'opérateurs
 	Affichage & operator = (const Affichage & unAffichage);
 	// Mode d'emploi : Ne fait rien en particulier

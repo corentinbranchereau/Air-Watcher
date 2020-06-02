@@ -12,6 +12,7 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
+#include <ctime>
 
 //------------------------------------------------------ Include personnel
 #include "NettoyeurAir.h"

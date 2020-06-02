@@ -570,18 +570,11 @@ void Affichage::AfficherApresLabel()
 	AfficherInformationsCompte();
 	cout<<"\n\n  "<<Souligner("Labellisation des données des utilisateurs privés")<<"\n\n";
 
-		cout<<"**********************"<<endl;
+	cout<<"**********************"<<endl;
 
-		cout<<"\nLes données ont été labellisées. "<<endl;
-	
-		cout<<"\n**********************"<<endl;
-    
-	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
-	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
-	cin.clear();
-	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+	cout<<"\nLes données ont été labellisées. "<<endl;
 
-	cin.ignore();
+	cout<<"\n**********************"<<endl;
 } //----- Fin de AfficherCapteursSimilaires
 
 void Affichage::AfficherConfirmation(string message)
@@ -1181,6 +1174,68 @@ bool Affichage::ChoixActivationBenchmark()
 	}
 	return false;
 } // ---- Fin de AfficherBenchmark
+
+void Affichage::AfficherStatLabel(vector<Utilisateur*>& utilisateurs)
+// Algorithme : Aucun
+//
+{
+	cout<<"\n\n "<<Souligner("Voulez-vous obtenir les statistiques des labels ? (o/n)")<<" : ";
+	char choix=' ';
+	while(!(cin>>choix) || choix==' ' || (choix!='o' && choix!='O' && choix!='n' && choix!='N'))
+	{
+		cout<<"\n Veuillez saisir une option valide.\n";
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+		cout<<"\n "<<Souligner("Voulez-vous obtenir les statistiques des labels ? (o/n)")<<" : ";
+	}
+	if(choix=='n' || choix=='N')
+	{
+		return;
+	}
+	
+	UtilisateurPrive* uPrive;
+	vector<Utilisateur*>::iterator it;
+	int cptFiable = 0;
+	int cptNonFiable = 0;
+	int cptNonLabel = 0;
+	for(it=utilisateurs.begin();it!=utilisateurs.end();++it)
+	{
+		uPrive = dynamic_cast<UtilisateurPrive*>(*it);
+		if(uPrive!=nullptr)
+		{
+			cptFiable = 0;
+			cptNonFiable = 0;
+			cptNonLabel = 0;
+			for(int i=0; i<uPrive->ConsulterDonneesEntrees().size();++i)
+			{
+				if(uPrive->ConsulterDonneesEntrees()[i]->GetLabel()=="fiable")
+				{
+					cptFiable++;
+				}
+				else if(uPrive->ConsulterDonneesEntrees()[i]->GetLabel()=="non fiable")
+				{
+					cptNonFiable++;
+				}
+				else
+				{
+					cptNonLabel++;
+				}
+				
+			}
+			cout<<"\n "<<Souligner("Utilisateur")<<" : "<<uPrive->GetIdentifiant()<<endl;
+			cout<<"	Nombre de mesures fiables : "<<cptFiable<<endl;
+			cout<<"	Nombre de mesures non fiables : "<<cptNonFiable<<endl;
+			cout<<"	Nombre de mesures non labellisées : "<<cptNonLabel<<endl;
+		}
+
+	}
+	cout<<"\nAppuyez sur 'Entrée' pour revenir au "<<Souligner("menu d'action");
+	//on vide le buffer de lecture pour être sûr de ne pas lire de caractères résiduels
+	cin.clear();
+	cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+	cin.ignore();
+} // ---- Fin de AfficherStatLabel
 
 //------------------------------------------------- Surcharge d'opérateurs
 

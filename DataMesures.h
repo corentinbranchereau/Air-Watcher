@@ -49,6 +49,11 @@ public:
 	// Contrat :
 	//
 
+	struct classcomp {
+	bool operator() ( Mesure* m1,  Mesure* m2) const
+	{return (m2->getdateMesure()>=m1->getdateMesure());}
+	};
+
     bool ChargerMesures(string fichierMesures, unordered_map<string, string> & mapCapteurUtilisateur, vector<Utilisateur*> & utilisateurs);
 	// Mode d'emploi : permet de charger les mesures dans la structure de données appropriée et de remplir également
 	// les données entrées de chaque utilisateur privé
@@ -115,7 +120,7 @@ public:
 	//
 	// Contrat : aucun
 	
-	int LabelliserUneDonnee(vector<Mesure*>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
+	int LabelliserUneDonnee(map<Horodatage,int>nbMesuresPardate,set<Mesure*,classcomp>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
 	// Mode d'emploi : renvoie 1 si la mesure à vérifier est non aberrante, 0 sinon. Si on ne peut pas décider, renvoie 0
 	// Contrat : nécessite une liste de mesures fiables
 	//
@@ -209,6 +214,10 @@ protected:
 	double evalClasses(vector<vector<Capteur*>> & classI);
 	//mode d'emploi : renvoi le maximum de dissimilarité intra-classe sur le groupe de capteur passé en paramètre
 	//contrat: aucun
+
+
+
+
 
 private:
 //------------------------------------------------------- Méthodes privées

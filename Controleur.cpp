@@ -320,8 +320,10 @@ void menuAction()
                         donneesMesures.LabeliserDonneesUtilisateur(cheminFichierLabels,donneesCapteurs.GetCapteurs(),donneesCapteurs.GetMapCapteurUtilisateur(), donneesUtilisateurs.GetUtilisateurs(),cheminFichierUtilisateursPerso);
                         finBench = clock();
                         affichage.AfficherApresLabel();
+                        affichage.AfficherStatLabel(donneesUtilisateurs.GetUtilisateurs());
                         if(benchmarkActif) affichage.AfficherBenchmark(debutBench,finBench,"Labellisation des données des utilisateurs privés");
-                    } break;
+                    } 
+                    break;
 
                     case 8: {
                         // cluster capteurs similaires
