@@ -120,7 +120,7 @@ public:
 	//
 	// Contrat : aucun
 	
-	int LabelliserUneDonnee(map<Horodatage,int>nbMesuresPardate,set<Mesure*,classcomp>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
+	int LabelliserUneDonnee(map<Horodatage,int>& nbMesuresPardate,set<Mesure*,classcomp>& listMesuresBonnes,Mesure*& m,unordered_map<string,Capteur*>& mapCapteurs);
 	// Mode d'emploi : renvoie 1 si la mesure à vérifier est non aberrante, 0 sinon. Si on ne peut pas décider, renvoie 0
 	// Contrat : nécessite une liste de mesures fiables
 	//
@@ -137,7 +137,7 @@ public:
 	// Contrat : aucun
 	//
 
-    void LabeliserDonneesUtilisateur(string fichierLabel,unordered_map<string,Capteur*>& mapCapteurs, unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs, string fichierUtilisateurs);
+    void LabeliserDonneesUtilisateur(string fichierLabel,unordered_map<string,Capteur*>& mapCapteurs, unordered_map<string, string>& mapCapteurPrive, vector<Utilisateur*>& utilisateurs, string fichierUtilisateurs);
 	// Mode d'emploi : écrit dans le fichier des labels les labels des mesures non labellisées
 	//
 	// Contrat : aucun
@@ -162,7 +162,7 @@ public:
 	// Contrat : aucun
 	//
 
-	vector<Mesure*> ObtenirMesuresFiables(unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs, string fichierUtilisateur);
+	vector<Mesure*> ObtenirMesuresFiables(unordered_map<string, string>& mapCapteurPrive, vector<Utilisateur*>& utilisateurs, string fichierUtilisateur);
 	// Mode d'emploi : renvoie sous forme d'un vecteur toutes les mesures fiables. Ajoute en même temps les points aux utilisateurs
 	// dont on prend les données
 	//

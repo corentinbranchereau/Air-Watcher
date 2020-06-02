@@ -115,7 +115,6 @@ bool DataUtilisateurs::ChargerUtilisateurs(string fichierUtilisateurs)
 	}
 	else
 	{
-		this->cheminFichierUtilisateurs = fichierUtilisateurs;
 		string informationsLues[8];
 		char charLecture[100]; // buffer de lecture
 		while(fUtilisateurs)
@@ -272,7 +271,7 @@ Utilisateur* DataUtilisateurs::SeConnecter(string identifiant, string mdp)
 	return nullptr;
 } //----- Fin de SeConnecter
 
-bool DataUtilisateurs::SeCreerUnComptes(string* informationsUtilisateur)
+bool DataUtilisateurs::SeCreerUnComptes(string* informationsUtilisateur, string fichierUtilisateursPerso)
 // Algorithme : Aucun
 //
 {
@@ -297,7 +296,12 @@ bool DataUtilisateurs::SeCreerUnComptes(string* informationsUtilisateur)
 	else if(typeCompte=="fournisseur")
 	{
 		// recherche compagnie
-		CompagnieFournisseur * compagnie = this->CompagniesFournisseurs.find(informationsUtilisateur[6])->second;
+		unordered_map<string,CompagnieFournisseur*>::iterator itRechercheCompagnie = this->CompagniesFournisseurs.find(informationsUtilisateur[6]);
+		if(itRechercheCompagnie==this->CompagniesFournisseurs.end()) // la compagnie n'existe pas
+		{
+			return false;
+		}
+		CompagnieFournisseur * compagnie = itRechercheCompagnie->second;
 
 		utilisateurCree = new EmployeFournisseur(informationsUtilisateur[1],informationsUtilisateur[2],informationsUtilisateur[3],informationsUtilisateur[4],informationsUtilisateur[5],false,compagnie);
 	}
@@ -314,7 +318,7 @@ bool DataUtilisateurs::SeCreerUnComptes(string* informationsUtilisateur)
 
 
 	// écriture dans le fichier du nouvel utilisateur
-	ofstream fUtilisateurs(cheminFichierUtilisateurs,std::ofstream::app);
+	ofstream fUtilisateurs(fichierUtilisateursPerso,std::ofstream::app);
 	if(!fUtilisateurs.is_open())
 	{
 		cerr<<"Erreur lors de l'écriture d'un nouvel utilisateur"<<endl;
@@ -395,8 +399,7 @@ DataUtilisateurs & DataUtilisateurs::operator = (const DataUtilisateurs & unData
 // Algorithme : Aucun
 //
 {
-	this->utilisateurs = unDataUtilisateurs.utilisateurs;
-	this->cheminFichierUtilisateurs = unDataUtilisateurs.cheminFichierUtilisateurs;
+	this->utilisateurs = unDataUtilisateurs.utilisateurs;;
 	return *this;
 } //----- Fin de operator =
 
@@ -406,7 +409,6 @@ DataUtilisateurs & DataUtilisateurs::operator = (const DataUtilisateurs & unData
 DataUtilisateurs::DataUtilisateurs ()
 // Algorithme : Aucun
 //
-:cheminFichierUtilisateurs("")
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <DataUtilisateurs (par défaut)>" << endl;

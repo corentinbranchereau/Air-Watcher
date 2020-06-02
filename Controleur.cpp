@@ -512,31 +512,13 @@ int main(void)
     {   
         benchmarkActif = affichage.ChoixActivationBenchmark();
         while(true)
-        {
-            /*
-            unordered_map<string,Capteur*>::iterator it;
-            double distMin=100000;
-            string capMin = "";
-            for(it=donneesCapteurs.GetCapteurs().begin();it!=donneesCapteurs.GetCapteurs().end();++it) {
-                double longCap = (*it).second->getPosition().getLongitude();
-                double latCap = (*it).second->getPosition().getLatitude();
-                double distance=acos(sin(M_PI/180*46.666667)*sin(M_PI/180*latCap)+cos(M_PI/180*46.666667)*cos(M_PI/180*latCap)*cos(M_PI/180*(longCap-3.666667)))*6371;
-                cout<<"ID CAPTEUR : "<<(*it).second->getID()<<"  -  DISTANCE : "<<distance<<endl;
-                if(distMin>distance) {
-                    distMin = distance;
-                    capMin = (*it).second->getID();
-                }
-            }
-            cout<<"DIST MIN : "<<distMin<<"   -    ID MIN : "<<capMin<<endl;
-            return 0;
-            */
-            
+        {            
             choix = affichage.AfficherMenuPrincipal();
             switch(choix)
             {
                 case 1:
                     donneesSaisies = affichage.AfficherCreationCompte();
-                    if(donneesUtilisateurs.SeCreerUnComptes(donneesSaisies))
+                    if(donneesUtilisateurs.SeCreerUnComptes(donneesSaisies,cheminFichierUtilisateursPerso))
                     {
                         // succès inscription
                         affichage.AfficherFinCreationCompte(true);

@@ -341,7 +341,7 @@ bool DataMesures::SauvegarderMesuresAjoutees(string fichierMesure)
 
 
 
-vector<Mesure*> DataMesures:: ObtenirMesuresFiables(unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs, string fichierUtilisateurPerso)
+vector<Mesure*> DataMesures:: ObtenirMesuresFiables(unordered_map<string, string>& mapCapteurPrive, vector<Utilisateur*>& utilisateurs, string fichierUtilisateurPerso)
 // Algorithme : parcours toutes les mesures et renvoie uniquement les mesuresUtilisateurs avec le label fiable et les mesures des capteurs fixes
 //
 {
@@ -1487,7 +1487,7 @@ double DataMesures::evalClasses(vector<vector<Capteur*>> &classI)
 
 }//----- Fin de evalClasses
 
-int DataMesures:: LabelliserUneDonnee(map<Horodatage,int>nbMesuresPardate,set<Mesure*,classcomp> &listMesuresBonnes,Mesure*& m, unordered_map<string,Capteur*>& mapCapteurs)
+int DataMesures:: LabelliserUneDonnee(map<Horodatage,int>& nbMesuresPardate,set<Mesure*,classcomp>& listMesuresBonnes,Mesure*& m, unordered_map<string,Capteur*>& mapCapteurs)
 {
 
   vector<Mesure> MesuresBonnesTris;
@@ -1586,7 +1586,7 @@ int DataMesures:: LabelliserUneDonnee(map<Horodatage,int>nbMesuresPardate,set<Me
 }
 */
 
-void DataMesures::LabeliserDonneesUtilisateur(string fichierLabel, unordered_map<string,Capteur*>& mapCapteurs, unordered_map<string, string> mapCapteurPrive, vector<Utilisateur*> utilisateurs, string fichierUtilisateurPerso)
+void DataMesures::LabeliserDonneesUtilisateur(string fichierLabel, unordered_map<string,Capteur*>& mapCapteurs, unordered_map<string, string>& mapCapteurPrive, vector<Utilisateur*>& utilisateurs, string fichierUtilisateurPerso)
 // Algorithme : parcourt les mesures non labellisées et calcule leur label grâce à LabelliserUnedonnee puis les écrit dans le fichier des labels
 //
 {

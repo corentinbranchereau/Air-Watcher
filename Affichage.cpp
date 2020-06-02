@@ -657,7 +657,7 @@ void Affichage::AfficherDonneesBrutes(Horodatage debut, Horodatage fin, vector<M
 	bool donneesAffichees = false;
 
 	// /!\ on considère que les données sont pas groupe de 4 (une pour chaque attribut) /!\
-
+	
 	vector<Mesure*>::iterator it;
 
 	for(it=mesures.begin();it<mesures.end();it+=4)

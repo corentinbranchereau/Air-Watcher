@@ -109,7 +109,7 @@ public:
 	// Contrat : Aucun
 	//
 
-	bool SeCreerUnComptes(string* informationsUtilisateur);
+	bool SeCreerUnComptes(string* informationsUtilisateur, string fichierUtilisateursPerso);
 	// Mode d'emploi : Méthode qui permet la création d'un compte dans
 	// l'application, c'est à dire l'ajout de l'utilisateur à l'attribut
 	// 'utilisateurs' de la classe mais également son ajout dans le fichier
@@ -159,7 +159,6 @@ private:
 protected:
 //----------------------------------------------------- Attributs protégés
 	vector<Utilisateur*> utilisateurs;
-	string cheminFichierUtilisateurs;
 	unordered_map<string,CompagnieFournisseur*> CompagniesFournisseurs;
 
 private:
