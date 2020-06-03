@@ -1,6 +1,6 @@
-privé;User0;User0;User0;User0;User0;0
-privé;User1;User1;User1;User1;User1;0
-agence;TestAgence;TestAgence;TestAgence;TestAgence;TestAgence;valide
+privé;User0;User0;User0;User0;User0;1
+privé;User1;User1;User1;User1;User1;1
+agence;Agence1;Agence1;Agence1;Agence1;Agence1;valide
 agence;TestAgence2;TestAgence2;TestAgence2;TestAgence2;TestAgence2;attente
 fournisseur;Fournisseur1;Fournisseur1;Fournisseur1;Fournisseur1;Fournisseur1;valide;Provider0
 fournisseur;Fournisseur2;Fournisseur2;Fournisseur2;Fournisseur2;Fournisseur2;valide;Provider1

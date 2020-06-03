@@ -291,8 +291,7 @@ int Affichage::AfficherMenuActionPrive()
 	cout<<"\n\n  "<<Souligner("Menu d'action")<<"\n\n";
 	cout<<"	1) Consulter mes données rentrées.\n";
 	cout<<"	2) Entrer une nouvelle donnée.\n";
-	cout<<"\n	3) Modifier mon compte.\n";
-	cout<<"	4) Me déconnecter.\n";
+	cout<<"	3) Me déconnecter.\n";
 	return SaisirChoix(4);
 } //----- Fin de AfficherMenuActionPrive
 

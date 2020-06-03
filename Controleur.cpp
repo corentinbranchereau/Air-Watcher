@@ -168,7 +168,7 @@ void menuAction()
 
         affichage.AffichageFinConnexion("réussite");
 
-        while(choix!=4) // 4 = Déconnexion pour un utilisateur privé
+        while(choix!=3) // 3 = Déconnexion pour un utilisateur privé
         {
             choix = affichage.AfficherMenuActionPrive();
 
@@ -211,11 +211,6 @@ void menuAction()
                 } break;
 
                 case 3: {
-                    // modifier compte
-                    affichage.PreparationConsole("Modification de son compte - A FAIRE");
-                } break;
-
-                case 4: {
                     // déconnexion
                 } break;
             }
