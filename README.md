@@ -6,4 +6,4 @@ in a given area, using software specifications,
 architectural design, security by design and UML language. 
 ```
 
-use `make` to compile files, and `make launch` to launch the programm
+use `make` to compile files, and `make launch` to launch the program
