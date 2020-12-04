@@ -6,11 +6,4 @@ in a given area, using software specifications,
 architectural design, security by design and UML language. 
 ```
 
-### Some basic Git commands are:
-```
-git pull
-git status
-git add
-git commit
-git push origin master
-```
+use `make` to compile files, and `make launch` to launch the programm
